@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BUS922 A3 · Appendix 1 — PESTEL (Australian context)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:oklch(0.985 0.002 250);
+    --paper:#ffffff;
+    --paper-2:oklch(0.965 0.003 250);
+    --ink:oklch(0.27 0.012 250);
+    --ink-2:oklch(0.42 0.014 250);
+    --muted:oklch(0.56 0.012 250);
+    --muted-2:oklch(0.70 0.01 250);
+    --line:oklch(0.905 0.004 250);
+    --line-2:oklch(0.83 0.006 250);
+    /* six-factor palette — deep, desaturated, shared register */
+    --political:oklch(0.53 0.12 250);   /* nautical navy */
+    --economic:oklch(0.58 0.10 180);    /* teal */
+    --social:oklch(0.63 0.15 30);      /* coral */
+    --technological:oklch(0.55 0.012 250); /* warm grey */
+    --environmental:#6E5A1E; /* bronze */
+    --legal:#553A5E;       /* plum */
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;}
+
+  .page{width:1180px;margin:0 auto;padding:64px 64px 56px;}
+
+  /* ── chrome ── */
+  .eyebrow{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);}
+  h1{font-family:"Fraunces","Source Serif Pro",Georgia,serif;font-weight:400;
+    font-size:40px;line-height:1.1;letter-spacing:-0.015em;margin:14px 0 0;text-wrap:balance;}
+  .subtitle{font-family:"Fraunces",Georgia,serif;font-style:italic;
+    font-size:19px;line-height:1.42;color:var(--ink-2);margin:13px 0 0;max-width:74ch;text-wrap:pretty;}
+  .scope{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;
+    line-height:1.7;color:var(--muted-2);margin:16px 0 0;max-width:108ch;letter-spacing:0.01em;}
+
+  .rule{height:1px;background:var(--line);border:0;margin:34px 0 30px;}
+
+  /* ── grid ── */
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+  .cell{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:24px 26px 22px;border-top:3px solid var(--c);position:relative;}
+  .cell.political{--c:var(--political);}
+  .cell.economic{--c:var(--economic);}
+  .cell.social{--c:var(--social);}
+  .cell.technological{--c:var(--technological);}
+  .cell.environmental{--c:var(--environmental);}
+  .cell.legal{--c:var(--legal);}
+
+  .chead{display:flex;align-items:center;gap:14px;}
+  .mono{font-family:"Fraunces",Georgia,serif;font-weight:500;font-size:20px;color:#fff;
+    background:var(--c);width:40px;height:40px;border-radius:9px;display:grid;place-items:center;
+    flex:0 0 auto;letter-spacing:0.01em;}
+  .cname{font-family:"Fraunces",Georgia,serif;font-size:23px;font-weight:400;letter-spacing:-0.01em;
+    line-height:1.05;}
+  .clabel{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:9px;
+    text-transform:uppercase;letter-spacing:0.14em;color:var(--c);margin-top:4px;display:block;opacity:.9;}
+
+  .body{font-size:13.5px;line-height:1.62;color:var(--ink-2);margin:15px 0 0;text-wrap:pretty;}
+  cite{font-style:normal;color:var(--muted);white-space:nowrap;}
+
+  .ot{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 0;}
+  .ot .item{border:1px solid var(--line);border-radius:7px;padding:8px 11px;background:var(--paper-2);}
+  .ot .k{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:8.5px;
+    text-transform:uppercase;letter-spacing:0.12em;display:flex;align-items:center;gap:5px;margin-bottom:4px;}
+  .ot .k.opp{color:var(--economic);}
+  .ot .k.thr{color:var(--social);}
+  .ot .k .dot{width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;}
+  .ot .v{font-size:11.5px;line-height:1.4;color:var(--ink-2);}
+
+  .whale{margin:15px 0 0;padding-top:13px;border-top:1px dashed var(--line-2);
+    font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:14px;line-height:1.5;color:var(--ink);}
+  .whale b{font-style:normal;font-weight:500;font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:9.5px;text-transform:uppercase;letter-spacing:0.12em;color:var(--c);margin-right:7px;
+    vertical-align:1.5px;}
+
+  /* ── net reading ── */
+  .net{margin:24px 0 0;background:var(--ink);color:oklch(0.965 0.003 250);border-radius:12px;padding:24px 28px;}
+  .net .nlab{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted-2);margin-bottom:9px;}
+  .net p{margin:0;font-family:"Fraunces",Georgia,serif;font-size:18px;line-height:1.5;
+    font-weight:400;text-wrap:pretty;letter-spacing:-0.005em;}
+  .net p b{font-weight:500;color:#fff;}
+
+  /* altitude relay — makes the three-figure convergence visible */
+  .relay{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0 0;padding-top:15px;border-top:1px solid var(--line);}
+  .relay .alt{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.12em;color:var(--muted);border:1px solid var(--line-2);border-radius:20px;padding:4px 11px;}
+  .relay .alt.on{color:#fff;background:var(--ink);border-color:var(--ink);}
+  .relay .arrow{color:var(--muted-2);font-family:"JetBrains Mono",monospace;font-size:12px;}
+  .relay .verb{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:16px;color:var(--ink);font-weight:500;letter-spacing:-0.005em;}
+  .net .relay{border-top-color:#46443f;}
+  .net .relay .alt{color:oklch(0.70 0.01 250);border-color:#46443f;}
+  .net .relay .alt.on{color:oklch(0.27 0.012 250);background:oklch(0.965 0.003 250);border-color:oklch(0.965 0.003 250);}
+  .net .relay .verb{color:oklch(0.965 0.003 250);}
+  .net .relay .arrow{color:oklch(0.70 0.01 250);}
+
+  /* ── references ── */
+  .refs{margin:26px 0 0;}
+  .refs h2{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;font-weight:500;
+    text-transform:uppercase;letter-spacing:0.14em;color:var(--muted);margin:0 0 14px;}
+  .refs ol{margin:0;padding:0;list-style:none;columns:2;column-gap:42px;}
+  .refs li{font-size:11.5px;line-height:1.5;color:var(--ink-2);margin:0 0 11px;
+    padding-left:17px;text-indent:-17px;break-inside:avoid;}
+  .refs li i{font-style:italic;}
+
+  .foot{margin-top:30px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+    font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted-2);line-height:1.9;}
+
+  .figback{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:22px;}
+  .figback:hover{color:var(--ink);}
+
+  @media print{
+    html,body{background:#fff;}
+    .page{padding:32px;}
+    .cell,.net,.refs li{break-inside:avoid;}
+    .figback{display:none;}
+  }
+  .reflink{display:inline-block;margin:26px 0 0;padding-bottom:2px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:oklch(0.56 0.012 250);text-decoration:none;border-bottom:1px solid oklch(0.83 0.006 250);transition:color .14s,border-color .14s;}
+  .reflink:hover{color:oklch(0.27 0.012 250);border-color:oklch(0.27 0.012 250);}
+</style>
+</head>
+<body>
+  <div class="page">
+
+    <a class="figback" href="environment-scan.html">&larr; Environment scan</a>
+    <div class="eyebrow">BUS922 Business Research Capstone · Appendix 1 · Figure A1.1</div>
+    <h1>PESTEL analysis of the Australian context</h1>
+    <p class="subtitle">The bigger forces shaping Australian freight forwarding, and what each one means for a smaller, growth-by-acquisition firm like the partner.</p>
+    <p class="scope">Scope: Australian freight forwarding (ANZSIC 5292), with the carrier / supplier layer (I4810) where relevant. Sources: IBISWorld 2025; IBISWorld 2026; ABS 2026a, 2026b; RBA 2026a, 2026b; ABF 2026; AASB 2024; Richey et al. 2023. All viewed 28 June 2026.</p>
+
+    <hr class="rule" />
+
+    <div class="grid">
+
+      <!-- POLITICAL -->
+      <div class="cell political">
+        <div class="chead">
+          <div class="mono">P</div>
+          <div><div class="cname">Political</div><span class="clabel">Trade policy · infrastructure</span></div>
+        </div>
+        <p class="body">Forwarders absorb geopolitical and trade-policy shocks they do not control while domestic infrastructure and the Trusted Trader scheme offer offsets <cite>(IBISWorld 2026; ABF 2026)</cite>.</p>
+        <div class="ot">
+          <div class="item"><div class="k opp"><span class="dot"></span>Opportunity</div><div class="v">Infrastructure; Trusted Trader / FTA facilitation</div></div>
+          <div class="item"><div class="k thr"><span class="dot"></span>Threat</div><div class="v">Trade and geopolitical rate / volume shocks</div></div>
+        </div>
+        <p class="whale"><b>For the partner</b>Trade accreditation (such as Trusted Trader) is a way to compete on reliability rather than price.</p>
+      </div>
+
+      <!-- ECONOMIC -->
+      <div class="cell economic">
+        <div class="chead">
+          <div class="mono">E</div>
+          <div><div class="cname">Economic</div><span class="clabel">Margins · rates · currency</span></div>
+        </div>
+        <p class="body">A ~$16.7bn industry on a thin 3.9% margin, growing only ~1.6% a year to 2029&ndash;30, inside above-band inflation (CPI 4.0%), a 4.35% cash rate and a soft AUD <cite>(IBISWorld 2025; ABS 2026a; RBA 2026a, 2026b)</cite>.</p>
+        <div class="ot">
+          <div class="item"><div class="k opp"><span class="dot"></span>Opportunity</div><div class="v">Ecommerce / structural demand</div></div>
+          <div class="item"><div class="k thr"><span class="dot"></span>Threat</div><div class="v">Thin margins (3.9%) and rate volatility</div></div>
+        </div>
+        <p class="whale"><b>For the partner</b>With the market barely growing, growth has to come from winning work and working smarter — not from a rising tide.</p>
+      </div>
+
+      <!-- SOCIAL -->
+      <div class="cell social">
+        <div class="chead">
+          <div class="mono">S</div>
+          <div><div class="cname">Social</div><span class="clabel">Labour · demand</span></div>
+        </div>
+        <p class="body">Ecommerce lifts demand while a tight labour market makes skilled staff scarce and costly to retain <cite>(IBISWorld 2025; ABS 2026b)</cite>.</p>
+        <div class="ot">
+          <div class="item"><div class="k opp"><span class="dot"></span>Opportunity</div><div class="v">Service complexity rewards capability</div></div>
+          <div class="item"><div class="k thr"><span class="dot"></span>Threat</div><div class="v">Skilled-knowledge scarcity + acquisition churn</div></div>
+        </div>
+        <p class="whale"><b>For the partner</b>When a firm grows by acquiring others, the know-how its people hold can leave with them.</p>
+      </div>
+
+      <!-- TECHNOLOGICAL -->
+      <div class="cell technological">
+        <div class="chead">
+          <div class="mono">T</div>
+          <div><div class="cname">Technological</div><span class="clabel">GenAI · automation</span></div>
+        </div>
+        <p class="body">Industry innovation is rated <i>Low</i>, yet a generative-AI and automation wave is reshaping logistics <cite>(IBISWorld 2025; Richey et al. 2023)</cite>.</p>
+        <div class="ot">
+          <div class="item"><div class="k opp"><span class="dot"></span>Opportunity</div><div class="v">GenAI / automation in a low-innovation field</div></div>
+          <div class="item"><div class="k thr"><span class="dot"></span>Threat</div><div class="v">Falling behind digital leaders</div></div>
+        </div>
+        <p class="whale"><b>For the partner</b>Developing people through their everyday work — with a reusable record captured as a by-product — is a realistic, low-cost route.</p>
+      </div>
+
+      <!-- ENVIRONMENTAL -->
+      <div class="cell environmental">
+        <div class="chead">
+          <div class="mono">E</div>
+          <div><div class="cname">Environmental</div><span class="clabel">Climate disclosure</span></div>
+        </div>
+        <p class="body">Mandatory climate disclosure (AASB S2, Scope 3) cascades emissions-reporting demand onto large clients and, through them, their forwarders <cite>(IBISWorld 2025; AASB 2024)</cite>.</p>
+        <div class="ot">
+          <div class="item"><div class="k opp"><span class="dot"></span>Opportunity</div><div class="v">Emissions-transparency differentiation</div></div>
+          <div class="item"><div class="k thr"><span class="dot"></span>Threat</div><div class="v">Reporting burden; exclusion from clients&rsquo; chains</div></div>
+        </div>
+        <p class="whale"><b>For the partner</b>Handling emissions data well could be a way to stand out.</p>
+      </div>
+
+      <!-- LEGAL -->
+      <div class="cell legal">
+        <div class="chead">
+          <div class="mono">L</div>
+          <div><div class="cname">Legal</div><span class="clabel">Customs compliance</span></div>
+        </div>
+        <p class="body">Rising customs-compliance bar: clearance is a licensed, statutory activity administered by the Australian Border Force (Customs Act 1901, ICS; <cite>ABF 2026</cite>), and the growing use of digital customs systems &ldquo;requires continuous tech upgrades and staff development&rdquo; <cite>(IBISWorld 2025, p. 57)</cite>.</p>
+        <div class="ot">
+          <div class="item"><div class="k opp"><span class="dot"></span>Opportunity</div><div class="v">Consistent licensed-broker competence as an asset</div></div>
+          <div class="item"><div class="k thr"><span class="dot"></span>Threat</div><div class="v">Rising compliance exposure, uneven know-how</div></div>
+        </div>
+        <p class="whale"><b>For the partner</b>Keeping licensed-broker skills current is both a compliance need and a strength.</p>
+      </div>
+
+    </div>
+
+    <div class="net">
+      <div class="nlab">Net reading · the wider economy</div>
+      <p>The factor that matters most is <b>people</b>: skilled staff are scarce and easily poached in a tight labour market, and when a firm grows by acquisition their know-how can leave with them. <b>Technology</b> is an open gap — the industry has been slow to modernise just as AI tools mature — which makes it realistic to develop people through their everyday work and capture a reusable record as a by-product. With margins thin and growth slow, the edge has to come from capability, not a rising market. Developing people is not just worthwhile — it is <b>timely</b>.</p>
+      <div class="relay">
+        <span class="alt on">The economy · PESTEL</span>
+        <span class="alt">The industry · Five Forces</span>
+        <span class="alt">The firm · VRIO</span>
+        <span class="arrow">&rarr;</span>
+        <span class="verb">developing people is timely</span>
+      </div>
+    </div>
+
+    <a class="reflink" href="references-bibliography.html">References &amp; bibliography &rarr;</a>
+
+    <!-- figure version: v2 (Jul 2026) — not shown publicly -->
+    <div class="foot">
+      Kali Madden · BUS922 A3 · Dr Nelly Liyanagamage · July 2026<br>
+      Appendix 1 · PESTEL (Australian context) · Figure A1.1 · best viewed on a laptop or desktop
+    </div>
+
+  </div>
+</body>
+</html>

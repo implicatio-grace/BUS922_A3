@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BUS922 A3 · TOWS — the worked matrix</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:oklch(0.985 0.002 250);
+    --paper:#ffffff;
+    --paper-2:oklch(0.965 0.003 250);
+    --ink:oklch(0.27 0.012 250);
+    --ink-2:oklch(0.42 0.014 250);
+    --muted:oklch(0.56 0.012 250);
+    --muted-2:oklch(0.70 0.01 250);
+    --line:oklch(0.905 0.004 250);
+    --line-2:oklch(0.83 0.006 250);
+    --teal:oklch(0.58 0.10 180);      /* SO · leverage */
+    --navy:oklch(0.53 0.12 250);      /* ST · defend */
+    --coral:oklch(0.63 0.15 30);      /* WT · survive */
+    --gold:#E9C46A;                   /* WO · the study */
+    --grey:oklch(0.55 0.012 250);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;}
+
+  .page{width:1180px;margin:0 auto;padding:64px 64px 56px;}
+
+  .figback{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:22px;}
+  .figback:hover{color:var(--ink);}
+
+  .eyebrow{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);}
+  h1{font-family:"Fraunces",Georgia,serif;font-weight:400;
+    font-size:40px;line-height:1.1;letter-spacing:-0.015em;margin:14px 0 0;text-wrap:balance;}
+  .subtitle{font-family:"Fraunces",Georgia,serif;font-style:italic;
+    font-size:19px;line-height:1.42;color:var(--ink-2);margin:13px 0 0;max-width:80ch;text-wrap:pretty;}
+  .scope{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;
+    line-height:1.7;color:var(--muted-2);margin:16px 0 0;max-width:118ch;letter-spacing:0.01em;}
+
+  .rule{height:1px;background:var(--line);border:0;margin:30px 0 22px;}
+
+  /* legend */
+  .legend{display:flex;gap:20px;flex-wrap:wrap;align-items:center;margin:0 0 22px;
+    font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+  .legend .lg{display:flex;align-items:center;gap:8px;}
+  .legend .sw{width:13px;height:13px;border-radius:4px;box-sizing:border-box;}
+  .legend .sw.so{background:var(--teal);} .legend .sw.st{background:var(--navy);}
+  .legend .sw.wo{background:var(--ink);} .legend .sw.wt{background:var(--coral);}
+  .star{display:inline-grid;place-items:center;font-size:10px;line-height:1;color:#5a4a12;
+    background:var(--gold);border-radius:4px;padding:2px 5px;letter-spacing:0;vertical-align:1px;}
+
+  /* ── 2×2 matrix at a glance ── */
+  .matrixcap{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;text-transform:uppercase;
+    letter-spacing:0.14em;color:var(--muted-2);margin:2px 0 14px;}
+  .matrix{display:grid;grid-template-columns:36px 1fr 1fr;gap:14px;align-items:stretch;}
+  .colhead{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;text-transform:uppercase;
+    letter-spacing:0.1em;padding:0 4px 2px;line-height:1.5;}
+  .colhead .h{font-size:11px;letter-spacing:0.12em;color:var(--ink);display:flex;align-items:center;gap:8px;}
+  .colhead .h .dot{width:9px;height:9px;border-radius:50%;}
+  .colhead.o .h .dot{background:var(--teal);} .colhead.t .h .dot{background:var(--coral);}
+  .colhead .chips{color:var(--muted-2);font-size:9px;letter-spacing:0.04em;margin-top:5px;text-transform:none;}
+  .rowlab{writing-mode:vertical-rl;transform:rotate(180deg);font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:11px;text-transform:uppercase;letter-spacing:0.16em;color:var(--ink);
+    display:flex;align-items:center;justify-content:center;gap:9px;}
+  .rowlab .chips{color:var(--muted-2);font-size:8.5px;letter-spacing:0.04em;text-transform:none;font-weight:400;}
+
+  .cell{background:var(--paper);border:1px solid var(--line);border-radius:12px;padding:20px 22px;
+    border-top:3px solid var(--ac);display:flex;flex-direction:column;text-decoration:none;color:inherit;}
+  .cell.so{--ac:var(--teal);} .cell.st{--ac:var(--navy);} .cell.wt{--ac:var(--coral);}
+  .cell.wo{--ac:var(--gold);background:var(--ink);border-color:var(--ink);}
+  .ckick{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9.5px;text-transform:uppercase;
+    letter-spacing:0.11em;color:var(--ac);margin-bottom:9px;display:flex;align-items:center;gap:8px;}
+  .chead{font-family:"Fraunces",Georgia,serif;font-size:21px;font-weight:400;letter-spacing:-0.01em;line-height:1.16;}
+  .cread{font-size:12.5px;line-height:1.56;color:var(--ink-2);margin:9px 0 0;text-wrap:pretty;}
+  .ctag{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;letter-spacing:0.08em;
+    color:var(--ac);border:1px solid var(--ac);border-radius:5px;padding:3px 8px;margin-top:14px;align-self:flex-start;opacity:.85;}
+  .cell.wo .chead{color:#fff;} .cell.wo .cread{color:#d8d4cf;}
+  .cell.wo .study{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.14em;color:#5a4a12;background:var(--gold);border-radius:5px;padding:3px 8px;}
+  .cell.wo .go{margin-top:14px;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9.5px;
+    text-transform:uppercase;letter-spacing:0.1em;color:var(--gold);align-self:flex-start;}
+  a.cell.wo:hover .go{text-decoration:underline;}
+  a.cell.wo:hover{border-color:var(--gold);}
+
+  /* ── worked moves in full ── */
+  .movescap{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;text-transform:uppercase;
+    letter-spacing:0.14em;color:var(--muted-2);margin:36px 0 16px;padding-top:22px;border-top:1px solid var(--line);}
+  .move{background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--ac);border-radius:12px;
+    padding:22px 26px;margin-bottom:16px;}
+  .move.so{--ac:var(--teal);} .move.st{--ac:var(--navy);} .move.wt{--ac:var(--coral);}
+  .move.wo{--ac:var(--gold);background:var(--ink);border-color:var(--ink);border-left-color:var(--gold);}
+  .mhead{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:4px;}
+  .mkey{font-family:"Fraunces",Georgia,serif;font-size:23px;color:var(--ac);font-weight:500;letter-spacing:-0.01em;}
+  .mtitle{font-family:"Fraunces",Georgia,serif;font-size:18px;font-style:italic;color:var(--ink);font-weight:400;}
+  .mkind{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.11em;color:var(--muted-2);margin:0 0 14px;}
+  .pair{font-size:12.5px;line-height:1.56;color:var(--ink-2);margin:9px 0 0;padding-left:1.15em;text-indent:-1.15em;text-wrap:pretty;}
+  .pair b{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10.5px;color:var(--ac);font-weight:500;
+    letter-spacing:0.02em;text-indent:0;margin-right:5px;}
+  cite{font-style:normal;color:var(--muted);}
+  .strat{margin:14px 0 0;padding-top:12px;border-top:1px dashed var(--line-2);font-family:"Fraunces",Georgia,serif;
+    font-size:13.5px;line-height:1.5;color:var(--ink);text-wrap:pretty;}
+  .strat b{font-style:normal;font-weight:500;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;
+    text-transform:uppercase;letter-spacing:0.12em;color:var(--ac);margin-right:7px;}
+  .contin{margin:9px 0 0;font-size:12px;line-height:1.5;color:var(--muted);text-wrap:pretty;}
+  .contin b{color:var(--ink-2);font-weight:600;}
+
+  /* WO dark move internals */
+  .move.wo .mtitle{color:#fff;} .move.wo cite{color:#a8a49c;}
+  .move.wo .mkind{color:var(--muted-2);}
+  .move.wo .pair{color:#d2cec8;}
+  .move.wo .strat{color:oklch(0.965 0.003 250);border-top-color:#3a3833;}
+  .move.wo .contin{color:var(--muted-2);} .move.wo .contin b{color:#fff;}
+  .move.wo .wolabel{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.14em;color:#5a4a12;background:var(--gold);border-radius:5px;padding:3px 8px;}
+  .woblock{margin:13px 0 0;}
+  .woblock .wt2{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.12em;color:var(--gold);margin-bottom:5px;}
+  .woblock p{margin:0;font-size:12.5px;line-height:1.58;color:#d2cec8;text-wrap:pretty;}
+  .woblock p b{color:#fff;font-weight:600;}
+  .move.wo .why{margin-top:14px;padding-top:13px;border-top:1px dashed #3a3833;}
+  .move.wo .why .wt2{color:var(--gold);}
+
+  /* ── convergence band ── */
+  .conv{margin:26px 0 0;background:var(--ink);color:oklch(0.965 0.003 250);border-radius:15px;padding:28px 30px 26px;}
+  .conv .nlab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;text-transform:uppercase;
+    letter-spacing:0.16em;color:var(--muted-2);margin-bottom:12px;}
+  .conv p{margin:0;font-family:"Fraunces",Georgia,serif;font-size:19px;line-height:1.5;font-weight:400;
+    text-wrap:pretty;letter-spacing:-0.005em;max-width:84ch;}
+  .conv p b{font-weight:500;color:#fff;} .conv .wo{color:var(--gold);font-style:italic;}
+  .spine{margin:20px 0 0;padding-top:15px;border-top:1px dashed #3a3833;display:flex;gap:9px;flex-wrap:wrap;align-items:center;}
+  .spine .step{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.1em;color:var(--muted-2);border:1px solid #46443f;border-radius:20px;padding:5px 12px;}
+  .spine .step.on{color:var(--ink);background:var(--gold);border-color:var(--gold);}
+  .spine .arrow{color:var(--muted-2);font-family:"JetBrains Mono",monospace;font-size:13px;}
+  .spine .verb{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:16px;color:#fff;font-weight:500;letter-spacing:-0.005em;}
+
+  .reflink{display:inline-block;margin:26px 18px 0 0;padding-bottom:2px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+    font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);text-decoration:none;
+    border-bottom:1px solid var(--line-2);transition:color .14s,border-color .14s;}
+  .reflink:hover{color:var(--ink);border-color:var(--ink);}
+
+  .foot{margin-top:30px;font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted-2);line-height:1.9;}
+
+  a{color:var(--navy);} a:hover{color:var(--teal);}
+
+  @media print{
+    html,body{background:#fff;}
+    .page{padding:32px;}
+    .cell,.move,.conv{break-inside:avoid;}
+    .figback{display:none;}
+  }
+  @media (max-width:1000px){
+    .page{width:auto;padding:44px 22px;}
+    .matrix{grid-template-columns:1fr;}
+    .rowlab{writing-mode:horizontal-tb;transform:none;justify-content:flex-start;margin-top:6px;}
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+
+    <a class="figback" href="appendix-4-swot.html">&larr; Appendix 4 · SWOT</a>
+    <div class="eyebrow">BUS922 Business Research Capstone · Appendix 5 · Figure A5.1</div>
+    <h1>TOWS — the worked matrix</h1>
+    <p class="subtitle">The strategy layer over the SWOT. It pairs the quadrants into four moves — SO, ST, WO, WT — and shows the matrix converges on one: the WO cell, which is the study.</p>
+    <p class="scope">No new facts are introduced; each strategy is analysis, and the facts it leans on keep their SWOT citations. The firm is described at the level of its type, not from inside the partner. Sources inherited from the SWOT synthesis (Appendix 4); the WO cell adds the design-warrant sources (Markus 2001; the M&amp;A-codification set; Richey et al. 2023). All viewed 28 June 2026.</p>
+
+    <hr class="rule" />
+
+    <div class="legend">
+      <span class="lg"><span class="sw so"></span>SO · leverage</span>
+      <span class="lg"><span class="sw st"></span>ST · defend</span>
+      <span class="lg"><span class="sw wo"></span>WO · fix-by-seizing</span>
+      <span class="lg"><span class="sw wt"></span>WT · survive</span>
+      <span class="lg"><span class="star">&#9733;&#9733;</span> WO is the study</span>
+    </div>
+
+    <div class="matrixcap">The matrix at a glance · Strengths / Weaknesses &times; Opportunities / Threats</div>
+
+    <div class="matrix">
+      <!-- header row -->
+      <div></div>
+      <div class="colhead o">
+        <div class="h"><span class="dot"></span>O — Opportunities</div>
+        <div class="chips">O1 GenAI/automation · O2 ecommerce/complexity · O3 Trusted Trader/FTA · O4 emissions-transparency · O5 differentiation lowers switching</div>
+      </div>
+      <div class="colhead t">
+        <div class="h"><span class="dot"></span>T — Threats</div>
+        <div class="chips">T1 carrier power · T2 integrator squeeze · T3 thin margins · T4 skills scarcity/churn · T5 digital disintermediation · T6 rising customs bar · T7 emissions burden</div>
+      </div>
+
+      <!-- strengths row -->
+      <div class="rowlab">S — Strengths<span class="chips">S1 customs · S2 network · S3 staff · S4 acq · S5 agility</span></div>
+
+      <div class="cell so">
+        <div class="ckick">SO · leverage <span style="opacity:.7;">(maxi&ndash;maxi)</span></div>
+        <div class="chead">Grow by differentiation, not discount</div>
+        <div class="cread">Sell regulated / complex-trade expertise, emissions capability and reliability into the demand that rewards it &mdash; not the price fight.</div>
+        <span class="ctag">S &times; O</span>
+      </div>
+
+      <div class="cell st">
+        <div class="ckick">ST · defend <span style="opacity:.7;">(maxi&ndash;mini)</span></div>
+        <div class="chead">Defend on people, not price</div>
+        <div class="cread">The knowledge moat &mdash; reputation, relationships, specialisation &mdash; is the one position scale and platforms can't cheaply take.</div>
+        <span class="ctag">S &times; T</span>
+      </div>
+
+      <!-- weaknesses row -->
+      <div class="rowlab">W — Weaknesses<span class="chips">W1 not organised · W2 acq compounds · W3 uneven customs · W4 low digital</span></div>
+
+      <a class="cell wo" href="learn-slice.html">
+        <div class="ckick"><span class="study">&#9733;&#9733; the study</span> WO · fix-by-seizing</div>
+        <div class="chead">Design capture and capability as one act</div>
+        <div class="cread">A GenAI-guardrailed by-product mechanism &mdash; the <b style="color:#fff;font-weight:600;">Learn slice</b> &mdash; supplies the missing &ldquo;organised&rdquo;, converting the latent strength (S3) into a sustainable advantage.</div>
+        <span class="go">See the Learn slice &rarr;</span>
+      </a>
+
+      <div class="cell wt">
+        <div class="ckick">WT · survive <span style="opacity:.7;">(mini&ndash;mini)</span></div>
+        <div class="chead">The do-nothing case is a shrinking one</div>
+        <div class="cread">Every acquisition loses scarce, compliance-critical know-how in a tightening market &mdash; act preventively, now.</div>
+        <span class="ctag">W &times; T</span>
+      </div>
+    </div>
+
+    <div class="movescap">The four moves, worked</div>
+
+    <!-- SO -->
+    <div class="move so">
+      <div class="mhead"><span class="mkey">SO</span><span class="mtitle">leverage &mdash; grow by differentiation, not discount</span></div>
+      <div class="mkind">maxi&ndash;maxi · strengths on opportunities</div>
+      <p class="pair"><b>S1 × O3</b>Accredit under Trusted Trader and use FTA-origin handling to compete on priority processing and reliability, not price <cite>(Australian Border Force 2026)</cite>.</p>
+      <p class="pair"><b>S1 / S3 × O4</b>Offer the emissions transparency large clients now need for their own Scope-3 disclosure <cite>(IBISWorld 2025, pp.&nbsp;11, 22; AASB 2024a)</cite>.</p>
+      <p class="pair"><b>S2 / S3 × O2</b>Sell logistics expertise into more sophisticated supply chains as ecommerce lifts service complexity <cite>(IBISWorld 2025, p.&nbsp;11)</cite>.</p>
+      <p class="pair"><b>S1 / S3 × O5</b>Specialist, reliable service makes clients less likely to switch, tempering buyer power <cite>(IBISWorld 2025, p.&nbsp;41)</cite>.</p>
+      <p class="strat"><b>Strategy</b>Position as a premium specialist competing above the price fight — warranted by IBISWorld's own read that winning business against established operators increasingly relies on value-added services, technological innovation or niche targeting <cite>(IBISWorld 2025, p.&nbsp;38)</cite>.</p>
+      <p class="contin"><b>Contingency:</b> SO works only if the expertise is consistent across offices (W1/W3) — <b>SO depends on WO</b>.</p>
+    </div>
+
+    <!-- ST -->
+    <div class="move st">
+      <div class="mhead"><span class="mkey">ST</span><span class="mtitle">defend &mdash; defend on people, not price</span></div>
+      <div class="mkind">maxi&ndash;mini · strengths against threats</div>
+      <p class="pair"><b>S1 / S3 × T1</b>An SME can't out-buy a concentrated, forward-integrating carrier base (ANL 53.3% + Maersk 9.8% &asymp; 66%; barriers high and increasing) <cite>(IBISWorld 2026, pp.&nbsp;23, 45, 50)</cite>, so it defends on expertise, not freight cost.</p>
+      <p class="pair"><b>S1 / S3 × T2</b>Against scaled integrators already automating and acquiring <cite>(IBISWorld 2025, p.&nbsp;42)</cite>, the defence is reputation, relationships and specialisation <cite>(IBISWorld 2025, p.&nbsp;38)</cite>.</p>
+      <p class="pair"><b>S1 / S3 × T3</b>Expertise and reputation limit exposure to price competition on a thin ~3.9% margin <cite>(IBISWorld 2025, p.&nbsp;6)</cite>.</p>
+      <p class="pair"><b>S3 × T5</b>Expert, people-led service is the part digital platforms can't easily or cheaply replace <cite>(IBISWorld 2025, p.&nbsp;39; Mordor Intelligence 2026)</cite>.</p>
+      <p class="strat"><b>Strategy</b>Lean into the knowledge moat — the one defensible position the industry structure leaves open to a firm that can't win on scale or price.</p>
+      <p class="contin"><b>Contingency:</b> the moat holds only if the know-how is retained through acquisition (W1) — <b>ST also depends on WO</b>.</p>
+    </div>
+
+    <!-- WO -->
+    <div class="move wo">
+      <div class="mhead"><span class="mkey" style="color:var(--gold);">WO</span><span class="mtitle">fix-by-seizing &mdash; <span class="wolabel">&#9733;&#9733; the study</span></span></div>
+      <div class="mkind">mini&ndash;maxi · weakness turned on opportunity</div>
+
+      <div class="woblock">
+        <div class="wt2">The pairing</div>
+        <p>The situated operational knowledge that is <b>not organised for capture or reuse (W1)</b> — a Valuable, Rare, costly-to-Imitate asset the firm holds but does not exploit <cite>(IBISWorld 2025, p.&nbsp;37; LogiHire 2026; Industry Skills Australia 2025; Jobs and Skills Australia 2025b)</cite> — crossed with the maturity of <b>GenAI / automation in a low-innovation industry (O1)</b> <cite>(Richey et al. 2023; IBISWorld 2025, p.&nbsp;24)</cite>, enabled by an agile SME culture (S5) and shaped by low digital infrastructure (W4).</p>
+      </div>
+
+      <div class="woblock">
+        <div class="wt2">The proposition</div>
+        <p>Articulating a real operational problem could deepen capability and produce a reusable artefact at once — but in an acquired workforce the two aren't yet designed as one act. <b>The WO move is to design them as one act.</b></p>
+      </div>
+
+      <div class="woblock">
+        <div class="wt2">The design · the Learn slice</div>
+        <p>A low-friction, GenAI-guardrailed companion that prompts an employee to articulate a real operational problem and generate an account of it, scaffolded by a template that fades as competence grows — producing a context-rich, reusable record as a by-product of the work <cite>(Markus 2001)</cite>. This supplies the missing &ldquo;organised&rdquo;, converting the latent strength (S3) into an organised, and so sustainable, advantage.</p>
+      </div>
+
+      <div class="why">
+        <div class="wt2">Why this shape is warranted</div>
+        <p class="pair"><b>Lightweight</b>The SME-infrastructure barrier rules out a capital-heavy build <cite>(Richey et al. 2023; W4)</cite>; an agile SME culture makes a by-product template feasible where a knowledge-management function is not — a template, not a department.</p>
+        <p class="pair"><b>Codify</b>Deliberate codification drives acquisition performance, not experience accumulation <cite>(Zollo &amp; Singh 2004; Trichterborn et al. 2016; Schweizer et al. 2022)</cite>, and acquisition experience alone is insufficient <cite>(Haleblian &amp; Finkelstein 1999)</cite>.</p>
+        <p class="pair"><b>Now</b>GenAI is mature for forwarder-adjacent work and the automation payoff is concrete <cite>(IBISWorld 2025, pp.&nbsp;38, 61)</cite> while scaled rivals are already moving here <cite>(IBISWorld 2025, p.&nbsp;42)</cite> — the opening is real but closing.</p>
+      </div>
+
+      <p class="strat" style="border-top-color:#3a3833;"><b style="color:var(--gold);">Headline</b>WO is the study. SO and ST tell the firm what to do with its strengths; WO is the single move that makes those strengths organised enough to use. <a href="learn-slice.html" style="color:var(--gold);">See the Learn slice &rarr;</a></p>
+    </div>
+
+    <!-- WT -->
+    <div class="move wt">
+      <div class="mhead"><span class="mkey">WT</span><span class="mtitle">survive &mdash; the do-nothing case is a shrinking one</span></div>
+      <div class="mkind">mini&ndash;mini · weaknesses meet threats</div>
+      <p class="pair"><b>W1 / W2 / W3 × T4</b>Learning not retained, plus acquisition churn and uneven consistency, meet a structural skills shortage in a tight, mobile labour market (unemployment 4.4%; job mobility 7.7%) <cite>(IBISWorld 2025, p.&nbsp;38; ABS 2026b; Industry Skills Australia 2025; Jobs and Skills Australia 2025b)</cite>, where labour gaps become service failures <cite>(TRS Resourcing 2026)</cite>.</p>
+      <p class="pair"><b>W3 × T6</b>Uneven customs know-how meets a tightening compliance bar: the Integrated Cargo System requires continuous technology upgrades and staff development, and the 2024 reform treats brokers as trusted insiders <cite>(IBISWorld 2025, p.&nbsp;57; Australian Border Force 2026; Rigby Cooke Lawyers 2024)</cite>.</p>
+      <p class="pair"><b>W1 / W4 × T2 / T5</b>Meanwhile the undifferentiated middle is taken by automating integrators <cite>(IBISWorld 2025, p.&nbsp;42)</cite> and digital-native forwarders <cite>(Sourcing Journal 2026; Mordor Intelligence 2026)</cite>.</p>
+      <p class="strat"><b>Strategy</b>Act preventively — the cost of inaction rises with each deal, as every acquisition adds a new un-captured, compliance-critical knowledge base in a market where scarce know-how is decaying and rivals are consolidating. The design is urgent, not cosmetic <cite>(Haleblian &amp; Finkelstein 1999)</cite>.</p>
+    </div>
+
+    <div class="conv">
+      <div class="nlab">Convergence · why the matrix points to WO</div>
+      <p>Three of the four cells make the same admission. <b>SO</b> (grow by differentiation) and <b>ST</b> (defend on people) are the correct offensive and defensive plays — but each closes on the same contingency: they work only if the capability is organised and retained across the growing, acquiring firm. <b>WT</b> shows that contingency decaying — the know-how walks, deal by deal, in a tightening market. <b class="wo">WO</b> is the only cell that acts on the contingency itself: it organises the latent strength (S3) that SO and ST lean on, and it stops the WT decay. The matrix does not offer four equal options — it converges on <b class="wo">WO</b> as the enabling move.</p>
+      <div class="spine">
+        <span class="step">Economy · PESTEL · timely</span>
+        <span class="step">Industry · Five Forces · necessary</span>
+        <span class="step">Firm · VRIO · within reach</span>
+        <span class="arrow">&rarr;</span>
+        <span class="step on">TOWS · WO</span>
+        <span class="verb">design capture and capability as one act — that is the study</span>
+      </div>
+    </div>
+
+    <div>
+      <a class="reflink" href="appendix-4-swot.html">&larr; Appendix 4 · SWOT</a>
+      <a class="reflink" href="learn-slice.html">The Learn slice — the study &rarr;</a>
+      <a class="reflink" href="references-bibliography.html">References &amp; bibliography &rarr;</a>
+    </div>
+
+    <div class="foot">
+      Kali Madden · BUS922 A3 · Dr Nelly Liyanagamage · July 2026<br>
+      Appendix 5 · TOWS — the worked matrix · Figure A5.1 · best viewed on a laptop or desktop
+    </div>
+
+  </div>
+</body>
+</html>

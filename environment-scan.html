@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BUS922 A3 · Appendices — environment scan</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:oklch(0.985 0.002 250);
+    --paper:#ffffff;
+    --paper-2:oklch(0.965 0.003 250);
+    --ink:oklch(0.27 0.012 250);
+    --ink-2:oklch(0.42 0.014 250);
+    --muted:oklch(0.56 0.012 250);
+    --muted-2:oklch(0.70 0.01 250);
+    --line:oklch(0.905 0.004 250);
+    --line-2:oklch(0.83 0.006 250);
+    --teal:oklch(0.58 0.10 180);
+    --navy:oklch(0.53 0.12 250);
+    --coral:oklch(0.63 0.15 30);
+    --grey:oklch(0.55 0.012 250);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:860px;margin:0 auto;padding:56px 32px 96px;}
+
+  .back{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:26px;}
+  .back:hover{color:var(--ink);}
+
+  .eyebrow{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);}
+  h1{font-family:"Fraunces","Source Serif Pro",Georgia,serif;font-weight:400;
+    font-size:38px;line-height:1.12;letter-spacing:-0.015em;margin:15px 0 0;text-wrap:balance;}
+  .subtitle{font-family:"Fraunces",Georgia,serif;font-style:italic;
+    font-size:19px;line-height:1.42;color:var(--ink-2);margin:14px 0 0;max-width:64ch;text-wrap:pretty;}
+  .lede{color:var(--muted);font-size:14px;line-height:1.65;max-width:70ch;margin:18px 0 0;}
+
+  /* ── convergence panel — the "three altitudes → one conclusion" preamble ── */
+  .converge{margin:34px 0 0;background:var(--ink);color:oklch(0.965 0.003 250);border-radius:14px;padding:28px 30px 26px;}
+  .converge .clab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted-2);margin-bottom:13px;}
+  .converge p{margin:0;font-family:"Fraunces",Georgia,serif;font-size:20px;line-height:1.5;
+    font-weight:400;text-wrap:pretty;letter-spacing:-0.005em;max-width:74ch;}
+  .converge p b{font-weight:500;color:#fff;}
+  .relay{display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;margin:22px 0 0;}
+  .alt{flex:1;min-width:180px;border:1px solid #46443f;border-radius:10px;padding:13px 15px;}
+  .alt .k{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.12em;color:var(--muted-2);}
+  .alt .lens{font-family:"Fraunces",Georgia,serif;font-size:18px;color:#ffffff;margin-top:5px;letter-spacing:-0.01em;}
+  .alt .verb{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:14.5px;margin-top:7px;
+    padding-top:9px;border-top:1px dashed #46443f;}
+  .alt.macro .verb{color:#8FC7B4;} .alt.industry .verb{color:#9FB8D0;} .alt.firm .verb{color:#D8A794;}
+
+  /* ── figure cards ── */
+  .walklabel{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:0.14em;color:var(--muted-2);margin:40px 0 18px;}
+  .cards{display:grid;gap:16px;}
+  a.card{display:grid;grid-template-columns:auto 1fr auto;align-items:flex-start;gap:24px;
+    text-decoration:none;color:inherit;background:var(--paper);
+    border:1px solid var(--line);border-radius:11px;padding:24px 28px;
+    transition:border-color .18s ease, transform .18s ease, box-shadow .18s ease;}
+  a.card:hover{border-color:var(--dot);transform:translateY(-2px);
+    box-shadow:0 12px 34px -20px rgba(0,0,0,.32);}
+  .num{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:12px;
+    color:#fff;background:var(--dot);width:44px;height:44px;border-radius:9px;
+    display:grid;place-items:center;letter-spacing:0.02em;flex:none;margin-top:2px;line-height:1.15;text-align:center;}
+  .card.macro{--dot:var(--teal);}
+  .card.industry{--dot:var(--navy);}
+  .card.firm{--dot:var(--coral);}
+  .card.synth{--dot:var(--grey);}
+  .ctitle{font-family:"Fraunces",Georgia,serif;font-size:22px;
+    font-weight:400;letter-spacing:-0.01em;line-height:1.14;}
+  .caltitude{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9.5px;text-transform:uppercase;
+    letter-spacing:0.12em;color:var(--dot);margin-bottom:6px;display:block;}
+  .csub{color:var(--ink-2);font-size:13.5px;line-height:1.58;margin-top:9px;max-width:60ch;text-wrap:pretty;}
+  .meta{display:flex;gap:8px;margin-top:13px;flex-wrap:wrap;align-items:center;}
+  .tag{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:9.5px;
+    text-transform:uppercase;letter-spacing:0.1em;color:var(--dot);
+    border:1px solid var(--dot);border-radius:5px;padding:3px 7px;opacity:.85;}
+  .verbtag{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:14px;color:var(--ink);}
+  .verbtag b{font-style:normal;font-family:"JetBrains Mono",monospace;font-size:9px;
+    text-transform:uppercase;letter-spacing:0.1em;color:var(--dot);font-weight:500;margin-right:6px;}
+  .arrow{font-size:20px;color:var(--muted-2);transition:transform .18s ease, color .18s ease;align-self:center;}
+  a.card:hover .arrow{transform:translateX(5px);color:var(--dot);}
+
+  .srcnote{margin:30px 0 0;font-size:12px;line-height:1.6;color:var(--muted);max-width:78ch;
+    padding-top:18px;border-top:1px solid var(--line);}
+  .srcnote b{color:var(--ink-2);font-weight:500;}
+
+  .foot{margin-top:38px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+    font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted-2);
+    line-height:1.9;}
+
+  @media (max-width:600px){
+    .wrap{padding:44px 22px 72px;}
+    h1{font-size:30px;}
+    a.card{grid-template-columns:auto 1fr;gap:16px;padding:22px;}
+    .arrow{display:none;}
+    .alt{min-width:100%;}
+  }
+  @media print{
+    html,body{background:#fff;}
+    .back{display:none;}
+    a.card,.converge{break-inside:avoid;box-shadow:none;}
+    .wrap{padding:32px;}
+  }
+  .reflink{display:inline-block;margin:26px 0 0;padding-bottom:2px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:oklch(0.56 0.012 250);text-decoration:none;border-bottom:1px solid oklch(0.83 0.006 250);transition:color .14s,border-color .14s;}
+  .reflink:hover{color:oklch(0.27 0.012 250);border-color:oklch(0.27 0.012 250);}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Index</a>
+    <div class="eyebrow">BUS922 Business Research Capstone · A3 · Appendices</div>
+    <h1>The environment scan</h1>
+    <p class="subtitle">Three analyses at three levels — the wider economy, the industry, and the firm — that arrive at the same conclusion.</p>
+    <p class="lede">These appendix figures are the industry evidence behind the problem statement. On their own they are three separate scans; read together they point to the same conclusion from three directions. Each opens as a full, print-ready figure.</p>
+
+    <div class="converge">
+      <div class="clab">Three levels · one conclusion</div>
+      <p>All three point the same way: in this industry, your edge is <b>your people</b> — the expertise and relationships they hold. This research focuses on one lever the firm can pull: developing people's capability through real, on-the-job problems, in a way that also leaves a shared record the business can reuse. The agreement between three independent analyses is why that is worth investigating.</p>
+      <div class="relay">
+        <div class="alt macro">
+          <div class="k">The economy · PESTEL</div>
+          <div class="lens">Skilled people are scarce</div>
+          <div class="verb">→ so developing them is <i>timely</i></div>
+        </div>
+        <div class="alt industry">
+          <div class="k">The industry · Five Forces</div>
+          <div class="lens">Compete on people, not price</div>
+          <div class="verb">→ so developing them is <i>necessary</i></div>
+        </div>
+        <div class="alt firm">
+          <div class="k">The firm · VRIO</div>
+          <div class="lens">Is that capability being grown &amp; shared?</div>
+          <div class="verb">→ the question the research answers</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="walklabel">The three figures · the economy → the industry → the firm</div>
+
+    <div class="cards">
+
+      <a class="card macro" href="appendix-1-pestel.html">
+        <span class="num">A1</span>
+        <span>
+          <span class="caltitude">The wider economy · Appendix 1 · Figure A1.1</span>
+          <div class="ctitle">PESTEL — the Australian context</div>
+          <div class="csub">A low-margin industry, exposed to trade shocks and skills shortages. The factor that matters most is people: skilled staff are scarce and easily poached in a tight labour market. Technology is an open gap — the industry has been slow to modernise, just as AI tools mature — which makes it realistic to capture knowledge cheaply, as a natural by-product of everyday work (IBISWorld 2025).</div>
+          <div class="meta"><span class="tag">The economy</span><span class="tag">6 factors</span><span class="verbtag"><b>so</b>acting now is timely</span></div>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card industry" href="appendix-2-five-forces.html">
+        <span class="num">A2</span>
+        <span>
+          <span class="caltitude">The industry · Appendix 2 · Figure A2.1</span>
+          <div class="ctitle">Porter's Five Forces — freight forwarding</div>
+          <div class="csub">As a smaller forwarder, the partner sits where the market pressure is greatest — small firms are squeezed by a few powerful shipping lines (which are muscling into forwarders' own work) and by larger rivals merging and buying up smaller ones. Firms this size can't win on price or scale, so they compete on the strength of their people — expertise, relationships and know-how — rather than cost (IBISWorld 2025).</div>
+          <div class="meta"><span class="tag">The industry</span><span class="tag">5 forces</span><span class="verbtag"><b>so</b>developing it is necessary</span></div>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card firm" href="appendix-3-vrio.html">
+        <span class="num">A3</span>
+        <span>
+          <span class="caltitude">The firm · Appendix 3 · Figure A3.1</span>
+          <div class="ctitle">VRIO — the resource landscape</div>
+          <div class="csub">The partner's edge lives in its people — the hands-on expertise experienced staff build on the job, which is valuable, rare, and hard for rivals to copy (IBISWorld 2025). What this research investigates is how deliberately that expertise is developed and shared across the firm, especially as it grows by acquisition. The proposition: build professional development around real operational problems, so people grow their capability and, as a by-product, leave a record the business can reuse.</div>
+          <div class="meta"><span class="tag">The firm</span><span class="tag">V·R·I·O</span><span class="verbtag"><b>research</b>is expertise being grown &amp; shared?</span></div>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+    </div>
+
+    <div class="walklabel">The synthesis · the three levels consolidated → the strategy</div>
+
+    <div class="cards">
+      <a class="card synth" href="appendix-4-swot.html">
+        <span class="num">A4</span>
+        <span>
+          <span class="caltitude">The synthesis · Appendix 4 · Figure A4.1</span>
+          <div class="ctitle">SWOT — synthesis of the environment scan</div>
+          <div class="csub">The three scans consolidated into one 2×2: Strengths and Weaknesses from the firm layer (VRIO), Opportunities and Threats from the macro and industry layers (PESTEL · Five Forces). The signature move — the firm's experienced-staff know-how is a Strength and, because it isn't organised for capture, the same-named Weakness — sets up the WO hinge the TOWS matrix develops next (IBISWorld 2025).</div>
+          <div class="meta"><span class="tag">The synthesis</span><span class="tag">S·W·O·T</span><span class="verbtag"><b>so</b>one 2×2, handed to TOWS</span></div>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+
+      <a class="card synth" href="appendix-5-tows.html">
+        <span class="num">A5</span>
+        <span>
+          <span class="caltitude">The strategy · Appendix 5 · Figure A5.1</span>
+          <div class="ctitle">TOWS — the worked matrix</div>
+          <div class="csub">The strategy layer over the SWOT: it pairs the quadrants into four moves (SO · ST · WO · WT) and shows they converge on one. SO and ST are the right plays but both depend on the capability being organised and retained; WT is the cost of skipping it. Only the WO cell acts on that — design capture and capability as one act. WO is the study (Markus 2001; IBISWorld 2025).</div>
+          <div class="meta"><span class="tag">The strategy</span><span class="tag">SO·ST·WO·WT</span><span class="verbtag"><b>so</b>the matrix converges on WO</span></div>
+        </span>
+        <span class="arrow">&rarr;</span>
+      </a>
+    </div>
+
+    <p class="srcnote">Primary industry source across the environment-scan figures: <b>IBISWorld 2025</b>, <i>Rail, air &amp; sea freight forwarding in Australia</i>, report I5292B, viewed 28 June 2026. Full source lists appear on each figure.</p>
+
+    <a class="reflink" href="references-bibliography.html">References &amp; bibliography &rarr;</a>
+
+    <div class="foot">
+      Kali Madden · BUS922 A3 · Dr Nelly Liyanagamage · July 2026<br>
+      Appendices · the environment scan · best viewed on a laptop or desktop
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BUS922 A3 · Appendix 2 — Porter's Five Forces</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:oklch(0.985 0.002 250);
+    --paper:#ffffff;
+    --paper-2:oklch(0.965 0.003 250);
+    --ink:oklch(0.27 0.012 250);
+    --ink-2:oklch(0.42 0.014 250);
+    --muted:oklch(0.56 0.012 250);
+    --muted-2:oklch(0.70 0.01 250);
+    --line:oklch(0.905 0.004 250);
+    --line-2:oklch(0.83 0.006 250);
+    --rivalry:oklch(0.53 0.12 250);       /* nautical navy */
+    --entrants:oklch(0.58 0.10 180);      /* teal */
+    --suppliers:oklch(0.63 0.15 30);     /* coral — strongest force */
+    --buyers:#6E5A1E;        /* bronze */
+    --substitutes:#553A5E;   /* plum */
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;}
+
+  .page{width:1180px;margin:0 auto;padding:64px 64px 56px;}
+
+  .eyebrow{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);}
+  h1{font-family:"Fraunces",Georgia,serif;font-weight:400;
+    font-size:40px;line-height:1.1;letter-spacing:-0.015em;margin:14px 0 0;text-wrap:balance;}
+  .subtitle{font-family:"Fraunces",Georgia,serif;font-style:italic;
+    font-size:19px;line-height:1.42;color:var(--ink-2);margin:13px 0 0;max-width:74ch;text-wrap:pretty;}
+  .scope{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;
+    line-height:1.7;color:var(--muted-2);margin:16px 0 0;max-width:108ch;letter-spacing:0.01em;}
+
+  .rule{height:1px;background:var(--line);border:0;margin:34px 0 30px;}
+
+  /* ── five-force diamond ── */
+  .diagram{display:grid;grid-template-columns:1fr 1.04fr 1fr;gap:18px;align-items:stretch;}
+  .slot{display:flex;}
+  .ne{grid-column:2;}
+  .sup{grid-column:1;grid-row:2;}
+  .riv{grid-column:2;grid-row:2;}
+  .buy{grid-column:3;grid-row:2;}
+  .sub{grid-column:2;grid-row:3;}
+
+  .cell{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:22px 24px 20px;border-top:3px solid var(--c);width:100%;display:flex;flex-direction:column;}
+  .cell.entrants{--c:var(--entrants);}
+  .cell.suppliers{--c:var(--suppliers);}
+  .cell.buyers{--c:var(--buyers);}
+  .cell.substitutes{--c:var(--substitutes);}
+
+  .chead{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;}
+  .cname{font-family:"Fraunces",Georgia,serif;font-size:21px;font-weight:400;letter-spacing:-0.01em;line-height:1.08;}
+  .clabel{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:8.5px;
+    text-transform:uppercase;letter-spacing:0.14em;color:var(--c);margin-top:5px;display:block;opacity:.9;}
+
+  .strength{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex:0 0 auto;}
+  .sdots{display:flex;gap:3px;}
+  .sdots i{width:7px;height:7px;border-radius:50%;border:1.5px solid var(--c);display:block;}
+  .sdots i.on{background:var(--c);}
+  .sword{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:9px;
+    text-transform:uppercase;letter-spacing:0.12em;color:var(--c);font-weight:500;}
+
+  .body{font-size:13px;line-height:1.58;color:var(--ink-2);margin:13px 0 0;text-wrap:pretty;}
+  cite{font-style:normal;color:var(--muted);}
+
+  .whale{margin:13px 0 0;padding-top:12px;border-top:1px dashed var(--line-2);
+    font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:13.5px;line-height:1.48;color:var(--ink);}
+  .whale b{font-style:normal;font-weight:500;font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--c);margin-right:7px;vertical-align:1.5px;}
+
+  /* center — rivalry, anchored dark */
+  .cell.rivalry{background:var(--ink);border:0;color:oklch(0.965 0.003 250);justify-content:center;}
+  .cell.rivalry .cname{color:#ffffff;font-size:23px;}
+  .cell.rivalry .clabel{color:var(--muted-2);}
+  .cell.rivalry .body{color:#d8d4cf;}
+  .cell.rivalry .sword{color:#cdbfd1;}
+  .cell.rivalry .sdots i{border-color:oklch(0.70 0.01 250);}
+  .cell.rivalry .sdots i.on{background:#cdbfd1;border-color:#cdbfd1;}
+  .cell.rivalry .whale{border-top-color:#46443f;color:oklch(0.965 0.003 250);}
+  .cell.rivalry .whale b{color:#cdbfd1;}
+  .corelabel{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:8.5px;
+    text-transform:uppercase;letter-spacing:0.18em;color:var(--muted-2);margin-bottom:10px;}
+
+  /* ── verdict ── */
+  .verdict{margin:24px 0 0;background:var(--paper);border:1px solid var(--line);
+    border-left:3px solid var(--suppliers);border-radius:12px;padding:22px 26px;}
+  .verdict .nlab{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);margin-bottom:9px;}
+  .verdict p{margin:0;font-family:"Fraunces",Georgia,serif;font-size:17px;line-height:1.5;
+    font-weight:400;text-wrap:pretty;letter-spacing:-0.005em;color:var(--ink);}
+  .verdict p b{font-weight:500;}
+  .verdict cite{color:var(--muted);}
+
+  /* altitude relay — makes the three-figure convergence visible */
+  .relay{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:18px 0 0;padding-top:15px;border-top:1px solid var(--line);}
+  .relay .alt{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.12em;color:var(--muted);border:1px solid var(--line-2);border-radius:20px;padding:4px 11px;}
+  .relay .alt.on{color:#fff;background:var(--ink);border-color:var(--ink);}
+  .relay .arrow{color:var(--muted-2);font-family:"JetBrains Mono",monospace;font-size:12px;}
+  .relay .verb{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:16px;color:var(--ink);font-weight:500;letter-spacing:-0.005em;}
+
+  .foot{margin-top:30px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+    font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted-2);line-height:1.9;}
+
+  .figback{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:22px;}
+  .figback:hover{color:var(--ink);}
+
+  @media print{
+    html,body{background:#fff;}
+    .page{padding:32px;}
+    .cell,.verdict{break-inside:avoid;}
+    .figback{display:none;}
+  }
+  .reflink{display:inline-block;margin:26px 0 0;padding-bottom:2px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:oklch(0.56 0.012 250);text-decoration:none;border-bottom:1px solid oklch(0.83 0.006 250);transition:color .14s,border-color .14s;}
+  .reflink:hover{color:oklch(0.27 0.012 250);border-color:oklch(0.27 0.012 250);}
+</style>
+</head>
+<body>
+  <div class="page">
+
+    <a class="figback" href="environment-scan.html">&larr; Environment scan</a>
+    <div class="eyebrow">BUS922 Business Research Capstone · Appendix 2 · Figure A2.1</div>
+    <h1>Porter's Five Forces — freight forwarding</h1>
+    <p class="subtitle">How the freight-forwarding industry is structured — read through Porter's five forces — and what each one means for a smaller, growth-by-acquisition firm like the partner.</p>
+    <p class="scope">Scope: Australian rail, air &amp; sea freight forwarding (ANZSIC 5292); strength ratings follow IBISWorld's own assessment. Sources: IBISWorld 2025; IBISWorld 2026; Container News 2025; Mordor Intelligence 2026. All viewed 28 June 2026.</p>
+
+    <hr class="rule" />
+
+    <div class="diagram">
+
+      <!-- THREAT OF NEW ENTRANTS (top) -->
+      <div class="slot ne">
+        <div class="cell entrants">
+          <div class="chead">
+            <div><div class="cname">Threat of new entrants</div><span class="clabel">Barriers · entry</span></div>
+            <div class="strength"><div class="sdots"><i class="on"></i><i></i><i></i></div><span class="sword">Low</span></div>
+          </div>
+          <p class="body">Little upfront capital is needed, so it is easy to set up — the real barriers are reputation, relationships and skilled staff, harder for small entrants without a recognised brand and &ldquo;established training programs&rdquo; <cite>(IBISWorld 2025, p. 38)</cite>.</p>
+          <p class="whale"><b>For the partner</b>What protects a firm here is its people — their skills and relationships — which can be lost when firms are acquired.</p>
+        </div>
+      </div>
+
+      <!-- BARGAINING POWER OF SUPPLIERS (left) -->
+      <div class="slot sup">
+        <div class="cell suppliers">
+          <div class="chead">
+            <div><div class="cname">Power of suppliers</div><span class="clabel">Strongest force</span></div>
+            <div class="strength"><div class="sdots"><i class="on"></i><i class="on"></i><i class="on"></i></div><span class="sword">High</span></div>
+          </div>
+          <p class="body">The shipping lines control space and pass volatile costs through; sea freight is dominated by a few players that are expanding into logistics themselves <cite>(IBISWorld 2025, 2026; Container News 2025)</cite>.</p>
+          <p class="whale"><b>For the partner</b>A smaller firm has little bargaining power here, so it competes on service and expertise, not price.</p>
+        </div>
+      </div>
+
+      <!-- COMPETITIVE RIVALRY (center) -->
+      <div class="slot riv">
+        <div class="cell rivalry">
+          <div class="corelabel">Core force</div>
+          <div class="chead">
+            <div><div class="cname">Competitive rivalry</div><span class="clabel">Fragmentation · consolidation</span></div>
+            <div class="strength"><div class="sdots"><i class="on"></i><i></i><i></i></div><span class="sword">Low</span></div>
+          </div>
+          <p class="body">The market is split among many small firms (top four &asymp;29%; ~90% have under 20 staff), but larger firms that own more of the supply chain squeeze smaller ones on price, and mergers are common <cite>(IBISWorld 2025)</cite>.</p>
+          <p class="whale"><b>For the partner</b>Smaller firms get by on specialised service and reputation rather than size.</p>
+        </div>
+      </div>
+
+      <!-- BARGAINING POWER OF BUYERS (right) -->
+      <div class="slot buy">
+        <div class="cell buyers">
+          <div class="chead">
+            <div><div class="cname">Power of buyers</div><span class="clabel">Switching · rates</span></div>
+            <div class="strength"><div class="sdots"><i class="on"></i><i class="on"></i><i></i></div><span class="sword">Moderate</span></div>
+          </div>
+          <p class="body">With many firms to choose from and little cost to switching, customers hold the upper hand — tempered only by rate-adjustment clauses in contracts <cite>(IBISWorld 2025)</cite>.</p>
+          <p class="whale"><b>For the partner</b>Standing out on service makes customers less likely to switch away.</p>
+        </div>
+      </div>
+
+      <!-- THREAT OF SUBSTITUTES (bottom) -->
+      <div class="slot sub">
+        <div class="cell substitutes">
+          <div class="chead">
+            <div><div class="cname">Threat of substitutes</div><span class="clabel">Road · in-house · digital</span></div>
+            <div class="strength"><div class="sdots"><i class="on"></i><i class="on"></i><i></i></div><span class="sword">Moderate</span></div>
+          </div>
+          <p class="body">Road freight and (limited) in-house logistics, with online platforms that let customers bypass forwarders an emerging factor <cite>(IBISWorld 2025, 2026; Mordor Intelligence 2026)</cite>.</p>
+          <p class="whale"><b>For the partner</b>The expert, people-led service is the part software can't easily or cheaply replace.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="verdict">
+      <div class="nlab">Structural verdict · the industry</div>
+      <p>A mature, fragmented, low-margin industry with one strong force working against small firms: a handful of powerful shipping lines that smaller players can't match on cost or scale. That leaves little room to compete on price — so small forwarders get by on specialised service and a reputation for expertise rather than price <cite>(IBISWorld 2025)</cite>. Competing on the strength of their people is the realistic route the structure leaves open — which is why developing that capability is <b>necessary</b>, not optional.</p>
+      <div class="relay">
+        <span class="alt">The economy · PESTEL</span>
+        <span class="alt on">The industry · Five Forces</span>
+        <span class="alt">The firm · VRIO</span>
+        <span class="arrow">&rarr;</span>
+        <span class="verb">developing capability is necessary</span>
+      </div>
+    </div>
+
+    <a class="reflink" href="references-bibliography.html">References &amp; bibliography &rarr;</a>
+
+    <!-- figure version: v2 (Jul 2026) — not shown publicly -->
+    <div class="foot">
+      Kali Madden · BUS922 A3 · Dr Nelly Liyanagamage · July 2026<br>
+      Appendix 2 · Porter's Five Forces · Figure A2.1 · best viewed on a laptop or desktop
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,1827 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BUS922 A3 · Evidence landscape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:oklch(0.985 0.002 250);--paper:#ffffff;--ink:oklch(0.27 0.012 250);--ink-2:oklch(0.42 0.014 250);--muted:oklch(0.56 0.012 250);--muted-2:oklch(0.70 0.01 250);
+    --line:oklch(0.905 0.004 250);--line-2:oklch(0.83 0.006 250);
+    --grey:oklch(0.55 0.012 250);--grey-fill:oklch(0.965 0.004 250);
+    --navy:oklch(0.53 0.12 250);--navy-fill:oklch(0.965 0.03 250);
+    --teal:oklch(0.58 0.10 180);--teal-fill:oklch(0.965 0.03 180);--teal-fill-2:oklch(0.98 0.015 180);
+    --coral:oklch(0.63 0.15 30);--coral-fill:oklch(0.96 0.035 30);
+    --crit:oklch(0.52 0.06 285);
+    --convo:oklch(0.70 0.185 55);--convo-fill:oklch(0.965 0.04 55);
+    --green:oklch(0.58 0.10 180);--amber:oklch(0.55 0.012 250);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1280px;margin:0 auto;padding:48px 30px 240px;}
+  .back{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:24px;}
+  .back:hover{color:var(--ink);}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:11px;text-transform:uppercase;
+    letter-spacing:0.16em;color:var(--grey);}
+  h1{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:34px;line-height:1.12;
+    letter-spacing:-0.015em;margin:13px 0 0;text-wrap:balance;}
+  .lede{color:var(--muted);font-size:14.5px;line-height:1.65;max-width:84ch;margin:15px 0 0;}
+  .lede b{color:var(--ink-2);font-weight:500;}
+
+  /* ---- top bar: gate + legend ---- */
+  .bar{display:flex;gap:18px;flex-wrap:wrap;align-items:center;margin:24px 0 0;
+    padding:14px 18px;background:var(--paper);border:1px solid var(--line);border-radius:12px;}
+  .gate{display:flex;align-items:baseline;gap:9px;}
+  .gate .n{font-family:"Fraunces",Georgia,serif;font-size:30px;color:var(--green);line-height:1;}
+  .gate .lab{font-size:12px;color:var(--ink-2);line-height:1.4;max-width:34ch;}
+  .gate .lab b{color:var(--ink);}
+  .gate.ft .n{color:var(--navy);}
+  .spacer{flex:1;min-width:10px;}
+  .legend{display:flex;gap:7px 16px;flex-wrap:wrap;font-size:10.5px;color:var(--muted);align-items:center;}
+  .legend .it{display:inline-flex;gap:6px;align-items:center;white-space:nowrap;}
+  .legend .sw{width:11px;height:11px;border-radius:3px;}
+  .legend svg{display:block;}
+
+  /* ---- toolbar ---- */
+  .toolbar{margin:12px 0 0;display:flex;flex-direction:column;gap:10px;
+    padding:14px 18px;background:var(--paper);border:1px solid var(--line);border-radius:12px;}
+  .trow{display:flex;gap:9px;flex-wrap:wrap;align-items:center;}
+  .tlabel{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--muted-2);margin-right:4px;}
+  .chip{font-family:"JetBrains Mono",monospace;font-size:11px;letter-spacing:0.02em;
+    border:1px solid var(--line-2);background:#fff;color:var(--ink-2);border-radius:7px;
+    padding:6px 11px;cursor:pointer;transition:.14s;line-height:1;}
+  .chip:hover{border-color:var(--grey);}
+  .chip.on{background:var(--ink);border-color:var(--ink);color:#fff;}
+  .chip.convo-chip.on{background:var(--convo);border-color:var(--convo);}
+  .chip.chain-chip{border-style:dashed;}
+  .chip.chain-chip.on{background:var(--teal);border-color:var(--teal);}
+  .seg{display:inline-flex;border:1px solid var(--line-2);border-radius:7px;overflow:hidden;}
+  .seg .chip{border:0;border-radius:0;border-right:1px solid var(--line-2);}
+  .seg .chip:last-child{border-right:0;}
+  .toggle{font-family:"JetBrains Mono",monospace;font-size:11px;border:1px solid var(--line-2);
+    background:#fff;color:var(--ink-2);border-radius:7px;padding:6px 11px;cursor:pointer;
+    display:inline-flex;gap:8px;align-items:center;transition:.14s;}
+  .toggle:hover{border-color:var(--green);}
+  .toggle.on{background:var(--teal-fill);border-color:var(--green);color:var(--green);}
+  .toggle .dot{width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;}
+  .toggle.on .dot{background:var(--green);}
+
+  /* ---- diagram ---- */
+  #diagram{position:relative;margin-top:18px;}
+  #links{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible;}
+  .edge{fill:none;stroke:var(--ink-2);opacity:.85;transition:opacity .2s;}
+  .edge.mechanistic{stroke-width:2.4;}
+  .edge.defensible{stroke-width:1.8;opacity:.7;}
+  .edge.interpretive{stroke-width:1.3;opacity:.6;}
+  .edge.consistent-with{stroke-width:1.2;stroke-dasharray:3 4;opacity:.6;}
+  .edge.chain{stroke:var(--teal);stroke-width:2.6;opacity:.9;}
+  .edge.hl{stroke:var(--convo);stroke-width:2.6;opacity:.95;}
+  .edge.resting{opacity:.15;stroke-width:1.3;}
+  .edge.resting.chain{opacity:.32;stroke-width:1.7;}
+  .edge.resting.hl{opacity:.24;stroke-width:1.6;}
+  .edge.hoveredge{opacity:.95;}
+  .node.hdim,.lens.hdim,.lane-head.hdim{opacity:.2;}
+
+  .band{position:relative;z-index:2;margin-top:14px;}
+  .blab{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--muted);margin:22px 0 10px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+  .blab .reg{padding:2px 9px;border-radius:5px;font-size:9px;letter-spacing:0.08em;}
+  .reg.grey{background:var(--grey-fill);color:var(--grey);}
+  .reg.navy{background:var(--navy-fill);color:var(--navy);}
+  .reg.design{background:var(--teal-fill);color:var(--teal);}
+  .reg.coral{background:var(--coral-fill);color:var(--coral);}
+  .blab .hint{color:var(--muted-2);text-transform:none;letter-spacing:0;font-size:11.5px;font-style:italic;}
+
+  /* grey instrument lenses */
+  #instruments{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .lens{background:#fff;border:1px solid var(--line);border-radius:11px;padding:15px 16px;cursor:pointer;
+    border-left:3px solid var(--grey);transition:.16s;}
+  .lens:hover,.lens.active{box-shadow:0 10px 26px -18px rgba(0,0,0,.45);border-color:var(--grey);}
+  .lens-head{display:flex;align-items:baseline;justify-content:space-between;gap:8px;}
+  .lens-head h4{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:19px;margin:0;color:#2C2C2A;white-space:nowrap;}
+  .owns{font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:0.05em;
+    text-transform:uppercase;color:var(--grey);text-align:right;}
+  .lens-sub{font-size:11px;color:var(--grey);margin:1px 0 9px;}
+  .lens-find{font-size:11.5px;line-height:1.5;color:var(--ink-2);}
+  .lens-find .conf{display:block;margin-top:6px;font-style:italic;color:var(--grey);font-size:10.5px;}
+  .gsrc{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:11px;
+    padding-top:10px;border-top:1px solid rgba(95,94,90,.25);}
+  .gsrc-lab{font-family:"JetBrains Mono",monospace;font-size:8px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--muted-2);}
+  .gchip{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.01em;
+    background:#fff;border:1px solid var(--line-2);color:var(--grey);border-radius:5px;padding:3px 7px;
+    text-decoration:none;cursor:pointer;display:inline-flex;gap:4px;align-items:center;transition:.12s;}
+  .gchip:hover{border-color:var(--grey);color:var(--ink);}
+  .gchip .ext{opacity:.5;font-size:8px;}
+  .gchip.dir{opacity:.7;border-style:dashed;}
+  .gchip.nolink{font-family:"JetBrains Mono",monospace;}
+  .figlink{display:inline-flex;gap:5px;align-items:center;margin-top:11px;
+    font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--grey);text-decoration:none;border-bottom:1px solid transparent;transition:.14s;}
+  .figlink:hover{color:var(--ink);border-bottom-color:var(--line-2);}
+  .figlink .ext{opacity:.6;font-size:9px;}
+
+  /* generic node chips */
+  .nodes{display:flex;gap:9px;flex-wrap:wrap;}
+  .node{display:inline-flex;align-items:center;gap:9px;border-radius:8px;padding:8px 12px;
+    border:1px solid var(--line-2);border-left-width:3px;background:#fff;cursor:pointer;transition:.14s;
+    font-size:12.5px;color:var(--ink-2);font-family:inherit;text-align:left;}
+  .node:hover,.node.active{transform:translateY(-1px);box-shadow:0 8px 20px -14px rgba(0,0,0,.45);}
+  .node .rk{width:9px;height:9px;border-radius:50%;flex:none;background:var(--amber);}
+  .node.green .rk{background:var(--green);}
+  .node .ref{line-height:1.25;}
+  .node .yr{color:var(--muted);font-variant-numeric:tabular-nums;}
+  .node .rankdots{font-size:8px;letter-spacing:1px;color:var(--green);line-height:1;}
+  .node.amber .rankdots,.node .rankdots.none{color:var(--muted-2);}
+  .node .ft50{font-family:"JetBrains Mono",monospace;font-size:7.5px;letter-spacing:0.06em;
+    background:var(--navy);color:#fff;border-radius:3px;padding:1px 4px;}
+  .node[data-register="problem"]{border-left-color:var(--navy);}
+  .node[data-register="design"]{border-left-color:var(--teal);}
+  .node[data-register="critical"]{border-left-color:var(--crit);}
+  .node[data-register="postA3"]{border-left-color:var(--muted-2);border-style:dashed;}
+  .node.frame{background:oklch(0.975 0.004 250);}
+  .node.fenced,.node.suppl{opacity:.82;}
+  .node.dim-perm{opacity:.6;}
+  .node.dim{opacity:.16;filter:grayscale(.5);pointer-events:none;}
+  .lens.dim{opacity:.16;filter:grayscale(.5);}
+
+  /* design lanes */
+  #designLanes{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;align-items:start;}
+  .lane{background:#fff;border:1px solid var(--line);border-top:2px solid var(--teal);border-radius:12px;padding:13px 13px 14px;
+    display:flex;flex-direction:column;transition:.16s;}
+  .lane.headline{border-color:var(--teal);background:var(--teal-fill-2);box-shadow:0 12px 32px -24px rgba(15,110,86,.5);}
+  .lane-head{cursor:pointer;}
+  .lane-id{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.06em;color:var(--teal);
+    display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .hbadge{background:var(--teal);color:#fff;border-radius:4px;padding:1px 6px;font-size:8px;letter-spacing:0.08em;}
+  .lane-head h3{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:17px;line-height:1.16;
+    margin:7px 0 0;color:#04342C;}
+  .lane-gist{font-size:11px;line-height:1.5;color:var(--ink-2);margin:8px 0 0;}
+  .lane-nodes{display:flex;flex-direction:column;gap:7px;margin-top:12px;}
+  .lane-nodes .node{width:100%;}
+
+  /* hinge — calm: paper ground, soft left accent, muted coral (companion recipe) */
+  .hinge{position:relative;z-index:2;margin-top:16px;background:color-mix(in oklch, var(--grey) 3.5%, var(--paper));
+    border:1px solid var(--line);border-left:3px solid color-mix(in oklch, var(--grey) 42%, var(--line));
+    border-radius:10px;padding:17px 22px;}
+  .hinge .tag{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.1em;
+    text-transform:uppercase;color:color-mix(in oklch, var(--grey) 60%, var(--muted));}
+  .hinge-legs{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:12px 0 0;}
+  .leg{background:#fff;border:1px solid var(--grey);border-radius:8px;padding:9px 11px;}
+  .leg .k{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.06em;text-transform:uppercase;color:var(--grey);}
+  .leg .v{font-size:11px;line-height:1.45;color:oklch(0.34 0.012 250);margin-top:4px;}
+  .hinge .gap{font-family:"Fraunces",Georgia,serif;font-size:18px;line-height:1.45;color:oklch(0.32 0.010 250);
+    margin:13px 0 0;max-width:78ch;text-wrap:pretty;}
+  .hinge .gap em{font-style:italic;color:color-mix(in oklch, var(--grey) 68%, var(--muted));}
+  .hinge .note{font-size:11.5px;color:var(--ink-2);opacity:.9;margin:10px 0 0;max-width:74ch;font-style:italic;}
+  .hinge .defer{margin:13px 0 0;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.04em;
+    text-transform:uppercase;color:color-mix(in oklch, var(--grey) 55%, var(--muted));opacity:.9;border-top:1px dashed var(--line);padding-top:11px;}
+  .hinge .defer b{font-weight:500;}
+  .hinge-fig{display:inline-block;margin:11px 0 0;font-family:"JetBrains Mono",monospace;font-size:10px;
+    letter-spacing:0.06em;text-transform:uppercase;color:var(--grey);text-decoration:none;
+    border-bottom:1px solid transparent;padding-bottom:1px;transition:.14s;}
+  .hinge-fig:hover{color:var(--ink);border-color:var(--line-2);}
+  .hinge-fig .ext{opacity:.6;font-size:9px;}
+  .hinge-fig.inline{margin:0;display:inline;font-size:inherit;letter-spacing:inherit;color:var(--grey);
+    border-bottom-color:transparent;}
+  .hinge-swot{margin:12px 0 0;}
+  .hinge-swot > summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:9px;
+    padding:7px 10px;background:var(--paper);border:1px solid var(--grey);border-radius:8px;transition:.14s;}
+  .hinge-swot > summary::-webkit-details-marker{display:none;}
+  .hinge-swot > summary::marker{content:"";}
+  .hinge-swot > summary:hover{border-color:color-mix(in oklch, var(--grey) 55%, var(--ink));}
+  .hq-chips{display:inline-flex;gap:4px;}
+  .hq{width:18px;height:18px;border-radius:5px;display:grid;place-items:center;
+    font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:600;color:#fff;}
+  .hq.o{background:var(--navy);} .hq.w{background:var(--coral);}
+  .hq.s{background:var(--teal);} .hq.t{background:var(--coral);}
+  .hq-lab{flex:1;font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--grey);}
+  .hq-i{flex:none;width:17px;height:17px;border-radius:50%;border:1px solid var(--grey);color:var(--grey);
+    display:grid;place-items:center;font-family:Georgia,serif;font-style:italic;font-size:10px;line-height:1;}
+  .hinge-swot[open] > summary{margin-bottom:8px;border-color:color-mix(in oklch, var(--grey) 55%, var(--ink));}
+  .hinge-swot[open] .hq-i{background:var(--grey);color:#fff;border-color:var(--grey);}
+  .hinge-swot .hinge-legs{grid-template-columns:1fr;gap:7px;margin:0;}
+  .triple{margin:11px 0 0;display:inline-flex;gap:9px;align-items:center;background:var(--paper);
+    border:1px dashed color-mix(in oklch, var(--grey) 30%, var(--line));
+    border-radius:8px;padding:8px 12px;cursor:default;}
+  .triple .tk{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;color:color-mix(in oklch, var(--grey) 55%, var(--muted));}
+  .triple .tv{font-size:11.5px;color:var(--ink-2);}
+  .triple .tv b{font-family:"Fraunces",serif;font-weight:400;font-style:italic;}
+
+  /* flow ticks */
+  .tick{position:relative;z-index:2;display:flex;justify-content:center;color:var(--muted-2);font-size:18px;margin:8px 0 2px;}
+
+  /* convo banner */
+  #convo-banner{display:none;position:relative;z-index:2;margin:18px 0 0;background:#fff;
+    border:1px solid var(--convo);border-left-width:3px;border-radius:10px;padding:13px 17px;}
+  .cname{font-family:"Fraunces",serif;font-size:16px;color:oklch(0.30 0.012 250);}
+  .clin{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.06em;color:var(--convo);margin-left:10px;}
+  .cdesc{font-size:12px;line-height:1.55;color:var(--ink-2);margin-top:7px;max-width:92ch;}
+
+  /* detail panel */
+  .panel{position:fixed;left:0;right:0;bottom:0;background:rgba(251,250,246,.97);
+    border-top:1px solid var(--line);backdrop-filter:blur(8px);z-index:50;
+    box-shadow:0 -12px 30px -22px rgba(0,0,0,.4);}
+  .panel-in{max-width:1280px;margin:0 auto;padding:15px 30px 17px;display:flex;gap:26px;align-items:flex-start;}
+  .panel .meta{flex:none;width:172px;}
+  .rankchip{display:inline-flex;gap:7px;align-items:center;font-family:"JetBrains Mono",monospace;
+    font-size:10.5px;border-radius:7px;padding:6px 10px;border:1px solid;line-height:1.3;}
+  .rankchip.green{color:var(--green);border-color:rgba(15,110,86,.4);background:var(--teal-fill-2);}
+  .rankchip.amber{color:var(--grey);border-color:var(--line-2);background:var(--grey-fill);}
+  .rankchip.grey{color:var(--grey);border-color:var(--line-2);background:var(--grey-fill);}
+  .rankchip .dots{letter-spacing:1px;}
+  .reglab{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.06em;
+    text-transform:uppercase;color:var(--muted);margin-top:9px;line-height:1.5;}
+  .panel .body{flex:1;min-width:0;}
+  .panel .ttl{font-family:"Fraunces",Georgia,serif;font-size:17px;line-height:1.3;color:var(--ink);margin:0;}
+  .panel .ttl .yr{color:var(--muted);font-size:14px;}
+  .panel .role{font-size:12.5px;color:var(--ink-2);line-height:1.55;margin:7px 0 0;max-width:108ch;}
+  .panel .role b{color:var(--teal);font-weight:600;}
+  .panel .role .conf{color:var(--grey);font-style:italic;}
+  .panel .role.cite{font-family:"Inter",sans-serif;color:var(--muted);font-size:12px;}
+
+  .foot{position:relative;z-index:2;margin-top:38px;font-family:"JetBrains Mono",monospace;
+    font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted-2);line-height:1.9;}
+
+  @media (max-width:1080px){
+    #instruments{grid-template-columns:1fr;}
+    #designLanes{grid-template-columns:1fr 1fr;}
+    .hinge-legs{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width:640px){#designLanes{grid-template-columns:1fr;}.panel-in{flex-direction:column;gap:10px;}.panel .meta{width:auto;}}
+  @media print{html,body{background:#fff;}.toolbar,.bar,.back{display:none;}.node.dim,.lens.dim{opacity:1;filter:none;}}
+
+  /* ============================================================
+     HORIZONTAL LAYOUT (v2) — overrides the vertical bands
+     ============================================================ */
+  .wrap{max-width:1820px;}
+  .hscroll{overflow-x:auto;overflow-y:visible;padding-bottom:8px;position:relative;}
+  .hstack{display:flex;flex-direction:column;gap:24px;}
+  .hrow{display:flex;gap:16px;align-items:flex-start;min-width:max-content;}
+  .hrow.lower{gap:16px;}
+  .hcol{display:flex;flex-direction:column;gap:0;}
+  .gapcol{width:264px;flex:none;}
+  .hingecol{width:300px;flex:none;}
+  .widecol{width:430px;flex:none;}
+  .colhead{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.06em;
+    text-transform:uppercase;color:var(--muted);margin:0 0 12px;display:flex;gap:9px;align-items:center;flex-wrap:wrap;line-height:1.5;}
+  .colhead .reg{padding:3px 9px;border-radius:5px;font-size:9.5px;letter-spacing:0.06em;}
+  .colhead .hint{text-transform:none;letter-spacing:0;font-style:italic;color:var(--muted-2);font-size:10.5px;}
+  .subhead{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--muted-2);margin:16px 0 8px;display:flex;gap:7px;align-items:baseline;flex-wrap:wrap;}
+  .subhead:first-of-type{margin-top:0;}
+  .subhead .hint{text-transform:none;letter-spacing:0;font-style:italic;font-size:10px;}
+  .subhead.navy{color:var(--navy);}
+
+  /* compact grey lenses — (legacy: when in a narrow column) */
+  #instruments{display:flex;flex-direction:column;gap:8px;}
+  .gapcol .lens{padding:11px 12px;border-radius:9px;}
+  .gapcol .lens .lens-sub,.gapcol .lens .lens-find{display:none;}
+  .gapcol .lens .lens-head{align-items:center;}
+  .gapcol .lens .lens-head h4{font-size:16px;}
+  .gapcol .lens .owns{display:none;}
+  .gapcol .lens .gsrc{margin-top:9px;padding-top:9px;}
+
+  /* FOUNDATION — environment scan as full-width bedrock */
+  .foundation{width:100%;background:color-mix(in oklch, var(--grey) 5%, var(--paper));
+    border:1px solid var(--line);border-top:3px solid color-mix(in oklch, var(--grey) 40%, var(--line));
+    border-radius:11px;padding:16px 18px 18px;}
+  .foundation .colhead{margin-bottom:13px;}
+  .foundation #instruments{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .foundation .lens{background:var(--paper);}
+
+  /* problem academic nodes stack vertically in the narrow gap column */
+  .nodes.vert{flex-direction:column;gap:8px;}
+  .nodes.vert .node{width:100%;}
+
+  /* design pipeline — the four DP lanes become the right-hand columns */
+  #designLanes{display:flex;flex-direction:row;gap:16px;}
+  .desgroup{display:flex;flex-direction:column;}
+  .desgroup .colhead.design{margin-bottom:12px;}
+  #designLanes .lane{width:236px;flex:none;}
+
+  /* hinge fits its column */
+  .hingecol .hinge{margin-top:0;}
+  .hingecol .hinge .gap{font-size:16px;}
+
+  /* lower band cards wrap */
+  .hrow.lower .nodes{display:flex;flex-wrap:wrap;gap:8px;}
+
+  @media print{.hscroll{overflow:visible;}}
+  .reflink{display:inline-block;margin:26px 0 0;padding-bottom:2px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:oklch(0.56 0.012 250);text-decoration:none;border-bottom:1px solid oklch(0.83 0.006 250);transition:color .14s,border-color .14s;}
+  .reflink:hover{color:oklch(0.27 0.012 250);border-color:oklch(0.27 0.012 250);}
+
+  /* ============================================================
+     DISCIPLINE LAYER (v3) — family colour · convergence · 2nd view
+     Node left-accent now encodes the SOURCE-LITERATURE FAMILY;
+     register is carried by the column/section it sits in.
+     Families (oklch, shared chroma ~0.09, varied hue):
+     ============================================================ */
+  :root{
+    --fam-sm: oklch(0.64 0.14 256);   /* Strategic management & M&A — blue (aligns site navy) */
+    --fam-ls: oklch(0.62 0.07 245);  /* Learning sciences — teal (aligns site design teal) */
+    --fam-km: oklch(0.86 0.15 101);    /* Knowledge management — ochre */
+    --fam-lscm:oklch(0.64 0.13 150);   /* Logistics & supply chain management — green (Richey; new B4) */
+    --fam-csc: oklch(0.64 0.13 330);   /* Complex systems science — magenta (Scheffer; new B4) */
+    --fam-whrd:oklch(0.60 0.12 25);    /* Workforce & HRD — terracotta/brick (SME-context sixth family; B1) */
+    --fam-ctx:oklch(0.62 0.012 250);   /* Context framing — warm grey (not a discipline) */
+  }
+  .lgd-lab{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted-2);}
+
+  /* per-node family accent (overrides the register border set earlier) */
+  .node[data-family="SM"]{border-left-color:var(--fam-sm);}
+  .node[data-family="LS"]{border-left-color:var(--fam-ls);}
+  .node[data-family="KM"]{border-left-color:var(--fam-km);}
+  .node[data-family="LSCM"]{border-left-color:var(--fam-lscm);}
+  .node[data-family="CSC"]{border-left-color:var(--fam-csc);}
+  .node[data-family="WHRD"]{border-left-color:var(--fam-whrd);}
+  .node[data-family="CTX"]{border-left-color:var(--fam-ctx);}
+
+  /* family swatch + tag (detail panel, chips) */
+  .fsw{width:10px;height:10px;border-radius:3px;display:inline-block;flex:none;}
+  .fsw.sm{background:var(--fam-sm);} .fsw.ls{background:var(--fam-ls);} .fsw.km{background:var(--fam-km);} .fsw.lscm{background:var(--fam-lscm);} .fsw.csc{background:var(--fam-csc);} .fsw.whrd{background:var(--fam-whrd);} .fsw.ctx{background:var(--fam-ctx);}
+  .famtag{display:inline-flex;align-items:center;gap:7px;font-family:"JetBrains Mono",monospace;font-size:10px;
+    letter-spacing:0.02em;padding:3px 9px;border-radius:6px;border:1px solid;line-height:1.35;}
+  .famtag::before{content:"";width:8px;height:8px;border-radius:2px;background:currentColor;}
+  .famtag.sm{color:var(--fam-sm);border-color:color-mix(in oklch,var(--fam-sm) 40%,transparent);background:color-mix(in oklch,var(--fam-sm) 8%,var(--paper));}
+  .famtag.ls{color:var(--fam-ls);border-color:color-mix(in oklch,var(--fam-ls) 40%,transparent);background:color-mix(in oklch,var(--fam-ls) 8%,var(--paper));}
+  .famtag.km{color:var(--fam-km);border-color:color-mix(in oklch,var(--fam-km) 40%,transparent);background:color-mix(in oklch,var(--fam-km) 10%,var(--paper));}
+  .famtag.lscm{color:var(--fam-lscm);border-color:color-mix(in oklch,var(--fam-lscm) 40%,transparent);background:color-mix(in oklch,var(--fam-lscm) 8%,var(--paper));}
+  .famtag.csc{color:var(--fam-csc);border-color:color-mix(in oklch,var(--fam-csc) 40%,transparent);background:color-mix(in oklch,var(--fam-csc) 8%,var(--paper));}
+  .famtag.whrd{color:var(--fam-whrd);border-color:color-mix(in oklch,var(--fam-whrd) 40%,transparent);background:color-mix(in oklch,var(--fam-whrd) 8%,var(--paper));}
+  .famtag.ctx{color:oklch(0.50 0.012 250);border-color:var(--line-2);background:var(--grey-fill);}
+  .dislab{margin-top:9px;}
+
+  /* ---- SME-context standpoint sub-groups (the gap column) ---- */
+  .sp-intro{font-size:11.5px;line-height:1.55;color:var(--muted);margin:2px 0 4px;max-width:34ch;}
+  .sp-group{margin-top:12px;}
+  .sp-head{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap;margin:0 0 6px;
+    font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.06em;text-transform:uppercase;color:var(--ink-2);}
+  .sp-head .sp-n{color:var(--navy);font-weight:500;}
+  .sp-head .sp-hint{text-transform:none;letter-spacing:0;font-style:italic;color:var(--muted-2);font-size:10.5px;}
+  .sp-group .nodes.vert{gap:5px;}
+
+  /* ---- tension flag: clickable ⚠ on nodes + panel block ---- */
+  .node .warn{font-family:"JetBrains Mono",monospace;font-size:9px;line-height:1;color:oklch(0.58 0.15 45);
+    border:1px solid color-mix(in oklch,oklch(0.58 0.15 45) 45%,transparent);border-radius:3px;padding:1px 3px;margin-left:2px;}
+  .node .warn.hard{color:#fff;background:oklch(0.58 0.15 45);border-color:oklch(0.58 0.15 45);}
+  .tension{margin-top:12px;padding:10px 12px;border-radius:9px;font-size:11.5px;line-height:1.5;
+    background:oklch(0.97 0.03 55);border:1px solid color-mix(in oklch,oklch(0.6 0.14 45) 32%,transparent);color:var(--ink-2);}
+  .tension .tlab{display:block;font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:0.1em;
+    text-transform:uppercase;color:oklch(0.52 0.15 40);margin-bottom:4px;}
+  .tension.hard{background:oklch(0.95 0.05 40);border-color:color-mix(in oklch,oklch(0.58 0.16 38) 55%,transparent);}
+  .provtag{display:inline-flex;align-items:center;gap:5px;margin-top:8px;font-family:"JetBrains Mono",monospace;
+    font-size:9px;letter-spacing:0.05em;text-transform:uppercase;color:var(--muted);}
+  .provtag .pd{width:7px;height:7px;border-radius:50%;background:var(--muted-2);}
+  .confcode{margin-top:9px;font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.02em;color:var(--grey);}
+  .confcode b{color:var(--ink-2);font-weight:500;}
+
+  /* family focus chips */
+  .chip.fam-chip{display:inline-flex;align-items:center;gap:7px;}
+  .chip.fam-chip.on{color:#fff;}
+  .chip.fam-chip[data-fam="SM"].on{background:var(--fam-sm);border-color:var(--fam-sm);}
+  .chip.fam-chip[data-fam="LS"].on{background:var(--fam-ls);border-color:var(--fam-ls);}
+  .chip.fam-chip[data-fam="KM"].on{background:var(--fam-km);border-color:var(--fam-km);}
+  .chip.fam-chip[data-fam="LSCM"].on{background:var(--fam-lscm);border-color:var(--fam-lscm);}
+  .chip.fam-chip[data-fam="CSC"].on{background:var(--fam-csc);border-color:var(--fam-csc);}
+  .chip.fam-chip[data-fam="WHRD"].on{background:var(--fam-whrd);border-color:var(--fam-whrd);}
+  .chip.fam-chip.on .fsw{background:#fff;}
+
+  /* DP3 cross-disciplinary 'warranted-from' badge */
+  .xdbadge{margin-top:11px;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap;
+    font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.01em;line-height:1.4;
+    padding:7px 9px;border-radius:8px;background:var(--paper);
+    border:1px solid color-mix(in oklch,var(--fam-sm) 32%,var(--line));}
+  .xdbadge .xd-ic{font-size:13px;color:var(--ink-2);line-height:1;}
+  .xdbadge b.fx{font-weight:500;padding:1px 5px;border-radius:4px;}
+  .xdbadge b.ls{color:var(--fam-ls);background:color-mix(in oklch,var(--fam-ls) 13%,var(--paper));}
+  .xdbadge b.sm{color:var(--fam-sm);background:color-mix(in oklch,var(--fam-sm) 13%,var(--paper));}
+
+  /* cross-family (convergence) edges — literally two literatures meeting */
+  .edge.famcross{stroke-width:2.6;opacity:.9;stroke-linecap:round;}
+  .edge.famcross.resting{opacity:.42;stroke-width:2;}
+  .edge.famcross.focusedge{stroke-width:3;opacity:.98;}
+
+  /* ---- discipline (second) view ---- */
+  .viewpane[hidden]{display:none;}
+  #dlinks{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible;}
+  .dstack{min-width:max-content;position:relative;}
+  .dnote{position:relative;z-index:2;max-width:96ch;font-size:12.5px;line-height:1.6;color:var(--ink-2);
+    background:var(--paper);border:1px solid var(--line);border-left:3px solid var(--coral);
+    border-radius:10px;padding:13px 17px;margin-bottom:18px;}
+  .dnote b{color:var(--ink);font-weight:600;}
+  .dnote .kx{font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--coral);}
+  .drow{display:flex;gap:16px;align-items:flex-start;min-width:max-content;position:relative;z-index:2;}
+  .dcol{width:250px;flex:none;background:#fff;border:1px solid var(--line);border-top:2px solid var(--line-2);
+    border-radius:12px;padding:14px 14px 16px;}
+  .dcol.fam-sm{border-top-color:var(--fam-sm);}
+  .dcol.fam-ls{border-top-color:var(--fam-ls);}
+  .dcol.fam-km{border-top-color:var(--fam-km);}
+  .dcol.fam-lscm{border-top-color:var(--fam-lscm);}
+  .dcol.fam-csc{border-top-color:var(--fam-csc);}
+  .dcol.fam-whrd{border-top-color:var(--fam-whrd);}
+  .dcol.fam-ctx{border-top-color:var(--fam-ctx);background:color-mix(in oklch,var(--grey) 3%,#fff);}
+  .dcolhead{display:flex;align-items:center;gap:9px;font-family:"Fraunces",Georgia,serif;font-size:16px;
+    color:#2a2a27;padding-bottom:11px;margin-bottom:2px;border-bottom:1px solid var(--line);}
+  .dcolhead .dsw{width:12px;height:12px;border-radius:3px;flex:none;}
+  .dcolhead .dsw.sm{background:var(--fam-sm);} .dcolhead .dsw.ls{background:var(--fam-ls);} .dcolhead .dsw.km{background:var(--fam-km);} .dcolhead .dsw.lscm{background:var(--fam-lscm);} .dcolhead .dsw.csc{background:var(--fam-csc);} .dcolhead .dsw.whrd{background:var(--fam-whrd);} .dcolhead .dsw.ctx{background:var(--fam-ctx);}
+  .dcolhead .dct{margin-left:auto;font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--muted);font-weight:400;}
+  .dsub{margin-top:13px;}
+  .dsubhead{font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:0.09em;text-transform:uppercase;
+    color:var(--muted-2);margin-bottom:8px;}
+  .dnodes{display:flex;flex-direction:column;gap:7px;}
+  .dnodes .node{width:100%;}
+  .instrument-chip{opacity:.92;}
+
+  /* post-A3 (out-of-scope) pipeline lanes — DP5 / DP6 dimmed */
+  .lane.postA3{border-top-color:var(--line-2);border-top-style:dashed;
+    background:color-mix(in oklch, var(--grey) 3.5%, #fff);}
+  .lane.postA3 .lane-id{color:var(--muted);}
+  .lane.postA3 .lane-head h3{color:#4a4843;}
+  .lane.postA3 .lane-gist{color:var(--muted);}
+  .lane.postA3::before{content:"post-A3";position:absolute;top:-9px;left:12px;
+    font-family:"JetBrains Mono",monospace;font-size:8px;letter-spacing:0.1em;text-transform:uppercase;
+    color:var(--muted-2);background:var(--bg);padding:0 6px;}
+  .lane.postA3{position:relative;}
+  #designLanes .lane.postA3{opacity:.9;}
+
+  /* critical-engagement positioning strip (full width under the pipeline) */
+  .critstrip{width:100%;margin-top:6px;}
+  .critstrip .colhead{margin-bottom:10px;}
+  .critstrip .nodes{display:flex;flex-wrap:wrap;gap:8px;}
+
+  /* context-framing chip in the hinge column */
+  .hingectx{margin-top:14px;}
+  .hingectx .subhead{margin:0 0 8px;padding-top:0;border-top:0;}
+  .hingectx .subhead .reg{padding:3px 9px;border-radius:5px;font-size:9.5px;letter-spacing:0.06em;}
+
+  /* ground · peer-reviewed ENV anchor (Richey; new B4) */
+  .groundanchor{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 14px;}
+  .groundanchor .ga-lab{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.1em;text-transform:uppercase;color:var(--fam-lscm);display:flex;flex-direction:column;gap:2px;}
+  .groundanchor .ga-sub{color:var(--muted-2);letter-spacing:0.06em;}
+
+  /* how-to-use strip (instructional; mirrors the EDGI902 companion, in the clear-light palette) */
+  .howto{
+    margin:10px 0 2px;padding:10px 14px;
+    border:1px solid var(--line);border-radius:6px;
+    background:var(--grey-fill);
+    display:flex;flex-wrap:wrap;gap:6px 20px;align-items:baseline;
+    font-size:11.5px;color:var(--ink-2);line-height:1.55;
+  }
+  .howto .h{
+    font-family:"JetBrains Mono",monospace;font-size:9.5px;
+    text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);
+    margin-right:2px;
+  }
+  .howto .tip{display:inline-flex;align-items:baseline;gap:6px;}
+  .howto kbd{
+    font-family:"JetBrains Mono",monospace;font-size:10px;
+    background:var(--paper);border:1px solid var(--line);border-bottom-width:1.5px;
+    border-radius:3px;padding:1px 5px;color:var(--ink);
+    text-transform:none;letter-spacing:0;white-space:nowrap;
+  }
+  .howto .sep{color:var(--line-2);}
+  @media print{ .howto{background:transparent;} }
+
+  /* ---- block explainer: "i" affordance + docked reading panel ---- */
+  .ibtn{appearance:none;font-family:"Fraunces",Georgia,serif;font-style:italic;font-weight:500;
+    font-size:12px;line-height:1;width:19px;height:19px;flex:none;border-radius:50%;
+    border:1px solid var(--line-2);background:#fff;color:var(--muted);cursor:pointer;padding:0;
+    display:inline-flex;align-items:center;justify-content:center;transition:.14s;vertical-align:middle;}
+  .ibtn:hover{border-color:var(--ink-2);color:var(--ink);}
+  .ibtn.on{background:var(--crit);border-color:var(--crit);color:#fff;}
+  .subhead .ibtn,.hinge .tag .ibtn{margin-left:2px;}
+  .lane-id .ibtn{margin-left:auto;}
+
+  #explainer{position:sticky;left:0;align-self:flex-start;width:min(1080px,100%);
+    z-index:4;background:var(--paper);
+    border:1px solid var(--line);border-left:3px solid var(--crit);border-radius:12px;
+    box-shadow:0 18px 46px -30px rgba(0,0,0,.6);}
+  #explainer[hidden]{display:none;}
+  .exp-in{padding:16px 22px 20px;}
+  .exp-head{display:flex;align-items:flex-start;gap:18px;justify-content:space-between;
+    padding-bottom:12px;margin-bottom:14px;border-bottom:1px solid var(--line);}
+  .exp-eyebrow{display:flex;flex-direction:column;gap:5px;min-width:0;}
+  .exp-lab{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.14em;
+    text-transform:uppercase;color:var(--crit);}
+  .exp-title{font-family:"Fraunces",Georgia,serif;font-size:20px;line-height:1.18;color:var(--ink);}
+  .exp-controls{display:flex;align-items:center;gap:10px;flex:none;}
+  .exp-reg{display:inline-flex;border:1px solid var(--line-2);border-radius:7px;overflow:hidden;}
+  .exp-reg .chip{border:0;border-radius:0;border-right:1px solid var(--line-2);font-size:10.5px;}
+  .exp-reg .chip:last-child{border-right:0;}
+  .exp-reg .chip.on{background:var(--crit);border-color:var(--crit);color:#fff;}
+  .exp-close{appearance:none;border:1px solid var(--line-2);background:#fff;color:var(--muted);
+    width:28px;height:28px;border-radius:7px;cursor:pointer;font-size:18px;line-height:1;transition:.14s;}
+  .exp-close:hover{border-color:var(--ink-2);color:var(--ink);}
+  .exp-body{font-size:14.5px;line-height:1.72;color:var(--ink-2);max-width:74ch;text-wrap:pretty;}
+  .exp-body p{margin:0;}
+  @media (max-width:640px){.exp-head{flex-direction:column;gap:12px;}}
+  @media print{#explainer{box-shadow:none;break-inside:avoid;}}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Index</a>
+    <div class="eyebrow">BUS922 A3</div>
+    <h1>The evidence landscape</h1>
+    <p class="lede">The same evidence, read <b>left to right</b>: the <b>problem &mdash; the gap</b> (the industry scan + the academic mergers-and-acquisitions research) opens into <b>the synthesis</b>, which opens into <b>the design pipeline</b> (DP1 &rarr; DP4). Every paper is a dot, <b>tinted by the research literature it comes from</b> &mdash; so you can watch two independent literatures (learning sciences &amp; strategic management) converge on <b>DP3</b>, the headline cross-disciplinary move. Hover any paper to light up its connections, trace the <b>nine conversations</b>, or switch the whole landscape to read <b>by discipline</b> from the toolbar.</p>
+
+    <div class="toolbar">
+      <div class="trow">
+        <span class="tlabel">Focus</span>
+        <button class="chip on" data-focus="all">All</button>
+        <button class="chip" data-focus="dp1">DP1</button>
+        <button class="chip" data-focus="dp2">DP2</button>
+        <button class="chip" data-focus="dp3">DP3</button>
+        <button class="chip" data-focus="dp4">DP4</button>
+        <button class="chip" data-focus="problem">Problem</button>
+        <button class="chip" data-focus="design">Design</button>
+        <button class="chip" data-focus="critical">Critical</button>
+        <button class="chip" data-focus="grey">Grey</button>
+        <span style="flex:1"></span>
+        <span class="tlabel">Register</span>
+        <span class="seg">
+          <button class="chip on" data-reg="both">Both</button>
+          <button class="chip" data-reg="problem">Problem</button>
+          <button class="chip" data-reg="design">Design</button>
+        </span>
+        <button class="toggle" id="gateToggle"><span class="dot"></span>Gate-clearing only</button>
+      </div>
+      <div class="trow">
+        <span class="tlabel">Layout</span>
+        <span class="seg">
+          <button class="chip on" data-layout="pipeline">Pipeline</button>
+          <button class="chip" data-layout="discipline">By discipline</button>
+        </span>
+        <span style="width:8px"></span>
+        <span class="tlabel">Disciplines</span>
+        <button class="chip fam-chip on" data-fam="all">All</button>
+        <button class="chip fam-chip" data-fam="SM"><span class="fsw sm"></span>Strategic mgmt &amp; M&amp;A</button>
+        <button class="chip fam-chip" data-fam="LS"><span class="fsw ls"></span>Learning sciences</button>
+        <button class="chip fam-chip" data-fam="KM"><span class="fsw km"></span>Knowledge mgmt</button>
+        <button class="chip fam-chip" data-fam="WHRD"><span class="fsw whrd"></span>Workforce &amp; HRD</button>
+        <button class="chip fam-chip" data-fam="LSCM"><span class="fsw lscm"></span>Logistics &amp; SCM</button>
+        <button class="chip fam-chip" data-fam="CSC"><span class="fsw csc"></span>Complex systems science</button>
+      </div>
+      <div class="trow">
+        <span class="tlabel">Conversations</span>
+        <button class="chip convo-chip" data-convo="conv-emptycell">the empty cell ◆</button>
+        <button class="chip convo-chip" data-convo="conv-acbridge">absorptive-capacity bridge</button>
+        <button class="chip convo-chip" data-convo="cG">environmental scans agree</button>
+        <button class="chip convo-chip" data-convo="cC">dual-purpose learning</button>
+        <button class="chip convo-chip" data-convo="cE">contested foundations</button>
+        <button class="chip convo-chip" data-convo="cB">structure by design</button>
+        <button class="chip convo-chip" data-convo="cF">cross-disciplinary ★</button>
+        <button class="chip convo-chip" data-convo="cD">rich capture lock</button>
+        <button class="chip convo-chip" data-convo="cA">the SME contribution</button>
+        <button class="chip convo-chip chain-chip" data-convo="chain">&rarr; Causal chain</button>
+      </div>
+      <div class="trow">
+        <span class="tlabel">Edge</span>
+        <span class="legend">
+          <span class="it"><svg width="24" height="6"><line x1="0" y1="3" x2="24" y2="3" stroke="oklch(0.42 0.014 250)" stroke-width="2.4"/></svg> mechanistic</span>
+          <span class="it"><svg width="24" height="6"><line x1="0" y1="3" x2="24" y2="3" stroke="oklch(0.42 0.014 250)" stroke-width="1.8" opacity=".7"/></svg> defensible</span>
+          <span class="it"><svg width="24" height="6"><line x1="0" y1="3" x2="24" y2="3" stroke="oklch(0.42 0.014 250)" stroke-width="1.3" opacity=".6"/></svg> interpretive</span>
+          <span class="it"><svg width="24" height="6"><line x1="0" y1="3" x2="24" y2="3" stroke="oklch(0.42 0.014 250)" stroke-width="1.2" stroke-dasharray="3 4" opacity=".6"/></svg> consistent-with</span>
+        </span>
+        <span class="spacer"></span>
+        <span class="legend">
+          <span class="it lgd-lab">Discipline</span>
+          <span class="it"><span class="sw" style="background:var(--fam-sm)"></span>Strategic mgmt &amp; M&amp;A</span>
+          <span class="it"><span class="sw" style="background:var(--fam-ls)"></span>Learning sciences</span>
+          <span class="it"><span class="sw" style="background:var(--fam-km)"></span>Knowledge mgmt</span>
+          <span class="it"><span class="sw" style="background:var(--fam-whrd)"></span>Workforce &amp; HRD</span>
+          <span class="it"><span class="sw" style="background:var(--fam-lscm)"></span>Logistics &amp; SCM</span>
+          <span class="it"><span class="sw" style="background:var(--fam-csc)"></span>Complex systems science</span>
+          <span class="it"><span class="sw" style="background:var(--grey)"></span>environment scan &middot; n/a</span>
+          <span class="it"><span style="color:var(--green);font-size:8px;letter-spacing:1px">●●●●</span> tier (ABDC/SCImago)</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="howto" aria-label="How to use this interactive">
+      <span class="h">How to use</span>
+      <span class="tip"><kbd>hover</kbd> or <kbd>click</kbd> any card to highlight it and light the papers it&rsquo;s in conversation with</span>
+      <span class="sep">&middot;</span>
+      <span class="tip"><kbd>i</kbd> on any block opens a plain-language or scholarly explainer of that cluster</span>
+      <span class="sep">&middot;</span>
+      <span class="tip"><kbd>Focus</kbd> chips narrow the view to one DP, register, or the grey scan</span>
+      <span class="sep">&middot;</span>
+      <span class="tip"><kbd>Layout</kbd> switches Pipeline &rlarr; By discipline (the same papers regrouped by field)</span>
+      <span class="sep">&middot;</span>
+      <span class="tip"><kbd>Disciplines</kbd> dims to one literature family</span>
+      <span class="sep">&middot;</span>
+      <span class="tip"><kbd>Conversations</kbd> chips draw the cross-paper arcs and a banner (&#9733; = the cross-disciplinary hinge; Causal chain = the spine)</span>
+      <span class="sep">&middot;</span>
+      <span class="tip"><kbd>Gate-clearing only</kbd> shows just the journal-gate papers</span>
+    </div>
+
+    <div id="convo-banner"></div>
+
+    <div id="diagram">
+      <div id="pipelineView" class="viewpane">
+      <div class="hscroll">
+        <svg id="links" aria-hidden="true"></svg>
+        <div class="hstack">
+        <div class="hrow">
+
+          <!-- COLUMN 1 · THE GAP · SME-context base (far left) -->
+          <div class="hcol gapcol">
+            <div class="colhead"><span class="reg navy">The problem · the gap</span> <span class="hint">the SME-context base</span></div>
+            <div class="subhead navy">The SME-context base <span class="hint">six standpoints · the empty cell</span></div>
+            <div class="sp-intro">Twenty gate-relevant articles plus five reading-grade counterpoints (dimmed), across six literatures &mdash; the problem base for O1. None combines serial acquisition with learning-embedded capability retention in an SME.</div>
+            <div id="smeContext"></div>
+          </div>
+
+          <!-- COLUMN 1b · THE GAP · academic warrant + positioning -->
+          <div class="hcol gapcol">
+            <div class="colhead"><span class="reg navy">The problem · warrant &amp; positioning</span></div>
+            <div class="subhead navy">Academic warrant <span class="hint">serial-acquisition / codification</span> <button class="ibtn" data-explain="problem-nodes" aria-label="Read the explainer for the problem block" aria-expanded="false">i</button></div>
+            <div class="nodes vert" id="problemNodes"></div>
+            <div class="subhead" style="color:var(--crit);margin-top:20px;">Positioning <span class="hint">imported-warrant survival</span> <button class="ibtn" data-explain="critical-nodes" aria-label="Read the explainer for the positioning block" aria-expanded="false">i</button></div>
+            <div class="nodes vert" id="criticalNodes"></div>
+          </div>
+
+          <!-- COLUMN 2 · THE HINGE -->
+          <div class="hcol hingecol">
+            <div class="colhead"><span class="reg grey">The synthesis</span></div>
+            <div class="hinge" data-id="hinge">
+              <div class="tag">The hinge &middot; where the gap meets the design <button class="ibtn" data-explain="hinge" aria-label="Read the explainer for the synthesis" aria-expanded="false">i</button></div>
+              <!-- A2: worked TOWS 2×2 restored — SWOT quadrant legs below link to Appendix 4; the worked W×O matrix links to Appendix 5. -->
+              <details class="hinge-swot">
+                <summary aria-label="Show the four SWOT quadrants">
+                  <span class="hq-chips"><span class="hq o">O</span><span class="hq w">W</span><span class="hq s">S</span><span class="hq t">T</span></span>
+                  <span class="hq-lab">SWOT quadrants</span>
+                  <span class="hq-i">i</span>
+                </summary>
+                <div class="hinge-legs">
+                  <div class="leg"><div class="k">O · opportunity</div><div class="v">PESTEL (Technological) &mdash; automation/GenAI mature enough for low-friction by-product capture; incumbents under-innovate.</div></div>
+                  <div class="leg"><div class="k">W · weakness</div><div class="v">VRIO (missing O) &mdash; each acquired workforce&rsquo;s V+R+I situated knowledge is <em>not organised</em> for capture/reuse.</div></div>
+                  <div class="leg"><div class="k">S · strengths</div><div class="v">VRIO &mdash; regulated customs expertise; 200+ network; repeatable acquisition capability; small-firm agility.</div></div>
+                  <div class="leg"><div class="k">T · threats</div><div class="v">PESTEL + Five Forces &mdash; thin margins + rate/supplier squeeze; integrator price/scale pressure; skills scarcity + churn.</div></div>
+                </div>
+              </details>
+              <a class="hinge-fig" href="appendix-4-swot.html">View full figure <span class="ext">&#8599;</span></a>
+              <p class="gap">&ldquo;Articulating an operational problem could deepen a learner&rsquo;s capability and produce a reusable artefact at once &mdash; <em>but in an acquired workforce, the two aren&rsquo;t yet designed as a single act.</em>&rdquo;</p>
+              <p class="note">The W&times;O proposition the study investigates &mdash; a claim about <em>form</em> (not yet designed as one act), not about the partner&rsquo;s data. Five Forces says <em>why</em>; VRIO says <em>what</em>; PESTEL says <em>why now</em>.</p>
+              <p class="defer">Worked TOWS matrix &mdash; SO &middot; ST &middot; WO &middot; WT, converging on <b>WO</b> &mdash; <a class="hinge-fig inline" href="appendix-5-tows.html">View full figure <span class="ext">&#8599;</span></a></p>
+            </div>
+            <div class="hingectx">
+              <div class="subhead"><span class="reg" style="background:#eee;color:var(--muted)">Context framing</span> <span class="hint">why act now</span> <button class="ibtn" data-explain="postA3-nodes" aria-label="Read the explainer for the context-framing chip" aria-expanded="false">i</button></div>
+              <div class="nodes" id="postA3Nodes"></div>
+            </div>
+          </div>
+
+          <!-- COLUMNS 3–6 · DESIGN REGISTER (DP1→DP4) -->
+          <div class="desgroup">
+            <div class="colhead design"><span class="reg design">The design &middot; the pipeline</span> <span class="hint">journal-warranted DP1 &rarr; DP4 &middot; then DP5 &rarr; DP6 dimmed (post-A3, informs the direction)</span></div>
+            <div id="designLanes"></div>
+          </div>
+
+        </div>
+
+        <section id="explainer" hidden aria-live="polite">
+          <div class="exp-in">
+            <div class="exp-head">
+              <div class="exp-eyebrow"><span class="exp-lab">Explainer &middot; the story this cluster tells</span><span class="exp-title" id="expTitle"></span></div>
+              <div class="exp-controls">
+                <span class="exp-reg">
+                  <button class="chip on" data-exreg="business">Business</button>
+                  <button class="chip" data-exreg="scholar">Scholar</button>
+                </span>
+                <button class="exp-close" id="expClose" aria-label="Close explainer">&times;</button>
+              </div>
+            </div>
+            <div class="exp-body" id="expBody"></div>
+          </div>
+        </section>
+
+        <!-- FOUNDATION · the environment scan as bedrock, full width -->
+        <div class="foundation">
+          <div class="colhead"><span class="reg grey">The ground · environment scan</span> <span class="hint">industry &amp; background sources · grey-lit not gate-counted &mdash; with one peer-reviewed anchor (Richey) that <b>is</b></span></div>
+          <div class="groundanchor"><span class="ga-lab">Peer-reviewed anchor<span class="ga-sub">gate-counted exception</span></span><div class="nodes" id="groundAnchor"></div></div>
+          <div id="instruments"></div>
+        </div>
+
+        </div>
+      </div>
+      </div><!-- /pipelineView -->
+
+      <div id="disciplineView" class="viewpane" hidden>
+        <div class="hscroll">
+          <svg id="dlinks" aria-hidden="true"></svg>
+          <div class="dstack" id="dstack"></div>
+        </div>
+      </div><!-- /disciplineView -->
+    </div>
+
+    <div class="bar">
+      <div class="gate"><span class="n" id="gateN">45</span>
+        <span class="lab"><b>journal articles clear the gate</b> &mdash; ABDC A*/A or SCImago Q1 (44 conservative; same-dataset relational pair counted once; incl. 4 reading-grade). Above the 12+ aim and &ge;10 floor.</span></div>
+      <div class="gate ft"><span class="n" id="ft50N">10</span>
+        <span class="lab"><b>FT50</b> among them. Grey instruments are environment-scan &mdash; <b>not</b> gate-counted.</span></div>
+    </div>
+
+    <a class="reflink" href="references-bibliography.html">References &amp; bibliography &rarr;</a>
+
+    <div class="foot">
+      Kali Madden · BUS922 A3 · Dr Nelly Liyanagamage · July 2026<br>
+      The evidence landscape · best viewed on a laptop or desktop
+    </div>
+  </div>
+
+  <!-- detail panel -->
+  <div class="panel">
+    <div class="panel-in">
+      <div class="meta" id="pMeta"><span class="rankchip amber">hover a node</span></div>
+      <div class="body" id="pBody">
+        <p class="ttl">Hover or click any node to inspect it</p>
+        <p class="role">Each node carries its verified standing (ABDC / SCImago / FT50), its evidence register, and the role it plays in the slice. Grey chips open the source and show the full UoW Harvard citation. Use the <b>Conversations</b> chips to trace the seven cross-paper exchanges.</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+/* ============================================================
+   BUS922 · Evidence Landscape v1 — DATA LAYER
+   Assessment stage: A1B (this version). Next versions: A2, then A3.
+   Two registers joined at the TOWS hinge. Grey tier is
+   environment-scan (NOT gate-counted); only external-anchored
+   grey sources appear (confidentiality discipline).
+   ============================================================ */
+
+const META = { gate: 45, conservative: 44, ft50: 10 };
+
+/* ---------- GREY SOURCES (external-anchored only) ----------
+   Rendered as clickable chips inside the instrument lenses.
+   Each carries label + URL (href) + full UoW Harvard citation
+   (hover popup). `dir:true` = directional (recruiter/vendor),
+   rendered beneath the anchors. ABS has no single URL. */
+const GREY = {
+  'ibis5292b': { label:'IBISWorld I5292B', url:'https://my.ibisworld.com/au/en/industry/I5292b/performance',
+    cite:'IBISWorld 2025, <i>Rail, air &amp; sea freight forwarding in Australia</i>, IBISWorld industry report I5292B, IBISWorld, viewed 28 June 2026 (UoW Library permissions).' },
+  'ibis4810': { label:'IBISWorld I4810', url:'https://my.ibisworld.com/au/en/industry/I4810/products-and-markets',
+    cite:'IBISWorld 2026, <i>Water freight transport in Australia</i>, IBISWorld industry report I4810, IBISWorld, viewed 28 June 2026 (UoW Library permissions).' },
+  'aasb': { label:'AASB S2', url:'https://standards.aasb.gov.au/aasb-s2-sep-2024',
+    cite:'Australian Accounting Standards Board (AASB) 2024, <i>AASB S2 climate-related disclosures</i>, AASB, viewed 28 June 2026.' },
+  'imo': { label:'IMO', url:'https://www.imo.org/en/mediacentre/pressbriefings/pages/imo-approves-netzero-regulations.aspx',
+    cite:'International Maritime Organization (IMO) 2025, <i>IMO approves net-zero regulations</i>, IMO, viewed 28 June 2026.' },
+  'rba': { label:'RBA', url:'https://www.rba.gov.au/statistics/frequency/exchange-rates.html',
+    cite:'Reserve Bank of Australia (RBA) 2026, <i>Exchange rates</i>, RBA, viewed 28 June 2026.' },
+  'abf': { label:'ABF', url:'https://www.abf.gov.au/licensing/brokers/about',
+    cite:'Australian Border Force (ABF) 2026, <i>Licensed customs brokers</i>, Australian Border Force, viewed 28 June 2026.' },
+  'abs': { label:'ABS', url:'https://www.abs.gov.au',
+    cite:'Australian Bureau of Statistics releases (CPI, national accounts, wage price index, international trade, labour force). Link is the ABS home page as a search entry point.' },
+  'alphaliner': { label:'Alphaliner / Container News', url:'https://container-news.com/shipping-alliances-msc-global-market-share-2025/',
+    cite:'Container News 2025, <i>Shipping alliances and MSC control over 80% of the market</i>, Container News, viewed 28 June 2026.' },
+  'seatrade': { label:'Seatrade / MDS Transmodal', url:'https://www.seatrade-maritime.com/containers/container-alliances-still-dominant-but-independents-gain-ground',
+    cite:'Seatrade Maritime 2026, <i>Container alliances still dominant but independents gain ground</i>, Seatrade Maritime News, viewed 28 June 2026.' },
+  'sourcing': { label:'Sourcing Journal', url:'https://wwd.com/sourcing-journal/logistics/flexport-projects-2025-profit-convoy-organic-growth-freight-forwarder-ryan-petersen-1238856765/',
+    cite:'Sourcing Journal 2026, <i>Flexport projects 2025 profit, eyes more market share by 2026</i>, Sourcing Journal, viewed 28 June 2026.' },
+  'jsa': { label:'Jobs &amp; Skills AU', url:'https://www.jobsandskills.gov.au/data/occupation-shortage/occupation-shortage-list',
+    cite:'Jobs and Skills Australia 2025, <i>Occupation shortage list</i>, Jobs and Skills Australia, Australian Government, viewed 28 June 2026.' },
+  'isa': { label:'Industry Skills AU', url:'https://www.industryskillsaustralia.org.au/addressing-workforce-challenges-freight-forwarding-customs-broking',
+    cite:'Industry Skills Australia 2025, <i>Addressing workforce challenges in freight forwarding &amp; customs broking</i>, Industry Skills Australia, viewed 28 June 2026.' },
+  'logihire': { label:'LogiHire', url:'https://logihire.com.au/freight-forwarding-salary-guide', dir:true,
+    cite:'LogiHire 2026, <i>Freight forwarding salary guide Australia 2026</i>, LogiHire, viewed 28 June 2026. (Directional — recruiter guide.)' },
+  'mordor': { label:'Mordor Intelligence', url:'https://www.mordorintelligence.com/industry-reports/digital-freight-forwarding-market', dir:true,
+    cite:'Mordor Intelligence 2026, <i>Digital freight forwarding market</i>, Mordor Intelligence, viewed 28 June 2026. (Directional — vendor market research.)' }
+};
+
+/* ---------- PROBLEM REGISTER · grey-lit environment scan (lenses) ---------- */
+const INSTRUMENTS = [
+  { id:'pestel', name:'PESTEL', sub:'macro context', owns:'owns the O · T legs', fig:'appendix-1-pestel.html',
+    finding:'An opening in technology (automation and AI maturing while the industry has been slow to modernise) meets a people problem (skilled staff scarce, and know-how at risk when firms are acquired) inside tight margins (3.9%). So developing capability is <em>timely</em> &mdash; driven by the environment, not just internal preference.',
+    sources:['ibis5292b','ibis4810','aasb','imo','rba','abf','abs'] },
+  { id:'fiveforces', name:'Five Forces', sub:'industry structure', owns:'underwrites &ldquo;why differentiate&rdquo;', fig:'appendix-2-five-forces.html',
+    finding:'A mature, fragmented, low-margin industry with one strong force working against small firms (<b>the big shipping lines</b>). A smaller forwarder can&rsquo;t win on price against larger, integrated rivals &mdash; so it competes on the <b>strength of its people</b>.',
+    sources:['ibis5292b','ibis4810','alphaliner','seatrade','sourcing'] },
+  { id:'vrio', name:'VRIO', sub:'firm resources · the missing &ldquo;O&rdquo;', owns:'owns the W · S legs', fig:'appendix-3-vrio.html',
+    finding:'The know-how and relationships experienced staff hold are <b>valuable, rare and hard to copy</b>; the open question is how well a firm like the partner is <b>set up to develop and share</b> it (the &ldquo;O&rdquo; in VRIO). That is what the research explores. <span class="conf">Acquisition-capability and small-firm-culture details are partner-confidential &mdash; not shown.</span>',
+    sources:['ibis5292b','jsa','isa','logihire'] }
+];
+
+/* ---------- GROUND · peer-reviewed ENV anchor (Richey; gate-counted exception, new B4) ---------- */
+const GROUND_ANCHORS = [
+  { id:'richey', ref:'Richey et al.', yr:2023, register:'env', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · SCImago Q1 · gate ✓', venue:'Journal of Business Logistics',
+    role:'The environment scan&rsquo;s one <b>peer-reviewed anchor</b> (the exception to &ldquo;not gate-counted&rdquo;): the generative-AI and automation wave reshaping logistics. Anchors PESTEL Technological; seeds the emerging SME-logistics-GenAI node. <span class="conf">ENV — the landscape&rsquo;s first Logistics &amp; supply chain management leg.</span>',
+    touch:[] }
+];
+
+/* ---------- PROBLEM REGISTER · academic M&A serial-learning cluster ---------- */
+const PROBLEM = [
+  { id:'zollosingh', ref:'Zollo &amp; Singh', yr:2004, register:'problem', gate:true, ft50:true, dots:4,
+    standing:'ABDC A* · Q1 · FT50', venue:'Strategic Management Journal',
+    role:'The <b>codification node</b> and the direct warrant for the headline. Across 228 bank-merger acquisitions, deliberate knowledge codification predicts performance (&beta;=0.21) while experience accumulation does not; the benefit grows with integration complexity. <b>Warrants DP3</b> from the strategy side; latent DP2 (&ldquo;the learning is in the creating, not the tool&rdquo;).',
+    touch:['dp3','dp2'] },
+  { id:'haleblian', ref:'Haleblian &amp; Finkelstein', yr:1999, register:'problem', gate:true, ft50:true, dots:4,
+    standing:'ABDC A* · Q1 · FT50', venue:'Administrative Science Quarterly',
+    role:'The deepest problem layer. Across 449 acquisitions, experience is <b>U-shaped</b> and similarity-contingent &mdash; inexperienced acquirers over-generalise. The discrimination capability experience slowly buys must, for the industry partner, be built into the Learn act.',
+    touch:['dp3','dp4'] },
+  { id:'trichterborn', ref:'Trichterborn et al.', yr:2016, register:'problem', gate:true, ft50:true, dots:4,
+    standing:'ABDC A* · Q1 · FT50', venue:'Strategic Management Journal',
+    standpoint:'S-6', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Direct evidence', convergence_ids:['conv-emptycell'],
+    tension_flag:'Scale-attenuated payoff &mdash; capability&rarr;performance is positively moderated by firm size (smaller return for the SME). The FUNCTION does not port (that non-transfer IS the necessity); the CAPABILITY REQUIREMENT does.',
+    role:'The <b>capability node</b> and strongest SME-translation warrant. A dedicated M&amp;A function improves performance <b>only through</b> the capability it builds (full mediation, Sobel z=3.10) &mdash; a four-part process (articulate&rarr;codify&rarr;share&rarr;internalise). The unit is a means; the capability is the end, so an SME can build it by design. Front-end <b>is</b> DP2+DP3. <b>S-6 necessity (SME):</b> the large-firm fix is a dedicated FUNCTION the SME cannot staff &mdash; and the function was never the active ingredient (no direct effect; full mediation via capability). So the SME must secure the CAPABILITY by design, not the unit.',
+    touch:['dp3'] },
+  { id:'schweizer', ref:'Schweizer et al.', yr:2022, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A* · Q1', venue:'Long Range Planning',
+    role:'The recent meta-analytic consolidation (MASEM; 167 studies). Confirms the field-level finding that <b>deliberate-learning &gt; experience accumulation</b> &mdash; the gap is still live, not one dated study. Cite the <em>relative</em> contrast only (absolute effect small, k=9).',
+    touch:['dp3'] },
+  { id:'laamanen', ref:'Laamanen &amp; Keil', yr:2008, register:'problem', gate:true, ft50:true, dots:4,
+    standing:'ABDC A* · Q1 · FT50', venue:'Strategic Management Journal',
+    role:'The direct serial-strain leg (independent). High acquisition <b>rate</b> and rate <b>variability</b> hurt performance; experience/size/scope absorb it; frequent acquirers outperform long-run. The strain is scale-independent (transfers to the industry partner); the absorbers are not &mdash; so engineer the absorbing capability.',
+    touch:['dp3'] }
+];
+
+/* ---------- PROBLEM REGISTER · SME-context base (B1 compile v1.1) ----------
+   ~25 nodes across six standpoints (S-1…S-7). 20 extraction-grade + 5 reading-grade
+   counterpoints (dim:true · prov:'pending-close-read'). v5 keys (standpoint / prov /
+   cluster_primary / confidence_code / tension_flag / convergence_ids) render via
+   the deepened show() panel + the clickable ⚠. Grouped in the gap column by STANDPOINTS. */
+const SMECTX = [
+  // ---------- S-1 · SME-KM (KM) ----------
+  { id:'durst', ref:'Durst &amp; Edvardsson', yr:2012, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'Journal of Knowledge Management',
+    standpoint:'S-1', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Scope-bounded gap', tension_flag:'Maps that the gap <em>exists</em>, not its size; silent on acquisition; ~15 yrs old (pair with a current SME-KM review for A3).',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The <b>gap-namer.</b> A review of 36 empirical SME-KM studies finds knowledge <b>storage/retention</b> the least-understood process (one empirical study in the corpus); insists SMEs are &ldquo;not a scaled-down large business&rdquo; and calls for a realistic SME-specific lens. <span class="conf">Retention is the field-named gap &mdash; the contribution zone.</span>' },
+  { id:'thorpe', ref:'Thorpe et al.', yr:2005, register:'problem', gate:true, ft50:false, dots:4,
+    standing:'ABDC A* · Q1 · gate ✓', venue:'Int. Journal of Management Reviews',
+    standpoint:'S-1', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Direct evidence', tension_flag:'Codification is a TENSION, not yes/no &mdash; too little loses the economies-of-scale edge, too much neuters innovation. Owner-manager-centric; ~20 yrs old.',
+    convergence_ids:['conv-emptycell'], touch:['dp4'],
+    role:'SME knowledge is bound up in people, relationships and situated practice &mdash; it &ldquo;resist[s] conceptualization as a separable asset&rdquo;, so codification can only go so far. The balance point &mdash; a reusable record that keeps context without over-formalising &mdash; is where by-product capture sits. <span class="conf">Embeddedness &rarr; DP4-ctx.</span>' },
+  { id:'massaro', ref:'Massaro et al.', yr:2016, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'Journal of Knowledge Management',
+    standpoint:'S-1', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Indirect evidence', tension_flag:'Rule F &mdash; declared extension of Durst &rarr; count S-1 once. Not retention evidence; KM-journals-only corpus.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'A structured review of 89 SME-KM papers: the field is fragmented and thinly specialised, imports frameworks (83%), and <b>defines &ldquo;SME&rdquo; inconsistently</b> (34% give none). So the design must state precisely &mdash; a <em>growing small-to-medium</em> forwarder &mdash; not inherit a generic SME finding.' },
+
+  // ---------- S-2 · KnowledgeLoss (WHRD) ----------
+  { id:'eckardt', ref:'Eckardt et al.', yr:2014, register:'problem', gate:true, ft50:true, dots:4,
+    standing:'ABDC A* · Q1 · FT50 · gate ✓', venue:'Journal of Management Studies',
+    standpoint:'S-2', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Direct evidence', tension_flag:'Large-firm sample (sub-100-emp excluded): the SERVICE mechanism ports scale-independently; the SME-SIZE claim does NOT come from Eckardt (route to De Meulenaere/Xiao).',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The <b>S-2 anchor.</b> Turnover-driven knowledge loss is real and <b>bites hardest in service firms</b>, because a service firm runs on people not machines; organisational capital (a codified record) cushions the blow but mainly pays off at high turnover. <span class="conf">Freight forwarding is a service firm.</span>' },
+  { id:'demeulenaere', ref:'De Meulenaere et al.', yr:2021, register:'problem', gate:true, ft50:true, dots:4,
+    standing:'ABDC A* · Q1 · FT50 · gate ✓', venue:'Journal of Management',
+    standpoint:'S-2', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Direct evidence', tension_flag:'⚠ HARD &mdash; do NOT say &ldquo;small knowledge-intensive firms hit hardest&rdquo;. Sign-reversing three-way interaction. Correct: the SME can&rsquo;t fast-replace and leans on informal adaptation. Belgian EPL boundary.', tension_hard:true,
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The <b>size × knowledge-intensity facet.</b> Turnover&rsquo;s cost depends on firm size and knowledge-intensity: big firms replace fast, small firms can&rsquo;t &mdash; their strength is adapting quickly and keeping knowledge moving through close relationships. <span class="conf">Read the interaction, not the headline.</span>' },
+  { id:'xiao', ref:'Xiao &amp; Lindholm Dahlstrand', yr:2023, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'Small Business Economics',
+    standpoint:'S-2', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Direct evidence', tension_flag:'Small TECH firms; skill-biased; owner-exit ≠ capability loss. Retention is a deliberate choice. Don&rsquo;t flatten to &ldquo;people leave&rdquo;. Bridges S-2 (loss) ↔ S-4 (acquirer).',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'When a small firm is <b>bought, more people leave</b> and take know-how with them; the ones the new owner deems essential stay &mdash; but only because retention is <b>deliberate</b>. The one paper that puts acquisition and mobility in one small-firm study. <span class="conf">S-2 primary · S-4 secondary.</span>' },
+  { id:'galan', ref:'Galan', yr:2023, register:'problem', gate:false, ft50:false, dots:2,
+    standing:'ABDC C · Q2 · gate ✗ MISS', venue:'The Learning Organization',
+    standpoint:'S-2', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Scope-bounded gap', tension_flag:'Gate-MISS (non-gate review support &mdash; not a floor-counter). Organisation-general, not SME-specific. Rule F: count S-2 via Eckardt. Parts I+II.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The dedicated KLT systematic review (91 studies): the knowledge that hurts most to lose is <b>tacit and unwritten</b>; the standard fixes (exit interviews, handover recordings) tend to fail because leavers won&rsquo;t share, and most firms &mdash; small ones especially &mdash; have no holistic strategy. <span class="conf">Review-level deepener beneath Eckardt.</span>' },
+
+  // ---------- S-3 · SME-Learning (WHRD) ----------
+  { id:'kotey', ref:'Kotey &amp; Folker', yr:2007, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'Journal of Small Business Management',
+    standpoint:'S-3', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Direct evidence', tension_flag:'Australian MANUFACTURING, 1997–98. Informal-norm + size-gradient port; training-type mix is manufacturing-flavoured (flag for a service forwarder). Family/non-family is a boundary, not a Whale claim.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The <b>S-3 anchor.</b> Across 918 SMEs, on-the-job (informal) training predominates at <b>every</b> size; formal, structured development only appears past ~20–50 staff. So &ldquo;no dedicated PD team&rdquo; is the empirical <b>norm</b>, not an assumption &mdash; development has to be built into the work.' },
+  { id:'kortsch', ref:'Kortsch et al.', yr:2019, register:'problem', gate:true, ft50:false, dots:2,
+    standing:'ABDC B · Q1 (SCImago route) · marginal', venue:'European Journal of Training and Development',
+    standpoint:'S-3', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Indirect evidence', tension_flag:'Correlational; marketability is PERCEIVED not realised; German craft; marginal gate (SCImago-Q1 only). Not independent of Decius &mdash; count S-3 via Kotey.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The load-bearing S-3 support: intensive informal learning raises an employee&rsquo;s <b>internal</b> marketability (value to the current employer) <b>without</b> raising <b>external</b> marketability &mdash; so developing people this way is a <b>retention strategy, not a retention risk</b>. Dissolves the &ldquo;won&rsquo;t they just leave?&rdquo; worry.' },
+  { id:'decius', ref:'Decius et al.', yr:2021, register:'problem', gate:false, ft50:false, dots:1,
+    standing:'Not Listed · Q2 · gate ✗ MISS', venue:'Vocations and Learning',
+    standpoint:'S-3', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Indirect evidence', tension_flag:'Gate-MISS; German blue-collar; correlational; NOT independent of Kortsch (German programme).',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'Whether people learn on the job comes down to two levers a small firm can shape without a training dept: <b>who it hires</b> (curious self-starters) and the <b>everyday climate</b> (supportive bosses/colleagues, mistakes-as-learning). <span class="conf">Social support is the designable lever; size-null within the SME range.</span>' },
+
+  // ---------- S-4 · MandA-SME (SM) ----------
+  { id:'arvanitis', ref:'Arvanitis &amp; Stucki', yr:2015, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'International Small Business Journal',
+    standpoint:'S-4', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Direct evidence', tension_flag:'Performance DV only &mdash; NOT retention evidence. Single-event, not serial. Pays off on money, not knowledge.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The <b>S-4 anchor.</b> When SMEs acquire, it tends to pay off (sales, productivity, new-product revenue rise); acquisition is a real, evidence-backed growth strategy at this size &mdash; <b>not</b> a scaled-down large-firm story. But the study measures money, not knowledge. <span class="conf">The acquirer is real; its knowledge is unstudied.</span>' },
+  { id:'gala', ref:'Gala &amp; Mueller', yr:2024, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'Journal of Small Business Management',
+    standpoint:'S-4', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Design inference', tension_flag:'Conceptual, not tested. People-retention ≠ capability-as-record (the novelty). Rule F: cites six S-4/held sources &rarr; count S-4 via Arvanitis.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The conceptual co-anchor: <b>acquihiring</b> (buying a firm mainly for its people) fits SMEs &mdash; arguably better than big firms &mdash; and the one thing that decides success is <b>keeping the acquired people</b>; done repeatedly it needs a dedicated function. <span class="conf">Centres retention &mdash; the cell Arvanitis is silent on.</span>' },
+  { id:'weitzel', ref:'Weitzel &amp; McCarthy', yr:2011, register:'problem', gate:false, ft50:false, dots:1,
+    standing:'Not Listed · Q3 · gate ✗ MISS', venue:'Int. J. Entrepreneurship &amp; Innovation Mgmt',
+    standpoint:'S-4', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Scope-bounded gap', tension_flag:'Gate-MISS. Finance/behaviour only (warrant-by-absence for the people side). SME-observability bias; not serial.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'SMEs don&rsquo;t acquire like corporates: they abandon souring deals far more readily, use acquisitions intensively for their size, and pay in shares &mdash; because owner-managers curb empire-building. <span class="conf">Confirms the SME acquirer is a distinct object; the people side is the absence.</span>' },
+
+  // ---------- S-5 · Freight/AU + SME-Capability ----------
+  { id:'fabrizio', ref:'Fabrizio et al.', yr:2022, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'Review of Managerial Science',
+    standpoint:'S-5', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Scope-bounded gap', tension_flag:'The citable absence &mdash; n=70 corpus has NO freight/logistics and NO retention paper. Dynamic/strategic capability ≠ tacit operational know-how (don&rsquo;t read as retention evidence). Descriptive bibliometric, 2 databases.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The closest-available SME-capability review (70 studies): small firms compete from <b>resource scarcity</b>, so their edge comes from capabilities they <b>build</b>, not resources they buy. Its corpus <b>containing no freight and no retention paper is itself the S-5 absence</b>.' },
+  { id:'bernal', ref:'Bernal et al.', yr:2002, register:'problem', gate:true, ft50:false, dots:3, dim:true,
+    standing:'IJEBR — ABDC A · Q1 · gate ✓ (B14; PDF masthead-confirmed)', venue:'Int. J. Entrepreneurial Behaviour &amp; Research',
+    standpoint:'S-5', prov:'pending-close-read', cluster_primary:'problem-gap',
+    confidence_code:'Single source', tension_flag:'⚠ CF4 &mdash; small freight forwarders, but studied on INTER-firm network collaboration (&ldquo;fear of sharing valued corporate information&rdquo; between competitors), NOT intra-firm retention. Possible genuine tension with the proposed design &mdash; carry as a design consideration. Standing VERIFIED B14 (DOI 10.1108/13552550210448348); still reading-grade &mdash; not yet close-read.', tension_hard:true,
+    convergence_ids:[], touch:[],
+    role:'<b>Reading-grade (close-read before A3 weight).</b> An empirical case of a <b>small-freight-forwarder network</b> &mdash; the closest firm-type match &mdash; but on inter-firm collaboration among competitors, not within-firm retention. Sharpens the boundary of the empty cell.' },
+  { id:'gekara', ref:'Gekara &amp; Nguyen', yr:2018, register:'problem', gate:true, ft50:false, dots:3, dim:true,
+    standing:'NTWE — ABDC A · gate ✓ (B14; NTWE 33:3)', venue:'New Technology, Work and Employment',
+    standpoint:'S-5', prov:'pending-close-read', cluster_primary:'problem-gap',
+    confidence_code:'Indirect evidence', tension_flag:'Container TERMINALS / large operators, automation skills-shift &mdash; not forwarding, not SMEs. Frames AU context only. Standing VERIFIED B14 (NTWE 33:3, DOI 10.1111/ntwe.12118); still reading-grade &mdash; not yet close-read.',
+    convergence_ids:[], touch:[],
+    role:'<b>Reading-grade.</b> Automation is reshaping AU logistics skills &mdash; but at container terminals/large operators, not freight forwarders. Frames the Australian technology-and-workforce context, adjacent to the cell.' },
+  { id:'thai', ref:'Thai et al.', yr:2011, register:'problem', gate:true, ft50:false, dots:3, dim:true,
+    standing:'APJML — ABDC A · Q1 · IF 7.53 · gate ✓ (B14)', venue:'Asia Pacific J. Marketing and Logistics',
+    standpoint:'S-5', prov:'pending-close-read', cluster_primary:'problem-gap',
+    confidence_code:'Single source', tension_flag:'⚠ Relational skills #1–3 SUPPORT the situated-knowledge framing, but &ldquo;on-the-job learning too constrained within daily job scope&rdquo; COMPLICATES the work-embedded premise &mdash; meet head-on. PD prescription is industry–university collaboration. Standing VERIFIED B14 (ISSN 1355-5855); still reading-grade &mdash; not yet close-read.',
+    convergence_ids:[], touch:[],
+    role:'<b>Reading-grade.</b> AU logistics professionals rank <b>relational skills</b> highest (supports situated knowledge) &mdash; but flag that daily job scope constrains on-the-job learning, a tension the design must answer rather than assume away.' },
+
+  // ---------- S-6 · Necessity + novelty ----------
+  { id:'wikstrom', ref:'Wikström et al.', yr:2018, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'Journal of Knowledge Management',
+    standpoint:'S-6', prov:'extraction-grade', cluster_primary:'problem-gap',
+    confidence_code:'Direct evidence', tension_flag:'Large-firm case &mdash; knowing-nature is scale-independent (ports a-fortiori). Trigger = RETIREMENT (translate to turnover/acquisition). The headcount-culture barrier is large-firm (an SME may escape it). Single interpretive case.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The <b>novelty warrant.</b> Inside a ~28,500-emp firm, the knowledge people value most is tacit &ldquo;knowing&rdquo; (and &ldquo;knowing who to call&rdquo;); formal capture-and-codify <b>fails</b>, informal side-by-side practice works. The firm stops at &ldquo;create the conditions&rdquo; &mdash; so <b>designing capture as a by-product of the work is the un-taken step</b>.' },
+  { id:'levallet', ref:'Levallet &amp; Chan', yr:2019, register:'problem', gate:true, ft50:false, dots:3, dim:true,
+    standing:'JKM — ABDC A · Q1 · IF 11.65 · gate ✓ (B14)', venue:'Journal of Knowledge Management',
+    standpoint:'S-6', prov:'pending-close-read', cluster_primary:'problem-gap',
+    confidence_code:'Direct evidence', tension_flag:'THE one gate-eligible counterpoint &mdash; now B14-confirmed A·Q1 (gate ✓); still reading-grade, close-read before A3 weight. Canadian federal public service; the ~500-emp figure applies to GovHR only (GovHealth size unstated); qualitative/propositional. Positioning, not SME/freight evidence.',
+    convergence_ids:[], touch:[],
+    role:'<b>Reading-grade (gate-eligible once close-read).</b> The counterpoint in one line: knowledge <b>captured and stored can still be lost</b> if it is not converted from individual to social knowledge and reused &mdash; codification-alone leaks; effective retention is <b>hybrid</b>, and departing experts often run out of time to convert.' },
+  { id:'dewah', ref:'Dewah &amp; Mutula', yr:2016, register:'problem', gate:false, ft50:false, dots:0, dim:true,
+    standing:'Information Development — Not listed · SJR 0.536 · gate ✗ (B14; counterpoint, neutral)', venue:'Information Development',
+    standpoint:'S-6', prov:'pending-close-read', cluster_primary:'problem-gap',
+    confidence_code:'Single source', tension_flag:'Public-sector sub-Saharan Africa, literature survey &mdash; names the conventional set, doesn&rsquo;t evidence an AU freight SME. Counterpoint-by-naming only. Standing VERIFIED B14 (Not listed / SJR 0.536 &mdash; counterpoint, gate-neutral by design).',
+    convergence_ids:[], touch:[],
+    role:'<b>Reading-grade.</b> Names the conventional retention set (codification, personalisation, training, mentoring, repositories) and the lean-firm conditions that undermine it (weak incentives, thin tech, low commitment). The status quo the design departs from.' },
+
+  // ---------- S-7 · AbsorptiveCapacity (KM · renders as KM×SM convergence) ----------
+  { id:'liao', ref:'Liao, Welsch &amp; Stoica', yr:2003, register:'problem', gate:true, ft50:true, dots:4,
+    standing:'ABDC A* · Q1 · FT50 · gate ✓', venue:'Entrepreneurship Theory and Practice',
+    standpoint:'S-7', prov:'extraction-grade', horizon:'A3', cluster_primary:'problem-gap',
+    confidence_code:'Cross-cutting convergence', tension_flag:'A3-horizon (one line at A2). AC is cumulative/history-dependent &rarr; build early by design. Count S-7 once, via Liao.',
+    convergence_ids:['conv-acbridge','conv-emptycell'], touch:['dp4'],
+    role:'The <b>AC bridge anchor.</b> Across 107 growth SMEs, both AC dimensions &mdash; pulling in outside know-how and spreading it internally &mdash; predict responsiveness <b>independent of size/age</b>; turbulence and strategic orientation moderate <b>asymmetrically</b> (turbulence&rarr;dissemination; orientation&rarr;acquisition); AC is cumulative, so it must be grown early, by design. <span class="conf">KM×SM: external-knowledge &rarr; responsiveness.</span>' },
+  { id:'gray', ref:'Gray', yr:2006, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'Int. J. Entrepreneurial Behaviour &amp; Research',
+    standpoint:'S-7', prov:'extraction-grade', horizon:'A3', cluster_primary:'problem-gap',
+    confidence_code:'Indirect evidence', tension_flag:'Downstream of Liao (Rule F). A3-horizon.',
+    convergence_ids:['conv-acbridge'], touch:['dp4'],
+    role:'AC is uneven across small firms: the slightly-larger, more-educated (technically-trained), growth-oriented owners build it; the smallest, most independence-minded do not. <span class="conf">AC is buildable but not automatic &mdash; size/education/growth-culture graded within the SME band.</span>' },
+  { id:'valentim', ref:'Valentim et al.', yr:2016, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'R&amp;D Management',
+    standpoint:'S-7', prov:'extraction-grade', horizon:'A3', cluster_primary:'problem-gap',
+    confidence_code:'Indirect evidence', tension_flag:'Downstream of Liao. A3-horizon.',
+    convergence_ids:['conv-acbridge'], touch:['dp4'],
+    role:'SMEs build AC not through R&amp;D departments they can&rsquo;t afford but through <b>everyday practice</b> &mdash; learning from experience, internal sharing, person-to-person transfer (the tacit, human side) &mdash; and <b>smaller firms rely on it more</b>. <span class="conf">The how of the AC bridge.</span>' },
+  { id:'moilanen', ref:'Moilanen et al.', yr:2014, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'Small Business Economics',
+    standpoint:'S-7', prov:'extraction-grade', horizon:'A3', cluster_primary:'problem-gap',
+    confidence_code:'Cross-cutting convergence', tension_flag:'⚠ HARD &mdash; non-R&amp;D boundary. For non-R&amp;D firms (freight is non-R&amp;D) AC mediation is WEAK; external knowledge acts DIRECTLY via networks/trade bodies/personal ties. Do NOT over-claim the AC-mediation bridge. Independent of Liao (genuine boundary).', tension_hard:true,
+    convergence_ids:['conv-acbridge'], touch:['dp4'],
+    role:'The <b>independent boundary.</b> On 431 SMEs (309 non-R&amp;D, 72% services &mdash; closest match to freight), for non-R&amp;D firms AC mediates <b>weakly</b> and external knowledge feeds innovation <b>directly</b> &mdash; the single strongest direct channel being <b>customers</b>. So for the partner the point is <b>relational/experiential</b> capability, which standard AC measures under-capture.' },
+  { id:'muller', ref:'Müller et al.', yr:2021, register:'problem', gate:true, ft50:false, dots:3,
+    standing:'ABDC A · Q1 · gate ✓', venue:'European Management Journal',
+    standpoint:'S-7', prov:'extraction-grade', horizon:'A3', cluster_primary:'problem-gap',
+    confidence_code:'Indirect evidence', tension_flag:'Independent corroborator (raises robustness, not breadth). A3-horizon &mdash; the digital &ldquo;why now&rdquo; analogue.',
+    convergence_ids:['conv-acbridge'], touch:['dp4'],
+    role:'Small firms are strong at <b>gathering/sensing</b> new knowledge but stall at <b>realising</b> it (turning it into new ways of working); under a digital wave they must <b>explore</b>, not optimise, their way through. <span class="conf">Potential vs realised AC &mdash; the GenAI/automation &ldquo;why now&rdquo;.</span>' }
+];
+
+/* context framing — out of the bounded slice (cumulative-strain "why now") */
+const POSTA3 = [
+  { id:'scheffer', ref:'Scheffer et al.', yr:2012, register:'concept', gate:true, ft50:false, dots:3,
+    standing:'SCImago Q1 · Science · gate ✓', venue:'Science',
+    role:'The <b>peer-reviewed tipping-point anchor.</b> In tightly connected systems, repeated recovery from small shocks can mask how close a systemic threshold is (false resilience); once crossed, the shift is abrupt and hard to reverse &mdash; the peer-reviewed grounding for the preventive &ldquo;why act now.&rdquo; Used metaphorically via Maynard; the science ranks fragility, it does not predict. <span class="conf">Concept/lens &mdash; the landscape&rsquo;s first Complex systems science leg.</span>',
+    touch:[] },
+  { id:'maynard', ref:'Maynard', yr:2020, register:'postA3', gate:false, ft50:false, dots:0, dim:true, frame:true,
+    standing:'Book — not gate-eligible', venue:'Future Rising (Pippard&rsquo;s ladder)',
+    role:'<b>Context framing (concept-level).</b> The practitioner extension of Scheffer&rsquo;s science: complex systems look stable while accumulating stress, then tip non-linearly &mdash; the preventive &ldquo;why act now.&rdquo; Practitioner thought leadership &mdash; does not count toward the peer-reviewed gate.',
+    touch:[] }
+];
+
+/* ---------- DESIGN REGISTER · DP1–DP4 pipeline ---------- */
+const DPS = [
+  { id:'dp1', num:'DP1', tag:'raw material', headline:false,
+    title:'Authentic operational problem',
+    gist:'Anchor the act in a real problem the learner brings or chooses. Authenticity &mdash; cognitive realism, not difficulty &mdash; drives transferable learning. Andragogy enters here as a design heuristic.',
+    nodes:[
+      { id:'perusso', ref:'Perusso &amp; Baaken', yr:2020, gate:true, dots:2, standing:'ABDC B · Q1', venue:'Int. Journal of Management Education',
+        role:'The DP1 <b>gate qualifier</b> (the only one in DP1) and the business-discipline lens. Carries authenticity into management learning via <b>real-worldness</b> &mdash; real problems carry uncertainty/pressure/risk that simulations and cases do not.' },
+      { id:'herrington', ref:'Herrington, Reeves &amp; Oliver', yr:2013, gate:false, dots:0, frame:true, standing:'Book chapter — gate-neutral', venue:'Handbook of Research on Ed. Comms &amp; Tech',
+        role:'<b>Why authenticity works:</b> cognitive realism, not fidelity, drives transferable knowledge. Locates the research gap at the DP1&rarr;DP3 hinge (authentic-task characteristics are settled; codification-relocation is not).' },
+      { id:'knowles', ref:'Knowles', yr:1975, gate:false, dots:0, frame:true, standing:'Book — gate-neutral', venue:'Self-Directed Learning',
+        role:'Andragogy as the design <b>stance</b> licensing the learner&rsquo;s own authentic problem as raw material. Cited as a heuristic, not a predictive theory (scoped by Taylor &amp; Kroth 2009).' },
+      { id:'lakkala', ref:'Lakkala et al.', yr:2023, gate:false, dots:0, suppl:true, standing:'Not ranked — illustration', venue:'Int. J. Scholarship of Teaching &amp; Learning',
+        role:'<b>By-product spine (origin).</b> Real-client course &rarr; highest self-assessed learning; learners most valued tasks that <em>produced something for further use</em>. Illustration, not anchor &mdash; leans on the DP4 anchors.' }
+    ] },
+  { id:'dp2', num:'DP2', tag:'generation', headline:false,
+    title:'Generative articulation',
+    gist:'The learner produces a short, prompted explicit account of the problem. Self-explanation drives the learning (g=.55) &mdash; and the generation is simultaneously the learning <em>and</em> the externalised artefact.',
+    nodes:[
+      { id:'bisra', ref:'Bisra et al.', yr:2018, gate:true, dots:3, standing:'Q1 · gate paper', venue:'Educational Psychology Review',
+        role:'The <b>effect spine</b> (g=.55) &mdash; prompted self-explanation produces robust learning and <b>beats being told</b>. Names computer-generated prompts + a fade as knowledge grows (directly relevant to a GenAI template).' },
+      { id:'fiorella', ref:'Fiorella &amp; Mayer', yr:2016, gate:true, dots:3, standing:'Q1 · gate paper', venue:'Educational Psychology Review',
+        role:'The generative-mode <b>taxonomy.</b> Artefact-producing modes (summarise/explain/teach; d&asymp;.50&ndash;.77) generate an external representation as they generate learning &mdash; the dual-output logic.' },
+      { id:'tannenbaum', ref:'Tannenbaum &amp; Cerasoli', yr:2013, gate:true, dots:3, standing:'Q1 · gate-positive', venue:'Human Factors',
+        role:'The <b>workplace anchor</b> (quantified). Structured reflection (debrief/AAR) lifts individual performance (d&asymp;.71) and teams ~20&ndash;25% in real settings; structure (d=.69) + facilitation (.75 vs .25) carry the act &mdash; double-duty into DP3.' },
+      { id:'goffin', ref:'Goffin &amp; Koners', yr:2011, gate:true, ft50:false, dots:4, standing:'ABDC A* · Q1', venue:'J. Product Innovation Management',
+        role:'The <b>written-artefact anchor</b> and the slice&rsquo;s cleanest problem statement: PPRs capture ~<b>3 lessons recorded vs ~226 surfaced</b> &mdash; the tacit-linked ones lost unless structure + context are engineered in. The causal hinge in one paper (DP2&rarr;DP3&rarr;DP4).' },
+      { id:'boldrini', ref:'Boldrini &amp; Cattaneo', yr:2014, gate:false, dots:2, fenced:true, standing:'Q2 — fenced illustration', venue:'Vocations and Learning',
+        role:'The closest task-shape analogue to the industry partner&rsquo;s act (an individual writing a structured reflective account of a real procedure). Prompt-level scaffolding lifts reflective-writing quality. <span class="conf">Q2 education journal &mdash; not gate-counted; consistent-with edge, never standalone.</span>' },
+      { id:'schon', ref:'Sch&ouml;n', yr:1987, gate:false, dots:0, frame:true, standing:'Book — gate-neutral', venue:'Educating the Reflective Practitioner',
+        role:'The DP2 <b>frame.</b> Reflection-in/-on-action surfaces tacit knowing-in-action; the articulation and the artefact are inseparable &mdash; but the structuring usually comes from a skilled coach (the template&rsquo;s role).' },
+      { id:'bangert', ref:'Bangert-Drowns et al.', yr:2004, gate:true, dots:3, standing:'Q1 · gate paper', venue:'Review of Educational Research',
+        role:'The DP2 <b>design constraint.</b> Metacognitive prompts raise gains; long assignments lower them; expressive writing is null &mdash; the active ingredient is the <b>metacognitive scaffold</b>, not expressiveness. Put the prompt in the template.' },
+      { id:'boud', ref:'Boud, Keogh &amp; Walker', yr:1985, gate:false, dots:0, frame:true, standing:'Book — gate-neutral', venue:'Reflection: Turning Experience into Learning',
+        role:'The DP2 <b>co-frame</b> and the by-product spine&rsquo;s reuse warrant (Ch.3): writing captures the event so it can be returned to later &mdash; simultaneously the learning <em>and</em> a reusable record.' }
+    ] },
+  { id:'dp3', num:'DP3', tag:'the template', headline:true,
+    title:'Structuring lives in the template',
+    gist:'A designer-built GenAI template carries the reusable structure &mdash; it elicits reflection, auto-applies titles/tags/metadata. The learner <em>only generates</em>. The template fades gently and adaptively as expertise grows. THE HEADLINE.',
+    nodes:[
+      { id:'vmb', ref:'van Merri&euml;nboer &amp; Boot', yr:2005, gate:false, dots:0, frame:true, standing:'Book chapter — gate-neutral', venue:'(cite 2005/06, not 2008)',
+        role:'The <b>conceptual spine</b> (shared DP3/DP4 anchor): relocate reusable structure off the content item into <b>templates</b> and <b>richly-documented intermediates</b> &mdash; templates-not-instantiations, intermediate-not-final. The mechanism for relocating structuring off the learner. <span class="conf">Proposed, not tested &mdash; design inference.</span>' },
+      { id:'vms', ref:'van Merri&euml;nboer &amp; Sweller', yr:2010, gate:true, dots:3, standing:'Q1 · gate-qualifying', venue:'Medical Education',
+        role:'The <b>cognitive-load engine.</b> A template can carry the worked structure (cutting extraneous load) while the learner does the germane, schema-building generative act &mdash; and support must <b>fade</b> as expertise grows (expertise reversal). Explains why a blank box fails.' },
+      { id:'tetzlaff', ref:'Tetzlaff et al.', yr:2025, gate:true, dots:3, standing:'Q1 · gate paper', venue:'Learning and Instruction',
+        role:'The <b>fade evidence</b> (meta-analytic keystone). Assistance helps novices (d=.505), harms experts (d=&minus;.428) &mdash; asymmetric. Strongest in law/business. Two gifts: the asymmetry gives the SME default (err toward support) and names the domains where it bites.' },
+      { id:'salden', ref:'Salden et al.', yr:2010, gate:true, dots:3, standing:'Q1 · gate-qualifying', venue:'Instructional Science',
+        role:'The implementable <b>fade mechanism.</b> Adaptive fading (keyed to the learner&rsquo;s self-explanation quality) beats fixed fading and problem-solving on delayed retention. The closest analogue to the slice&rsquo;s mechanism: the same account that captures knowledge tells the template how much help to give.' },
+      { id:'nievelstein', ref:'Nievelstein et al.', yr:2013, gate:true, dots:3, standing:'Q1 · gate paper', venue:'Contemporary Educational Psychology',
+        role:'The <b>domain caveat</b> (ill-structured softener). In legal case reasoning, worked examples stayed effective for novices <em>and</em> advanced &mdash; no expertise reversal. The industry partner&rsquo;s problems are ill-structured, so the template stays useful longer; ease support off slowly.' }
+    ] },
+  { id:'dp4', num:'DP4', tag:'the output', headline:false,
+    title:'Context-rich intermediate',
+    gist:'Capture a rich, situated intermediate and stop. Reuse-preparation happens later &mdash; that&rsquo;s Share&rsquo;s job. Do not decontextualise at the point of creation; the context is the strategic asset. The Learn&rarr;Share seam.',
+    nodes:[
+      { id:'markus', ref:'Markus', yr:2001, gate:true, ft50:true, dots:4, standing:'ABDC A* · Q1 · FT50', venue:'J. Management Information Systems',
+        role:'The DP4 <b>anchor</b> and the Learn&rarr;Share seam. The <b>producer&ndash;reuser asymmetry</b>: producers rarely repurpose their own output; repositories need rework &mdash; so capture context-rich and defer reuse-prep downstream. The by-product design answers his asymmetry.' },
+      { id:'szulanski', ref:'Szulanski', yr:2000, gate:true, ft50:true, dots:4, standing:'ABDC A* · Q1 · FT50', venue:'OBHDP',
+        role:'The <b>transfer-risk leg</b> (empirical). Stickiness is driven by <b>causal ambiguity</b> and the recipient&rsquo;s <b>absorptive capacity</b> (122 transfers). A context-rich intermediate attacks stickiness at source &mdash; it preserves the why/how. Bounds the claim: reuse-<em>ready</em>, not self-transferring.' },
+      { id:'riviere', ref:'Rivi&egrave;re et al.', yr:2019, gate:true, dots:3, standing:'Q1 · gate-qualifying', venue:'Academic Medicine',
+        role:'The <b>learning-theory leg</b> (CDR). Abstraction must be bracketed: contextualise &rarr; decontextualise &rarr; recontextualise &mdash; so it cannot be done cleanly at capture. Confirms the Learn&rarr;Share boundary: capture context-rich now, defer guided abstraction downstream.' },
+      { id:'lobato', ref:'Lobato', yr:2006, gate:true, suppl:true, dots:3, standing:'Q1 · supplementary', venue:'J. of the Learning Sciences', critical:true,
+        role:'The <b>situated critique</b> (also a critical-engagement member). Names the &ldquo;fallacy of decontextualisation&rdquo;: stripping context removes meaning. The deepest warrant for &ldquo;don&rsquo;t strip&rdquo; &mdash; and it obliges the slice to adopt the <b>situated view</b> of the contested transfer construct.' },
+      { id:'kasper', ref:'Kasper et al.', yr:2010, gate:true, suppl:true, dots:3, standing:'ABDC A · Q1 · supplementary', venue:'J. of Management Inquiry',
+        role:'The <b>&ldquo;thinning&rdquo; risk</b> (empirical). Firms strip contextual richness to move knowledge &mdash; rationally and deliberately, even in developed KM systems. So &ldquo;don&rsquo;t decontextualise&rdquo; must be argued against a real organisational pull: the template makes the rich version the low-friction default.' }
+    ] },
+  { id:'dp5', num:'DP5', tag:'trust &amp; sharing', headline:false, postA3:true,
+    title:'Learner-controlled disclosure',
+    gist:'Reflect privately first, then choose what to share &mdash; the learner controls what becomes visible. Sharing is a safe <em>and</em> productive act, not an automatic post. <b>Post-A3 &mdash; informs the direction; outside the bounded slice.</b>',
+    nodes:[
+      { id:'colman', ref:'Colman &amp; Rouzies', yr:2019, register:'postA3', gate:true, ft50:true, dots:4, dim:true,
+        standing:'ABDC A* · Q1 · FT50', venue:'Journal of Management',
+        role:'<b>DP5 seed &mdash; the Strategic-management warrant (out of slice).</b> Integration is a relational accomplishment: pre-existing embedded relationships channel the boundary-spanning that facilitates integration; severing them destroys acquired capability. Grounds <em>why</em> surfacing situated knowledge matters &mdash; the M&amp;A-side seed for a trust-and-sharing design principle.' },
+      { id:'rouzies', ref:'Rouzies, Colman &amp; Angwin', yr:2019, register:'postA3', gate:true, ft50:false, dots:3, dim:true,
+        standing:'ABDC A* · Q1', venue:'Long Range Planning',
+        role:'<b>DP5 seed &mdash; Strategic-management warrant (out of slice).</b> The embeddedness / co-evolving-strain leg. <span class="conf">Same dataset as Colman &amp; Rouzies (non-independent) &mdash; two lenses on one case, not corroborating studies.</span>' },
+      { id:'connelly', ref:'Connelly et al.', yr:2011, register:'postA3', gate:false, dots:0, dim:true, suppl:true,
+        standing:'ABDC A* · landscape-informing · locator pending', venue:'Journal of Organizational Behavior',
+        role:'<b>DP5 anchor (post-A3).</b> Knowledge hiding &mdash; the protective counterpart to sharing. Reflect-for-self, then select-for-sharing; disclosure as a learner-controlled trust mechanism. <span class="conf">Discipline lifted at extraction.</span>' },
+      { id:'petronio', ref:'Petronio', yr:2010, register:'postA3', gate:false, dots:0, dim:true, suppl:true,
+        standing:'landscape-informing · locator pending', venue:'Journal of Family Theory &amp; Review',
+        role:'<b>DP5 anchor (post-A3).</b> Communication privacy management &mdash; disclosure treated as a protective <em>and</em> generative act, not an automatic publish. <span class="conf">Discipline lifted at extraction.</span>' },
+      { id:'frazier', ref:'Frazier et al.', yr:2017, register:'postA3', gate:false, dots:0, dim:true, suppl:true,
+        standing:'ABDC A* · landscape-informing · locator pending', venue:'Personnel Psychology',
+        role:'<b>DP5 anchor (post-A3).</b> Psychological safety &mdash; safe contribution is how newly-acquired, cross-cultural staff build early belonging (the partner&rsquo;s culture-brief bullet). <span class="conf">Discipline lifted at extraction.</span>' }
+    ] },
+  { id:'dp6', num:'DP6', tag:'multiple formats', headline:false, postA3:true,
+    title:'Multiple means of expression',
+    gist:'Let people articulate in their strongest mode &mdash; text, voice, diagram. UDL is the equity frame; generative learning is the effect. <b>Post-A3 &mdash; where the design widens after the bounded slice.</b>',
+    nodes:[
+      { id:'kingsears', ref:'King-Sears et al.', yr:2023, register:'postA3', gate:false, dots:0, dim:true, suppl:true,
+        standing:'landscape-informing · locator pending', venue:'Teaching and Teacher Education',
+        role:'<b>DP6 anchor (post-A3).</b> Universal Design for Learning &mdash; multiple means of expression; UDL as the equity frame (g = 0.43). <span class="conf">Discipline lifted at extraction.</span>' },
+      { id:'epstein', ref:'Epstein et al.', yr:2020, register:'postA3', gate:false, dots:0, dim:true, suppl:true,
+        standing:'not ranked · landscape-informing · locator pending', venue:'Int. J. Scholarship of Teaching &amp; Learning',
+        role:'<b>DP6 anchor (post-A3).</b> Multimodal expression &mdash; lets the most tacit operational know-how surface in non-text form, where prose would lose it. <span class="conf">Discipline lifted at extraction.</span>' },
+      { id:'zhangcapp', ref:'Zhang / Capp', yr:'2024', register:'postA3', gate:false, dots:0, dim:true, suppl:true,
+        standing:'landscape-informing · locator pending', venue:'Educational Psychology Review / IJIE',
+        role:'<b>DP6 counterweight (post-A3).</b> UDL critiques (Zhang 2024; Capp 2017) &mdash; the critical counterbalance to UDL claims; travels with DP6. <span class="conf">Discipline lifted at extraction.</span>' }
+    ] }
+];
+
+/* ---------- CRITICAL ENGAGEMENT · positioning tier (not gate-counted) ---------- */
+const CRITICAL = [
+  { id:'gourlay', ref:'Gourlay', yr:2006, register:'critical', gate:false, ft50:true, dots:4, positioning:true,
+    standing:'ABDC A* · Q1 · FT50 · positioning', venue:'J. of Management Studies',
+    role:'<b>Positions DP2 (externalisation).</b> The established SECI critique: the conversion modes are thinly evidenced and conceptually uneven. The slice imports externalisation as a <b>name</b> only and relocates the effect evidence onto the generative-learning literatures. Disciplines the justification, not the design.',
+    positions:'dp2' },
+  { id:'farnese', ref:'Farnese et al.', yr:2019, register:'critical', gate:false, ft50:false, dots:2, positioning:true,
+    standing:'Q2 · positioning (evidential)', venue:'Frontiers in Psychology',
+    role:'<b>Positions DP2 (the partial rebuttal).</b> Validates externalisation&rsquo;s <b>measurability + consequence</b> (KMSP-Q; two large samples) &mdash; but <em>not</em> the conversion mechanism, and it concurs with Gourlay on transfer-vs-conversion. Confirms the slice&rsquo;s import-narrowly choice rather than rescuing the full model.',
+    positions:'dp2' },
+  { id:'taylorkroth', ref:'Taylor &amp; Kroth', yr:2009, register:'critical', gate:false, ft50:false, dots:0, positioning:true, frame:true,
+    standing:'Not ranked · positioning', venue:'J. of Adult Education',
+    role:'<b>Positions DP1 (andragogy).</b> The standard compilation of the andragogy critique &mdash; &ldquo;lacks the fundamental characteristics of a science.&rdquo; This is <em>why</em> the slice cites andragogy as a heuristic, not a predictive theory. Scopes Knowles 1975 (content&harr;critique pair).',
+    positions:'dp1' }
+];
+
+/* ---------- CONVERSATIONS (the nine) + the causal chain ----------
+   kind on each arc = edge weight: mechanistic | defensible | interpretive | consistent-with */
+const CONVERSATIONS = {
+  cA: { name:'Both ends settled; the middle is the contribution', lineage:'',
+    desc:'DP1 + DP2 are settled across traditions; the originality is DP3 (relocation) + DP4 (context-rich by-product). Confirmed across all tiers.',
+    nodes:['dp1','dp2','dp3','dp4'],
+    arcs:[['dp1','dp2','interpretive'],['dp2','dp3','interpretive'],['dp3','dp4','mechanistic']] },
+  cB: { name:'&ldquo;Structuring must be supplied by design&rdquo; (DP2&harr;DP3)', lineage:'',
+    desc:'Eight learning-science sources demand that the structuring be supplied; five DP3 papers supply and specify it. The headline convergence on the design side.',
+    nodes:['goffin','bangert','schon','boud','vmb','vms'],
+    arcs:[['goffin','vmb','mechanistic'],['bangert','vmb','defensible'],['schon','vmb','consistent-with'],['boud','vmb','consistent-with'],['vmb','vms','mechanistic']] },
+  cC: { name:'The by-product / dual-output spine (DP1&rarr;DP2&rarr;DP4)', lineage:'',
+    desc:'Seeded at DP1 (Lakkala), framed at DP2 (Sch&ouml;n; Boud/Walker Ch.3), it lands at DP4 (Markus). The learning (DP2) and the reusability (DP4) are two distinct mechanisms &mdash; cite each for its own half.',
+    nodes:['lakkala','schon','boud','markus'],
+    arcs:[['lakkala','schon','consistent-with'],['schon','boud','consistent-with'],['boud','markus','defensible']] },
+  cD: { name:'&ldquo;Don&rsquo;t decontextualise at capture&rdquo; (DP4)', lineage:'',
+    desc:'Six lenses converge: reuse-economics (Markus), transfer-risk (Szulanski, empirical), org practice (Kasper, empirical), learning-theory (Rivi&egrave;re), situated critique (Lobato), and the design move (vM&amp;B).',
+    nodes:['markus','szulanski','kasper','riviere','lobato','vmb'],
+    arcs:[['markus','szulanski','mechanistic'],['szulanski','kasper','defensible'],['kasper','lobato','consistent-with'],['lobato','riviere','interpretive'],['riviere','vmb','consistent-with']] },
+  cE: { name:'Imported-warrant survival (the borrowed-foundations discipline)', lineage:'',
+    desc:'Three contested foundations &mdash; andragogy (DP1), externalisation/SECI (DP2), transfer (DP4) &mdash; answered the same way: import the construct narrowly/critically and relocate the evidential weight onto the better-evidenced mechanism literatures. The critical-evaluation engine.',
+    nodes:['taylorkroth','knowles','gourlay','farnese','bisra','lobato','markus'],
+    arcs:[['taylorkroth','knowles','interpretive'],['gourlay','farnese','defensible'],['farnese','bisra','consistent-with'],['lobato','markus','interpretive']] },
+  cF: { name:'&ldquo;Relocate the codifying work&rdquo; — cross-disciplinary convergence', lineage:'', headline:true,
+    desc:'The DP3 move is warranted from TWO independent disciplines: the learning sciences (CLT + fade + cognitive load) and strategic management (codification-not-experience drives M&amp;A performance; the dedicated function is dispensable, the capability is the end). The strongest convergence in the landscape.',
+    nodes:['zollosingh','trichterborn','vmb','vms','tetzlaff','salden'],
+    arcs:[['zollosingh','vms','defensible'],['trichterborn','vmb','defensible'],['zollosingh','trichterborn','mechanistic'],['vms','tetzlaff','mechanistic'],['tetzlaff','salden','defensible']] },
+  cG: { name:'Environment, structure &amp; firm all point to capability', lineage:'',
+    desc:'The three industry analyses agree with each other and with the academic problem research: PESTEL (the economy), Five Forces (the industry) and VRIO (the firm) all point to developing people&rsquo;s capability as the sensible business response. VRIO&rsquo;s open question &mdash; is the know-how being developed and shared? &mdash; lines up with the M&amp;A finding that deliberate learning, not just experience, drives performance.',
+    nodes:['pestel','fiveforces','vrio','zollosingh'],
+    arcs:[['pestel','fiveforces','interpretive'],['fiveforces','vrio','interpretive'],['vrio','zollosingh','defensible']] },
+  'conv-emptycell': { name:'The empty cell — six standpoints, one unoccupied setting', lineage:'', headline:true,
+    desc:'The problem-side analogue of the cross-disciplinary hinge: six <b>independent</b> literatures converge on one under-occupied setting &mdash; and none combines serial acquisition with learning-embedded capability retention in an SME. One source is credited per standpoint (Durst S-1 · Eckardt S-2 · Kotey&amp;Folker S-3 · Arvanitis S-4 · the freight absence/Fabrizio S-5 · Liao S-7) &mdash; six perspectives, counted once each.',
+    nodes:['durst','eckardt','kotey','arvanitis','fabrizio','liao'],
+    arcs:[['durst','eckardt','interpretive'],['eckardt','kotey','interpretive'],['kotey','arvanitis','interpretive'],['arvanitis','fabrizio','interpretive'],['fabrizio','liao','interpretive']] },
+  'conv-acbridge': { name:'Absorptive capacity — the KM×SM bridge', lineage:'',
+    desc:'External-knowledge acquisition &rarr; intrafirm dissemination &rarr; responsiveness: buildable by design, but <b>relational</b> in a non-R&amp;D service firm (the Moilanen boundary). Homes in knowledge management, meets strategic management at the capability node (Trichterborn). A3-horizon &mdash; one line at A2. Count once via Liao; Moilanen is an independent boundary, Müller an independent corroborator.',
+    nodes:['liao','gray','valentim','moilanen','muller','trichterborn'],
+    arcs:[['liao','gray','defensible'],['liao','valentim','consistent-with'],['muller','liao','consistent-with'],['moilanen','liao','interpretive'],['liao','trichterborn','defensible']] },
+  chain: { name:'&rarr; The causal chain (one chain, both ends, both disciplines)', lineage:'', chain:true,
+    desc:'serial-acquisition strain (the M&amp;A problem) &rarr; DP1 authentic problem &rarr; DP2 generative articulation &rarr; DP3 the template (the hinge) &rarr; DP4 context-rich intermediate &rarr; the Learn&rarr;Share seam. The strongest mechanistic warrant for the whole pipeline.',
+    nodes:['zollosingh','dp1','dp2','dp3','dp4'],
+    arcs:[['zollosingh','dp1','mechanistic'],['dp1','dp2','mechanistic'],['dp2','dp3','mechanistic'],['dp3','dp4','mechanistic']] }
+};
+
+/* ============================================================
+   BLOCK EXPLAINERS — the plain-language (business) and academic
+   (scholar) reading of each visible cluster. Keyed by block slug;
+   surfaced by the "i" affordance on each block. Source:
+   Hover-Block Style Guide v1 (business v2.1 + academic-register v2.1,
+   20260704_B4). Ground blocks + conversation chips: text to follow.
+   ============================================================ */
+const EXPLAINERS = {
+  'problem-nodes': {
+    title:'The problem \u00b7 the gap',
+    business:`Grow by buying other companies and you keep inheriting new teams, each carrying hard-won know-how about customs, clients, and how the work really gets done. What experience builds, deal after deal, is judgement: the ability to tell when a new acquisition genuinely resembles a past one and when it only looks that way, so a lesson is applied where it fits and set aside where it doesn't (Haleblian &amp; Finkelstein 1999). That discernment is real and valuable, but on its own it accumulates slowly and stays in people's heads. What reliably lifts performance across organisations is deliberately capturing it, writing down what each acquisition teaches, rather than relying on experience alone (Zollo &amp; Singh 2004), a contrast the most recent evidence still bears out (Schweizer et al. 2022). And the pace of frequent acquiring brings its own strain, pressing on a smaller forwarder as much as a large one (Laamanen &amp; Keil 2008). The right capability can absorb the strain, and that capability can be built by design (Trichterborn et al. 2016). So that mature judgement is exactly the knowledge worth keeping, and the principles that follow ask how the act of learning might also leave a lasting record of it, so it stays with the team when a colleague retires or moves on. Beyond this mergers-and-acquisitions core, the landscape now grounds the problem in its SME context &mdash; six further standpoints (knowledge loss through turnover, informal learning without a development function, the SME as acquirer, the freight-forwarder and Australian setting, the necessity-and-novelty pivot, and absorptive capacity) that together mark out the empty cell this study sets out to occupy.`,
+    scholar:`It is intuitive that experienced serial acquirers, firms that grow by acquiring others as an ongoing programme, integrate each new firm better than the last. The strategic-management and M&amp;A literature finds the opposite, and does so from four kinds of evidence that converge on one claim: serial-acquisition performance is governed by deliberately built capability, not by deal count (Haleblian &amp; Finkelstein 1999; Zollo &amp; Singh 2004; Trichterborn et al. 2016; Schweizer et al. 2022; Laamanen &amp; Keil 2008). The seminal study finds the relationship between experience and performance to be U-shaped: moderately experienced acquirers over-apply lessons to targets that only look similar, and performance recovers only once experience yields discrimination, the judgement to tell a genuinely comparable case from a superficially similar one (Haleblian &amp; Finkelstein 1999). What reliably drives performance is not experience but knowledge codification, the deliberate articulation of what each deal teaches into reusable form (Zollo &amp; Singh 2004). This codification is the core of a wider capability that a firm builds on purpose rather than absorbs through experience (Trichterborn et al. 2016), and a recent meta-analysis confirms the pattern at field scale, where deliberate learning outperforms experience alone by roughly an order of magnitude (Schweizer et al. 2022). Frequent, uneven acquiring also imposes a strain of its own, one that falls hardest on the firm too small to absorb it (Laamanen &amp; Keil 2008). For a serial-acquiring SME with no dedicated function, this discriminating, codifying capability cannot be waited for or staffed; the literature holds it can instead be built by design (Trichterborn et al. 2016). That judgement is the knowledge worth keeping, and the design principles that follow ask how the act of learning might also produce a durable record of it, one that stays with the team when a colleague retires or moves on. The SME-context base shown below extends this M&amp;A core across six further standpoints &mdash; knowledge loss through turnover, informal SME learning, the SME as acquirer, the freight and Australian context, the necessity&ndash;novelty pivot, and absorptive capacity &mdash; whose convergence on one under-occupied setting is the empty cell the study addresses.`
+  },
+  'critical-nodes': {
+    title:'Positioning \u00b7 imported-warrant survival',
+    business:`Good design is honest about the ideas it borrows, and two of the ideas these principles lean on are debated in their own fields. The response is to ask each idea to carry only the weight it can bear: to use it for the part that is solid, and to rest the real proof on better-evidenced research. The starting point, that adults learn best from real, relevant problems of their own, comes from adult-learning theory, which is widely used but thinly tested, with little hard proof it works exactly as claimed (Taylor &amp; Kroth 2009). So it is taken as a sensible guideline for choosing what to learn from rather than as settled science, and the evidence that the learning actually works is carried elsewhere. The same care applies to the idea of turning know-how into words. The popular model it comes from rests on thin evidence for that very step (Gourlay 2006), so the work borrows only the narrow, specific move it needs; and that move, it turns out, is real and measurable, linked to how well teams actually perform (Farnese et al. 2019). Handled this way, contested ideas can still inform the work without being asked to prove more than they can, because the weight rests on the sturdier ground of the principles themselves.`,
+    scholar:`A design that imports its warrants from other fields owes the reader an account of how far each warrant is evidenced, and borrows only as much as the evidence will bear. Two of the constructs these principles lean on are contested in their home disciplines, and each is imported deliberately, for the part that holds. The first is andragogy, Knowles's account of how adults learn: that they are self-directing, draw on their own experience, and engage most with real, problem-centred tasks. An integrative review finds the framework widely adopted but thinly tested, resting on limited empirical evidence with no validated instrument to measure it (Taylor &amp; Kroth 2009). It is therefore taken as a design heuristic for choosing authentic, relevant raw material, not as a proven theory, and the evidence that the designed act works is carried elsewhere. The second is externalisation, the step in Nonaka's SECI model that turns tacit know-how into explicit form. A conceptual critique argues that SECI's conversion modes rest on thin evidence, externalisation among them (Gourlay 2006), so the work imports that single move rather than the whole model. A later large-sample validation then shows externalisation to be a measurable construct linked to organisational performance (Farnese et al. 2019), answering the measurability charge specifically rather than the critique entire. Imported this way, contested constructs can still do honest work: each is scoped to what its evidence supports, and the real evidential weight is carried inward, by the better-evidenced design principles the framework rests on.`
+  },
+  'hinge': {
+    title:'The synthesis \u00b7 the hinge',
+    business:`Looked at three ways, the partner's situation points in one direction. The industry structure rewards competing on the strength of your people rather than on price (Five Forces); the organisation already holds that strength in the situated know-how of its experienced staff (VRIO); and the moment to act on it is now, because automation and AI are maturing fast while the field is still wide open (PESTEL; Richey et al. 2023). The technology has matured enough that a lasting record could form as a by-product of the work itself. Put those together and a real possibility appears: the moment someone works through a genuine operational problem could do two jobs at once, deepening their own capability and leaving a reusable record behind. Today those two are rarely designed to happen as a single act. That is the proposition this project investigates, a question about how learning could be shaped rather than a judgement about how the partner works today, and it is exactly what the design principles that follow take up.`,
+    scholar:`Before proposing a design, the study reads the partner's situation through an environment scan, the strategic-management practice of testing a problem through several established analytic lenses. Three of them converge on one direction. An analysis of the industry's competitive structure (a five-forces analysis) finds that it rewards competing on the strength of a firm's people rather than on price. A resource-based assessment (VRIO) finds that strength already held, in the situated know-how of experienced staff: a resource that is valuable, rare, and hard to imitate, a genuine source of advantage. A reading of the wider macro-environment (PESTEL) finds the moment ripe: automation and generative AI are maturing fast while the field is still open (Richey et al. 2023). The technology has matured to where a durable record could form as a by-product of the work itself. Read together, these point to a design possibility: the moment an employee works through a real operational problem could serve two ends at once, deepening their own capability and leaving a reusable, context-rich record behind. Such acts are seldom designed to happen as one. That is the proposition the study investigates, a question about how the act of learning might be designed rather than a judgement of how the partner works today, and it is what the design principles that follow take up.`
+  },
+  'postA3-nodes': {
+    title:'Context framing \u00b7 why act now',
+    business:`Some pressures build quietly. A system can keep absorbing strain and still look steady, because each small recovery hides how close the real limit is, until it tips and the change comes fast and is hard to undo (Scheffer et al. 2012). That is why the steady, deliberate moment to act is before the pressure becomes urgent, not after (Maynard 2020).`,
+    scholar:`There is a further reason the timing matters, in how accumulating pressures behave. Complex systems can absorb mounting strain while still appearing stable. Each small recovery hides how close the threshold really is. Then, once it is crossed, the change is abrupt and hard to reverse, a tipping point whose location is difficult to see in advance (Scheffer et al. 2012; Maynard 2020). So the deliberate moment to act is while there is still distance from the threshold, not once the strain has become visible.`
+  },
+  'dp1-lane': {
+    title:'DP1 \u00b7 Authentic operational problem',
+    business:`The first principle starts where the learning is richest: with a real problem the person is already working on. Adults learn best from a current, genuine task that draws on the experience they already carry, rather than from an abstract module set apart from the job (Knowles 1975). What makes this work is not how polished or difficult the exercise looks, but how closely the thinking it asks for matches the thinking the real work demands (Herrington, Reeves &amp; Oliver 2013). In professional settings the point is sharper still: a genuine problem from a real organisation teaches more than any invented case or simulation (Perusso &amp; Baaken 2020). And there is an early clue to the whole approach here, because when the task also produces something genuinely useful, people learn more and value the work more (Lakkala et al. 2023). So the starting point is not something new to manufacture; it is the operational problems an experienced team already meets every day. What the next principle asks is what happens when someone works one of those problems through and puts it into words.`,
+    scholar:`The first principle concerns the raw material of learning, and it is to begin from a real problem the person is already working on. Adult-learning theory (andragogy) holds that adults engage most when a task is problem-centred, relevant to their work, and draws on the experience they already carry, rather than an abstract module set apart from the job (Knowles 1975). What makes such a task teach is not how polished or difficult it looks, but its cognitive realism: how closely the thinking it demands matches the thinking the real work demands. This is the core claim of authentic learning, grounded in situated cognition, the idea that knowledge is bound to the context it forms in and so is best learned where it is used (Herrington, Reeves &amp; Oliver 2013). The point sharpens in professional settings: a genuine problem from a real organisation teaches more than any invented case or simulation (Perusso &amp; Baaken 2020). And a first piece of evidence, from learners' own reports, hints at what is to come, because tasks that also yield a usable output are learned better and valued more (Lakkala et al. 2023). So the raw material is not something to manufacture; it is the authentic operational problems an experienced team already meets each day. What the next principle asks is what happens when someone works one of those problems through and puts it into words.`
+  },
+  'dp2-lane': {
+    title:'DP2 \u00b7 Generative articulation',
+    business:`The second principle is the heart of the approach: ask the person to work the problem through in their own words. Much of what an experienced team knows sits in what they do rather than in what they can easily say, and putting it into words is what brings it to the surface; explaining something in your own words is also, in itself, how the understanding forms, more than being handed the answer (Sch\u00f6n 1987; Bisra et al. 2018; Fiorella &amp; Mayer 2016). This is not a classroom effect. A short, structured talk-through after a real work episode reliably lifts performance for individuals and teams alike, in fifteen or twenty minutes (Tannenbaum &amp; Cerasoli 2013; Boldrini &amp; Cattaneo 2014). It works, though, only when the explaining is guided: left to an open page, what gets written down is thin and loses exactly the hard-won detail worth keeping, so the active ingredient is a short, focused prompt that asks the person to reflect on what they do and do not yet grasp, not a long free write (Goffin &amp; Koners 2011; Bangert-Drowns et al. 2004). And here the two halves of the idea meet, because the same act of putting the work into words is at once the learning and a record that can be returned to later (Boud, Keogh &amp; Walker 1985). So one question is left for the next principle: where should that guiding structure come from?`,
+    scholar:`The second principle is the core of the approach, and it is to ask the person to work the problem through in their own words. Much of what an experienced team knows is tacit, held in what they do rather than what they can readily say. Putting it into words, externalising it, is what brings it to the surface, and explaining something in one's own words is also how understanding forms, more than being given the answer. This is the generative-learning effect, among the more robust findings in the learning sciences, supported by reflective-practice theory, meta-analysis, and a taxonomy of generative modes (Sch\u00f6n 1987; Bisra et al. 2018; Fiorella &amp; Mayer 2016). Nor is it only a classroom effect: a short, structured review after a real work episode lifts individual and team performance by roughly a fifth to a quarter, in fifteen or twenty minutes (Tannenbaum &amp; Cerasoli 2013). It works, though, only when the explaining is guided. Left to an open page, what people write is thin, and it loses precisely the hard-won, tacit detail worth keeping (Goffin &amp; Koners 2011). Structured scaffolding measurably raises the quality of that written reflection (Boldrini &amp; Cattaneo 2014). The active ingredient is a short prompt that asks the person to reflect on what they do and do not yet grasp, a metacognitive cue rather than a long free write (Bangert-Drowns et al. 2004). And here the two halves meet: the same act of putting the work into words is at once the learning and a record that can be returned to later (Boud, Keogh &amp; Walker 1985). One question then remains for the next principle: where should that guiding structure come from?`
+  },
+  'dp3-lane': {
+    title:'DP3 \u00b7 Structuring lives in the design',
+    business:`This is the central principle, and it turns on a simple question of who does what. A freight and customs expert should not have to be an expert in structuring, labelling, and filing what they know as well; asked to do both at once, most of the valuable detail never reaches the page. So the organising work, the shape and the prompts and the tagging, should be carried by the design that supports the person rather than demanded of the person themselves. They then add only the situated detail that is truly theirs, a rich working version is kept instead of a tidy but hollow summary, and they are freed to do the one thing only they can do: think their own situation through (van Merri\u00ebnboer &amp; Boot 2005; van Merri\u00ebnboer &amp; Sweller 2010). That support should ease off as someone gets good at the work, because the help that lifts a newcomer begins to get in an expert's way, and it could be tuned to how well the person is explaining, so a single approach serves a team of very mixed experience (Tetzlaff et al. 2025; Salden et al. 2010). On the messy, judgement-heavy problems this work is full of, though, it should fade more slowly, because worked help keeps paying off even for people who already know a lot (Nievelstein et al. 2013). The structuring, in short, belongs to the design and the thinking to the person, and what the person is left holding, a rich record of a real problem thought through, is where the final principle begins.`,
+    scholar:`That structure should come from the design, not the person. This is the central principle, and it turns on a question of who does what. A freight and customs expert should not also have to be an expert in structuring and filing what they know; asked to do both, the organising crowds out the thinking, and the detail never reaches the page. Cognitive load theory explains why: working memory is limited, so the organising is a load a design can carry, freeing the person for the thinking only they can do (van Merri\u00ebnboer &amp; Boot 2005; van Merri\u00ebnboer &amp; Sweller 2010). The strategy literature reaches the same design from the other side: its finding that deliberate codification, not experience, drives acquisition performance (Zollo &amp; Singh 2004) warrants engineering the codifying structure rather than waiting for it to accumulate. Two independent fields, learning sciences and strategic management, converge on one move. The support should not be fixed, though. High assistance that lifts a newcomer begins to hinder an expert, the expertise-reversal effect, so it should fade as competence grows (Tetzlaff et al. 2025). Because under-helping a beginner costs more than over-helping an expert, the safe default is to err toward support. The fade can be driven by how well the person explains their own steps rather than by a separate test, so one design serves a team of mixed experience (Salden et al. 2010). On the messy, judgement-heavy problems this work is full of, the fade should be slower still, because worked support keeps helping even experts when a task has no single right answer (Nievelstein et al. 2013). The structuring, then, belongs to the design and the thinking to the person. Because the design carries the organising, the codification a time-poor organisation could never afford as a separate task falls out of an act already worth doing for its learning. What the person is left holding, a rich record of a real problem thought through, is where the final principle begins.`
+  },
+  'dp4-lane': {
+    title:'DP4 \u00b7 Context-rich intermediate',
+    business:`The last principle is about what to keep, and it runs against an instinct most organisations share. People won't tidy their work up for someone else's later use, and there is little reason they would: no time, no stake in it (Markus 2001). So rather than ask for a neat summary, the principle is to capture the rich version as the problem is thought through, situation and reasoning left in, and to leave any later boiling down as a separate, guided step for another day. The context is the value: strip it out and a record quietly loses the meaning that made the know-how useful, because know-how stays glued to the situation it formed in and is reused later only when someone can still see the underlying pattern (Lobato 2006; Rivi\u00e8re et al. 2019). Keeping the rich how-and-why is also what lets the knowledge travel at all, since a practice is hardest to pass on when no one can quite say why it works (Szulanski 2000). And this has to be deliberate, because the natural pull runs the other way: organisations tend to thin knowledge to move it, even sophisticated ones and on purpose, so a record has to be rich at the source or not at all (Kasper et al. 2010). There the bounded work stops, with a rich, situated record of a real problem thought through and kept: one that stays with the team when a colleague retires or moves on, and that is ready, later and beyond this project, to be shared and built on.`,
+    scholar:`The final principle concerns what to keep, and it runs against an instinct most organisations share. People will not tidy their work for someone else's later use, and they have little reason to: no time, and no stake in the reuse (Markus 2001). So rather than ask for a neat summary, the principle is to keep the rich version as the problem is thought through, situation and reasoning left in, with any later distilling a separate, guided step. Context is the value. Strip it out and the record loses the meaning that made the know-how useful. Knowledge stays bound to the situation it formed in, and is reused only when someone can still see the underlying pattern (Lobato 2006; Rivi\u00e8re et al. 2019). Keeping that rich how-and-why is also what lets the knowledge travel: a practice is hardest to pass on when no one can quite say why it works, what knowledge management calls stickiness (Szulanski 2000). The same warning, then, reaches this principle from two directions: how individuals transfer learning, and how organisations move knowledge. And this must be deliberate, because the natural pull runs the other way. Organisations tend to thin knowledge to move it, stripping out the thick, situated detail Geertz's ethnography prized, and they do so even when sophisticated and by design (Kasper et al. 2010). So a record must be rich at the source or not at all. There the bounded study stops, keeping the rich version, not the thin: a situated record of a real problem thought through. Beyond the study lies a horizon it points to but does not pursue: shared and built on across cycles, such records could compound into cumulative service improvement, an edge this work makes possible but leaves for later. The more immediate value, though, is a record that stays with the team when a colleague retires or moves on.`
+  }
+};
+
+</script>
+  <script>
+/* ============================================================
+   BUS922 · Evidence Landscape v1 — ENGINE
+   Renders the two-register network, draws SVG conversation arcs,
+   wires focus filters / register toggle / gate highlight /
+   conversation overlays / detail panel.
+   ============================================================ */
+
+/* ---------- node index (id -> object) ---------- */
+const NODE_INDEX = {};
+[...PROBLEM, ...SMECTX, ...POSTA3, ...CRITICAL, ...GROUND_ANCHORS].forEach(n => NODE_INDEX[n.id] = n);
+DPS.forEach(dp => { NODE_INDEX[dp.id] = dp; dp.nodes.forEach(n => { n.dp = dp.id; NODE_INDEX[n.id] = n; }); });
+INSTRUMENTS.forEach(i => NODE_INDEX[i.id] = i);
+
+/* ---------- DISCIPLINE layer (Landscape Discipline Map v1) ----------
+   class/stream lifted from ea-skills frontmatter; family = synthesis roll-up.
+   SECI kept under Learning sciences (map §4 judgment call, A1B recommendation). */
+const FAMILIES = {
+  SM:  { label:'Strategic management & M&A', short:'Strategic mgmt & M&A', css:'sm' },
+  LS:  { label:'Learning sciences',          short:'Learning sciences',   css:'ls' },
+  KM:  { label:'Knowledge management',       short:'Knowledge mgmt',      css:'km' },
+  LSCM:{ label:'Logistics & supply chain management', short:'Logistics & SCM', css:'lscm' },
+  CSC: { label:'Complex systems science',    short:'Complex systems science', css:'csc' },
+  WHRD:{ label:'Workforce & HRD',            short:'Workforce & HRD',      css:'whrd' },
+  CTX: { label:'Context framing',            short:'Context framing',     css:'ctx' }
+};
+const FAMILY_ORDER = ['SM','LS','KM','WHRD','LSCM','CSC'];
+const DISCIPLINE = {
+  zollosingh:['SM','MandA-Learning'], haleblian:['SM','MandA-Learning'], trichterborn:['SM','MandA-Learning'],
+  schweizer:['SM','MandA-Serial'], laamanen:['SM','MandA-Serial'],
+  perusso:['LS','AuthenticLearning'], herrington:['LS','AuthenticLearning'], knowles:['LS','Andragogy'], lakkala:['LS','AuthenticLearning'],
+  bisra:['LS','GenerativeLearning'], fiorella:['LS','GenerativeLearning'], tannenbaum:['LS','GenerativeLearning'],
+  goffin:['LS','GenerativeLearning'], boldrini:['LS','GenerativeLearning'], bangert:['LS','GenerativeLearning'],
+  schon:['LS','Reflection'], boud:['LS','Reflection'],
+  vmb:['LS','InstructionalDesign'], vms:['LS','CognitiveLoad'], tetzlaff:['LS','CognitiveLoad'], salden:['LS','CognitiveLoad'], nievelstein:['LS','CognitiveLoad'],
+  markus:['KM','KnowledgeReuse'], szulanski:['KM','KnowledgeTransfer'], kasper:['KM','KnowledgeTransfer'],
+  riviere:['LS','TransferOfLearning'], lobato:['LS','TransferOfLearning'],
+  gourlay:['LS','SECI'], farnese:['LS','SECI'], taylorkroth:['LS','Andragogy'],
+  colman:['SM','MandA-Socio'], rouzies:['SM','MandA-Socio'], maynard:['CTX','—'],
+  richey:['LSCM','LSCM-AITech'], scheffer:['CSC','TippingPoint'],
+  // --- SME-context (B1) ---
+  durst:['KM','SME-KM'], thorpe:['KM','SME-KM'], massaro:['KM','SME-KM'], wikstrom:['KM','SME-KM'],
+  eckardt:['WHRD','KnowledgeLoss'], demeulenaere:['WHRD','KnowledgeLoss'], xiao:['WHRD','KnowledgeLoss'], galan:['WHRD','KnowledgeLoss'],
+  kotey:['WHRD','SME-Learning'], kortsch:['WHRD','SME-Learning'], decius:['WHRD','SME-Learning'],
+  arvanitis:['SM','MandA-SME'], gala:['SM','MandA-SME'], weitzel:['SM','MandA-SME'], fabrizio:['SM','SME-Capability'],
+  bernal:['LSCM','LSCM-Workforce'], gekara:['LSCM','LSCM-Workforce'], thai:['LSCM','LSCM-Workforce'],
+  levallet:['KM','SME-KM'], dewah:['KM','SME-KM'],
+  liao:['KM','AbsorptiveCapacity'], gray:['KM','AbsorptiveCapacity'], valentim:['KM','AbsorptiveCapacity'],
+  moilanen:['KM','AbsorptiveCapacity'], muller:['KM','AbsorptiveCapacity']
+};
+const STREAM_LABEL = {
+  'MandA-Learning':'M&A · organisational learning', 'MandA-Serial':'M&A · serial acquisition', 'MandA-Socio':'M&A · socio-relational',
+  'AuthenticLearning':'Authentic learning', 'Andragogy':'Andragogy', 'GenerativeLearning':'Generative learning', 'Reflection':'Reflection',
+  'InstructionalDesign':'Instructional design', 'CognitiveLoad':'Cognitive load', 'TransferOfLearning':'Transfer of learning', 'SECI':'SECI / externalisation',
+  'KnowledgeReuse':'Knowledge reuse', 'KnowledgeTransfer':'Knowledge transfer',
+  'LSCM-AITech':'AI in logistics & SCM', 'TippingPoint':'Tipping points / critical transitions', '—':'Context framing',
+  'SME-KM':'SME knowledge management', 'KnowledgeLoss':'Turnover-induced knowledge loss', 'SME-Learning':'SME informal learning / HRD',
+  'MandA-SME':'M&A · the SME acquirer', 'SME-Capability':'SME dynamic capability', 'AbsorptiveCapacity':'Absorptive capacity (KM×SM bridge)',
+  'LSCM-Workforce':'Logistics & SCM workforce'
+};
+Object.entries(DISCIPLINE).forEach(([id, arr]) => { const n = NODE_INDEX[id]; if (n){ n.family = arr[0]; n.stream = arr[1]; } });
+
+const $ = sel => document.querySelector(sel);
+const allNodeEls = [];      // pipeline-view node elements
+const dNodeEls = [];        // discipline-view node elements
+let layout = 'pipeline';
+const VIEW = {
+  pipeline:   { root:null, wrap:null, svg:null, els:allNodeEls },
+  discipline: { root:null, wrap:null, svg:null, els:dNodeEls }
+};
+const AV = () => VIEW[layout];
+
+/* ---------- detail panel ---------- */
+const pMeta = $('#pMeta'), pBody = $('#pBody');
+function dotStr(d){ return '●●●●'.slice(0, d) + '○○○○'.slice(0, 4 - d); }
+function famTag(n){
+  if (!n.family) return '';
+  const f = FAMILIES[n.family];
+  const st = (n.stream && n.stream !== '—') ? ` · ${STREAM_LABEL[n.stream] || n.stream}` : '';
+  return `<span class="famtag ${f.css}">${f.short}${st}</span>`;
+}
+
+function show(n){
+  let cls = n.gate ? 'green' : (n.frame || n.dim || n.positioning || n.suppl || n.fenced) ? 'amber' : 'green';
+  const dots = n.dots ? `<span class="dots">${dotStr(n.dots)}</span>` : '';
+  pMeta.innerHTML = `<span class="rankchip ${cls}">${dots}${n.standing || ''}</span>`
+    + `<div class="reglab">${regLabel(n.register || (n.dp ? 'design' : ''))}${n.venue ? ' · ' + n.venue : ''}</div>`
+    + (n.family ? `<div class="dislab">${famTag(n)}</div>` : '');
+  pBody.innerHTML = `<p class="ttl">${n.ref} <span class="yr">${n.yr || ''}</span></p><p class="role">${n.role || ''}</p>`
+    + (n.confidence_code ? `<div class="confcode">Confidence &middot; <b>${n.confidence_code}</b>${n.standpoint ? ' &middot; ' + n.standpoint : ''}${n.horizon === 'A3' ? ' &middot; A3-horizon' : ''}</div>` : '')
+    + (n.prov === 'pending-close-read' ? `<div class="provtag"><span class="pd"></span>reading-grade &middot; pending-close-read &mdash; close-read before A3 weight</div>` : '')
+    + (n.tension_flag ? `<div class="tension${n.tension_hard ? ' hard' : ''}"><span class="tlab">${n.tension_hard ? '&#9888; hard flag' : 'tension &middot; carry un-flattened'}</span>${n.tension_flag}</div>` : '');
+}
+function showInstrument(i){
+  pMeta.innerHTML = `<span class="rankchip grey">environment-scan</span><div class="reglab">Problem register · grey-lit · ${i.owns}</div>`
+    + `<div class="dislab"><span class="famtag ctx">discipline n/a · analytic instrument</span></div>`;
+  pBody.innerHTML = `<p class="ttl">${i.name} <span class="yr">${i.sub}</span></p><p class="role">${i.finding}</p>`;
+}
+function showGrey(g){
+  pMeta.innerHTML = `<span class="rankchip grey">${g.dir ? 'directional ⚠' : 'external-anchored'}</span><div class="reglab">${g.url ? 'click chip to open source ↗' : 'no single URL'}</div>`;
+  pBody.innerHTML = `<p class="ttl">${g.label}</p><p class="role cite">${g.cite}</p>`;
+}
+function regLabel(r){
+  return { problem:'Problem register · academic M&A', design:'Design register · the slice',
+    critical:'Critical engagement · positioning', postA3:'Out of scope · post-A2 · landscape-informing',
+    concept:'Concept / lens · peer-reviewed anchor', env:'Environment scan · peer-reviewed anchor',
+    grey:'Problem register · grey-lit' }[r] || '';
+}
+
+/* ---------- node builder ---------- */
+let activeEl = null;
+function setActive(el){ if (activeEl) activeEl.classList.remove('active'); activeEl = el; el.classList.add('active'); }
+
+function mkNode(n, list){
+  list = list || allNodeEls;
+  const b = document.createElement('button');
+  let kind = n.gate ? 'green' : 'amber';
+  b.className = 'node ' + kind
+    + (n.frame ? ' frame' : '') + (n.suppl ? ' suppl' : '') + (n.fenced ? ' fenced' : '')
+    + (n.dim ? ' dim-perm' : '') + (n.positioning ? ' positioning' : '');
+  b.dataset.id = n.id;
+  b.dataset.register = n.register || (n.dp ? 'design' : '');
+  b.dataset.gate = n.gate ? '1' : '0';
+  b.dataset.family = n.family || '';
+  let dpset = new Set();
+  if (n.dp) dpset.add(n.dp);
+  (n.touch || []).forEach(t => dpset.add(t));
+  if (n.positions) dpset.add(n.positions);
+  b.dataset.dp = [...dpset].join(',');
+  const dots = n.dots ? `<span class="rankdots" title="${n.standing || ''}">${dotStr(n.dots)}</span>` : '<span class="rankdots none">○○○○</span>';
+  b.innerHTML = `<span class="rk"></span><span class="ref">${n.ref} <span class="yr">${n.yr || ''}</span></span>${dots}`;
+  if (n.ft50) b.innerHTML += '<span class="ft50">FT50</span>';
+  if (n.tension_flag) b.innerHTML += `<span class="warn${n.tension_hard ? ' hard' : ''}" title="${n.tension_hard ? 'Hard flag' : 'Tension flag'} — click to read">⚠</span>`;
+  const handler = () => { setActive(b); show(n); };
+  b.addEventListener('mouseenter', handler);
+  b.addEventListener('click', handler);
+  b.addEventListener('focus', handler);
+  list.push(b);
+  return b;
+}
+
+/* ---------- render: problem register (grey lenses) ---------- */
+function renderInstruments(){
+  const host = $('#instruments');
+  INSTRUMENTS.forEach(i => {
+    const card = document.createElement('div');
+    card.className = 'lens';
+    card.dataset.id = i.id;
+    card.dataset.register = 'grey';
+    card.dataset.gate = '0';
+    card.dataset.dp = '';
+    let chips = '';
+    i.sources.forEach(sid => {
+      const g = GREY[sid];
+      if (!g) return;
+      const tag = g.url
+        ? `<a class="gchip${g.dir ? ' dir' : ''}" href="${g.url}" target="_blank" rel="noopener" data-src="${sid}">${g.label}${g.dir ? ' ⚠' : ''} <span class="ext">↗</span></a>`
+        : `<button class="gchip nolink" data-src="${sid}">${g.label}</button>`;
+      chips += tag;
+    });
+    card.innerHTML = `<div class="lens-head"><h4>${i.name}</h4><span class="owns">${i.owns}</span></div>`
+      + `<div class="lens-sub">${i.sub}</div>`
+      + `<div class="lens-find">${i.finding}</div>`
+      + `<div class="gsrc"><span class="gsrc-lab">anchors</span>${chips}</div>`
+      + (i.fig ? `<a class="figlink" href="${i.fig}">View full figure <span class="ext">↗</span></a>` : '');
+    card.addEventListener('mouseenter', () => { setActive(card); showInstrument(i); });
+    card.addEventListener('click', e => { if (!e.target.closest('.gchip') && !e.target.closest('.figlink')) { setActive(card); showInstrument(i); } });
+    allNodeEls.push(card);
+    host.appendChild(card);
+  });
+  // grey chip detail wiring
+  host.querySelectorAll('.gchip').forEach(ch => {
+    ch.addEventListener('mouseenter', () => showGrey(GREY[ch.dataset.src]));
+    if (ch.classList.contains('nolink')) ch.addEventListener('click', () => showGrey(GREY[ch.dataset.src]));
+  });
+}
+
+function renderList(hostSel, arr){
+  const host = $(hostSel);
+  arr.forEach(n => host.appendChild(mkNode(n)));
+}
+
+/* ---------- render: SME-context base, grouped by standpoint (the empty cell) ---------- */
+const STANDPOINTS = [
+  { n:'S-1', label:'SME knowledge management', hint:'retention under-studied', ids:['durst','thorpe','massaro'] },
+  { n:'S-2', label:'Knowledge loss via turnover', hint:'service firms bite hardest', ids:['eckardt','demeulenaere','xiao','galan'] },
+  { n:'S-3', label:'SME informal learning', hint:'no PD function', ids:['kotey','kortsch','decius'] },
+  { n:'S-4', label:'The SME as acquirer', hint:'under-studied', ids:['arvanitis','gala','weitzel'] },
+  { n:'S-5', label:'Freight-forwarder + AU context', hint:'the closest firm-type match', ids:['fabrizio','bernal','gekara','thai'] },
+  { n:'S-6', label:'Necessity + novelty', hint:'the pivot', ids:['wikstrom','levallet','dewah'] },
+  { n:'S-7', label:'Absorptive capacity', hint:'the KM×SM bridge', ids:['liao','gray','valentim','moilanen','muller'] }
+];
+function renderStandpoints(){
+  const host = $('#smeContext');
+  if (!host) return;
+  STANDPOINTS.forEach(sp => {
+    const g = document.createElement('div');
+    g.className = 'sp-group';
+    g.innerHTML = `<div class="sp-head"><span class="sp-n">${sp.n}</span> ${sp.label}${sp.hint ? ` <span class="sp-hint">${sp.hint}</span>` : ''}</div>`;
+    const nd = document.createElement('div');
+    nd.className = 'nodes vert';
+    sp.ids.forEach(id => { const n = NODE_INDEX[id]; if (n) nd.appendChild(mkNode(n)); });
+    g.appendChild(nd);
+    host.appendChild(g);
+  });
+}
+
+/* ---------- render: design register (DP lanes) ---------- */
+function renderDesign(){
+  const host = $('#designLanes');
+  DPS.forEach(dp => {
+    const lane = document.createElement('div');
+    lane.className = 'lane' + (dp.headline ? ' headline' : '') + (dp.postA3 ? ' postA3' : '');
+    lane.dataset.lane = dp.id;
+    const head = document.createElement('div');
+    head.className = 'lane-head';
+    head.dataset.id = dp.id;
+    head.dataset.register = 'design';
+    head.dataset.gate = '0';
+    head.dataset.dp = dp.id;
+    head.innerHTML = `<div class="lane-id">${dp.num} · ${dp.tag}${dp.headline ? '<span class="hbadge">HEADLINE</span>' : ''}${(dp.id==='dp1'||dp.id==='dp2'||dp.id==='dp3'||dp.id==='dp4') ? `<button class="ibtn" data-explain="${dp.id}-lane" aria-label="Read the explainer for ${dp.num}" aria-expanded="false">i</button>` : ''}</div>`
+      + `<h3>${dp.title}</h3><p class="lane-gist">${dp.gist}</p>`
+      + (dp.id === 'dp3' ? `<div class="xdbadge"><span class="xd-ic">⇄</span> warranted from <b class="fx ls">Learning sciences</b> × <b class="fx sm">Strategic mgmt & M&A</b></div>` : '');
+    head.addEventListener('mouseenter', () => { setActive(head); show(dp); });
+    head.addEventListener('click', () => { setActive(head); show(dp); });
+    allNodeEls.push(head);
+    lane.appendChild(head);
+    const nd = document.createElement('div');
+    nd.className = 'lane-nodes';
+    dp.nodes.forEach(n => nd.appendChild(mkNode(n)));
+    lane.appendChild(nd);
+    host.appendChild(lane);
+  });
+}
+
+/* ============================================================
+   SVG arc rendering
+   ============================================================ */
+function rectIn(parent, el){ const p = parent.getBoundingClientRect(), r = el.getBoundingClientRect();
+  return { x:r.left - p.left + parent.scrollLeft, y:r.top - p.top + parent.scrollTop, w:r.width, h:r.height }; }
+let activeConvo = null, hoverId = null;
+const SVGNS = 'http://www.w3.org/2000/svg';
+let gradSeq = 0;
+
+/* edge index built once from every conversation */
+let ALL_EDGES = [], EDGE_BY_NODE = {}, RESTING = [];
+function isCross(e){ const a = NODE_INDEX[e.a], b = NODE_INDEX[e.b];
+  return a && b && a.family && b.family && a.family !== b.family; }
+function buildEdges(){
+  Object.entries(CONVERSATIONS).forEach(([key, c]) => {
+    c.arcs.forEach(([a, b, kind]) => {
+      const e = { a, b, kind, convo:key, chain:!!c.chain, hl:!!c.headline };
+      ALL_EDGES.push(e);
+      (EDGE_BY_NODE[a] = EDGE_BY_NODE[a] || []).push(e);
+      (EDGE_BY_NODE[b] = EDGE_BY_NODE[b] || []).push(e);
+    });
+  });
+  // the resting web: the causal chain + the cross-disciplinary convergence, always faintly present
+  RESTING = ALL_EDGES.filter(e => e.convo === 'chain' || e.convo === 'cF');
+}
+
+function drawEdge(e, cls){
+  const view = AV();
+  const A = view.root.querySelector(`[data-id="${e.a}"]`), B = view.root.querySelector(`[data-id="${e.b}"]`);
+  if (!A || !B || A.classList.contains('dim') || B.classList.contains('dim')) return;
+  const RA = rectIn(view.wrap, A), RB = rectIn(view.wrap, B);
+  const x1 = RA.x + RA.w/2, y1 = RA.y + RA.h/2, x2 = RB.x + RB.w/2, y2 = RB.y + RB.h/2;
+  const mx = (x1 + x2)/2, my = (y1 + y2)/2;
+  const dx = x2 - x1, dy = y2 - y1, dist = Math.hypot(dx, dy) || 1;
+  const off = Math.min(120, dist * 0.22);
+  const nx = -dy / dist, ny = dx / dist;
+  const d = `M ${x1.toFixed(1)} ${y1.toFixed(1)} Q ${(mx + nx*off).toFixed(1)} ${(my + ny*off).toFixed(1)}, ${x2.toFixed(1)} ${y2.toFixed(1)}`;
+  const cross = isCross(e);
+  const p = document.createElementNS(SVGNS, 'path');
+  p.setAttribute('d', d);
+  p.setAttribute('class', 'edge ' + e.kind + (e.chain ? ' chain' : '') + (e.hl ? ' hl' : '') + (cross ? ' famcross' : '') + (cls ? ' ' + cls : ''));
+  if (cross){
+    // per-edge gradient: source family colour → target family colour (two literatures meeting)
+    let defs = view.svg.querySelector('defs');
+    if (!defs){ defs = document.createElementNS(SVGNS, 'defs'); view.svg.appendChild(defs); }
+    const gid = 'fg' + (gradSeq++);
+    const lg = document.createElementNS(SVGNS, 'linearGradient');
+    lg.setAttribute('id', gid); lg.setAttribute('gradientUnits', 'userSpaceOnUse');
+    lg.setAttribute('x1', x1.toFixed(1)); lg.setAttribute('y1', y1.toFixed(1));
+    lg.setAttribute('x2', x2.toFixed(1)); lg.setAttribute('y2', y2.toFixed(1));
+    const s1 = document.createElementNS(SVGNS, 'stop'); s1.setAttribute('offset', '0%');
+    s1.setAttribute('stop-color', `var(--fam-${FAMILIES[NODE_INDEX[e.a].family].css})`);
+    const s2 = document.createElementNS(SVGNS, 'stop'); s2.setAttribute('offset', '100%');
+    s2.setAttribute('stop-color', `var(--fam-${FAMILIES[NODE_INDEX[e.b].family].css})`);
+    lg.appendChild(s1); lg.appendChild(s2); defs.appendChild(lg);
+    p.setAttribute('stroke', `url(#${gid})`);
+  }
+  view.svg.appendChild(p);
+}
+
+function drawArcs(){
+  const view = AV();
+  const svg = view.svg, wrap = view.wrap;
+  if (!svg || !wrap) return;
+  svg.innerHTML = ''; gradSeq = 0;
+  const w = wrap.scrollWidth, h = wrap.scrollHeight;
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.setAttribute('width', w); svg.setAttribute('height', h);
+  svg.style.width = w + 'px'; svg.style.height = h + 'px';
+  if (activeConvo){
+    const c = CONVERSATIONS[activeConvo];
+    c.arcs.forEach(([a, b, kind]) => drawEdge({ a, b, kind, chain:!!c.chain, hl:!!c.headline, convo:activeConvo }, 'focusedge'));
+    return;
+  }
+  if (hoverId && EDGE_BY_NODE[hoverId]){
+    EDGE_BY_NODE[hoverId].forEach(e => drawEdge(e, 'hoveredge'));
+    return;
+  }
+  RESTING.forEach(e => drawEdge(e, 'resting'));
+}
+
+/* hover illuminate — only when nothing else is steering the view */
+function illuminate(id){
+  if (activeConvo || focus !== 'all' || gateOn || regView !== 'both' || famFocus !== 'all') return;
+  const partners = new Set([id]);
+  (EDGE_BY_NODE[id] || []).forEach(e => { partners.add(e.a); partners.add(e.b); });
+  AV().els.forEach(el => el.classList.toggle('hdim', !partners.has(el.dataset.id)));
+}
+function clearIlluminate(){ AV().els.forEach(el => el.classList.remove('hdim')); }
+
+/* ============================================================
+   Filters / toggles
+   ============================================================ */
+let focus = 'all', regView = 'both', gateOn = false, famFocus = 'all';
+
+function applyDim(){
+  AV().els.forEach(el => {
+    let lit = true;
+    const reg = el.dataset.register, dp = (el.dataset.dp || '').split(',').filter(Boolean), gate = el.dataset.gate === '1';
+    // focus
+    if (focus !== 'all'){
+      if (focus.startsWith('dp')) lit = dp.includes(focus);
+      else if (focus === 'critical') lit = reg === 'critical';
+      else if (focus === 'grey') lit = reg === 'grey';
+      else if (focus === 'problem') lit = reg === 'problem' || reg === 'grey';
+      else if (focus === 'design') lit = reg === 'design';
+      else if (focus === 'postA3') lit = reg === 'postA3';
+    }
+    // register view
+    if (lit && regView !== 'both'){
+      if (regView === 'problem') lit = (reg === 'problem' || reg === 'grey');
+      else if (regView === 'design') lit = (reg === 'design' || reg === 'critical');
+    }
+    // discipline focus
+    if (lit && famFocus !== 'all') lit = (el.dataset.family === famFocus);
+    // gate highlight
+    if (lit && gateOn) lit = gate;
+    // active conversation overrides everything
+    if (activeConvo){
+      lit = CONVERSATIONS[activeConvo].nodes.includes(el.dataset.id);
+    }
+    el.classList.toggle('dim', !lit);
+  });
+}
+
+function setFocus(f){
+  focus = f;
+  document.querySelectorAll('[data-focus]').forEach(c => c.classList.toggle('on', c.dataset.focus === f));
+  applyDim(); requestAnimationFrame(drawArcs);
+}
+function setFam(f){
+  famFocus = f;
+  document.querySelectorAll('[data-fam]').forEach(c => c.classList.toggle('on', c.dataset.fam === f));
+  applyDim(); requestAnimationFrame(drawArcs);
+}
+function setReg(v){
+  regView = v;
+  document.querySelectorAll('[data-reg]').forEach(c => c.classList.toggle('on', c.dataset.reg === v));
+  applyDim(); requestAnimationFrame(drawArcs);
+}
+function setConvo(id){
+  activeConvo = (activeConvo === id) ? null : id;
+  document.querySelectorAll('[data-convo]').forEach(c => c.classList.toggle('on', c.dataset.convo === activeConvo));
+  const banner = $('#convo-banner');
+  if (activeConvo){
+    const c = CONVERSATIONS[activeConvo];
+    banner.style.display = 'block';
+    banner.innerHTML = `<span class="cname">${c.name}</span><div class="cdesc">${c.desc}</div>`;
+  } else { banner.style.display = 'none'; }
+  applyDim();
+  requestAnimationFrame(drawArcs);
+}
+
+/* ============================================================
+   Discipline (second) view — regroup the same nodes by literature
+   ============================================================ */
+function mkInstrumentChip(i){
+  const b = document.createElement('button');
+  b.className = 'node instrument-chip';
+  b.dataset.id = i.id; b.dataset.register = 'grey'; b.dataset.gate = '0'; b.dataset.dp = ''; b.dataset.family = '';
+  b.innerHTML = `<span class="rk" style="background:var(--grey)"></span><span class="ref">${i.name} <span class="yr">${i.sub}</span></span>`;
+  const h = () => { setActive(b); showInstrument(i); };
+  b.addEventListener('mouseenter', h); b.addEventListener('click', h); b.addEventListener('focus', h);
+  dNodeEls.push(b);
+  return b;
+}
+function renderDiscipline(){
+  const stack = $('#dstack');
+  const note = document.createElement('div');
+  note.className = 'dnote';
+  note.innerHTML = `<b>Read by research literature</b> — the same corpus regrouped by the field each paper comes from. The argument reading is one toggle away under <span class="kx">Layout · Pipeline</span>. The cross-disciplinary story is the lines that <b>span columns</b>: trace <span class="kx">★</span> to watch <b>learning sciences</b> and <b>strategic management</b> converge on the same DP3 design move, and <span class="kx">rich capture lock</span> for learning sciences × knowledge management at DP4.`;
+  stack.appendChild(note);
+  const row = document.createElement('div'); row.className = 'drow';
+  const papers = [...PROBLEM, ...SMECTX, ...CRITICAL, ...POSTA3, ...GROUND_ANCHORS];
+  DPS.forEach(dp => dp.nodes.forEach(n => papers.push(n)));
+  FAMILY_ORDER.forEach(fk => {
+    const fam = FAMILIES[fk];
+    const inFam = papers.filter(p => p.family === fk);
+    if (!inFam.length) return;
+    const col = document.createElement('div');
+    col.className = 'dcol fam-' + fam.css;
+    col.innerHTML = `<div class="dcolhead"><span class="dsw ${fam.css}"></span>${fam.label}<span class="dct">${inFam.length}</span></div>`;
+    const streams = [];
+    inFam.forEach(p => { if (!streams.includes(p.stream)) streams.push(p.stream); });
+    streams.forEach(s => {
+      const sub = document.createElement('div'); sub.className = 'dsub';
+      sub.innerHTML = `<div class="dsubhead">${STREAM_LABEL[s] || s}</div>`;
+      const nd = document.createElement('div'); nd.className = 'dnodes';
+      inFam.filter(p => p.stream === s).forEach(p => nd.appendChild(mkNode(p, dNodeEls)));
+      sub.appendChild(nd); col.appendChild(sub);
+    });
+    row.appendChild(col);
+  });
+  // context / environment column (not a discipline)
+  const ctxCol = document.createElement('div');
+  ctxCol.className = 'dcol fam-ctx';
+  ctxCol.innerHTML = `<div class="dcolhead"><span class="dsw ctx"></span>Not a discipline<span class="dct"></span></div>`;
+  const ctxPapers = papers.filter(p => p.family === 'CTX');
+  if (ctxPapers.length){
+    const sub = document.createElement('div'); sub.className = 'dsub';
+    sub.innerHTML = `<div class="dsubhead">Context framing · non-gate</div>`;
+    const nd = document.createElement('div'); nd.className = 'dnodes';
+    ctxPapers.forEach(p => nd.appendChild(mkNode(p, dNodeEls)));
+    sub.appendChild(nd); ctxCol.appendChild(sub);
+  }
+  // post-A3 nodes whose discipline is not yet close-read (DP5 trust / DP6 UDL)
+  const pendPapers = papers.filter(p => !p.family);
+  if (pendPapers.length){
+    const sub = document.createElement('div'); sub.className = 'dsub';
+    sub.innerHTML = `<div class="dsubhead">Post-A3 · discipline at extraction</div>`;
+    const nd = document.createElement('div'); nd.className = 'dnodes';
+    pendPapers.forEach(p => nd.appendChild(mkNode(p, dNodeEls)));
+    sub.appendChild(nd); ctxCol.appendChild(sub);
+  }
+  const sub2 = document.createElement('div'); sub2.className = 'dsub';
+  sub2.innerHTML = `<div class="dsubhead">Environment scan · grey-lit · discipline n/a</div>`;
+  const nd2 = document.createElement('div'); nd2.className = 'dnodes';
+  INSTRUMENTS.forEach(i => nd2.appendChild(mkInstrumentChip(i)));
+  sub2.appendChild(nd2); ctxCol.appendChild(sub2);
+  row.appendChild(ctxCol);
+  stack.appendChild(row);
+}
+
+let pinStack = () => {};
+function setLayout(l){
+  if (layout === l) return;
+  layout = l;
+  VIEW.pipeline.root.hidden = (l !== 'pipeline');
+  VIEW.discipline.root.hidden = (l !== 'discipline');
+  document.querySelectorAll('[data-layout]').forEach(c => c.classList.toggle('on', c.dataset.layout === l));
+  applyDim();
+  // force a reflow of the newly-shown view so its .hscroll has real dimensions, then draw
+  // immediately (no rAF race) and again next frame once fonts/layout fully settle.
+  void AV().wrap.offsetWidth;
+  pinStack(); drawArcs();
+  requestAnimationFrame(() => { pinStack(); drawArcs(); });
+}
+
+/* ============================================================
+   Block explainers — "i" affordance opens a docked reading panel;
+   Business (plain) / Scholar (academic) register toggle.
+   ============================================================ */
+const EXP = { slug:null, reg:'business' };
+try { const r = localStorage.getItem('el-exp-reg'); if (r === 'business' || r === 'scholar') EXP.reg = r; } catch(e){}
+function syncIbtns(){
+  document.querySelectorAll('[data-explain]').forEach(b => {
+    const on = b.dataset.explain === EXP.slug;
+    b.classList.toggle('on', on);
+    b.setAttribute('aria-expanded', on ? 'true' : 'false');
+  });
+}
+function renderExplainer(){
+  const e = EXPLAINERS[EXP.slug]; if (!e) return;
+  $('#expTitle').textContent = e.title;
+  $('#expBody').innerHTML = '<p>' + (e[EXP.reg] || e.business) + '</p>';
+  document.querySelectorAll('[data-exreg]').forEach(c => c.classList.toggle('on', c.dataset.exreg === EXP.reg));
+}
+function openExplainer(slug){
+  if (!EXPLAINERS[slug]) return;
+  if (EXP.slug === slug){ closeExplainer(); return; }
+  EXP.slug = slug;
+  renderExplainer();
+  $('#explainer').hidden = false;
+  syncIbtns();
+  requestAnimationFrame(() => {
+    pinStack(); drawArcs();
+    const el = $('#explainer');
+    const top = el.getBoundingClientRect().top + window.scrollY - 90;
+    window.scrollTo({ top, behavior: 'smooth' });
+  });
+}
+function closeExplainer(){ EXP.slug = null; $('#explainer').hidden = true; syncIbtns(); requestAnimationFrame(() => { pinStack(); drawArcs(); }); }
+
+/* ============================================================
+   Boot
+   ============================================================ */
+function boot(){
+  VIEW.pipeline.root = $('#pipelineView');    VIEW.pipeline.wrap = VIEW.pipeline.root.querySelector('.hscroll');      VIEW.pipeline.svg = $('#links');
+  VIEW.discipline.root = $('#disciplineView'); VIEW.discipline.wrap = VIEW.discipline.root.querySelector('.hscroll'); VIEW.discipline.svg = $('#dlinks');
+
+  buildEdges();
+  renderList('#groundAnchor', GROUND_ANCHORS);
+  renderInstruments();
+  renderList('#problemNodes', PROBLEM);
+  renderStandpoints();
+  renderDesign();
+  renderList('#criticalNodes', CRITICAL);
+  renderList('#postA3Nodes', POSTA3);
+  renderDiscipline();
+
+  // gate readout
+  $('#gateN').textContent = META.gate;
+  $('#ft50N').textContent = META.ft50;
+
+  // chips
+  document.querySelectorAll('[data-focus]').forEach(c => c.addEventListener('click', () => setFocus(c.dataset.focus)));
+  document.querySelectorAll('[data-reg]').forEach(c => c.addEventListener('click', () => setReg(c.dataset.reg)));
+  document.querySelectorAll('[data-fam]').forEach(c => c.addEventListener('click', () => setFam(c.dataset.fam)));
+  document.querySelectorAll('[data-layout]').forEach(c => c.addEventListener('click', () => setLayout(c.dataset.layout)));
+  $('#gateToggle').addEventListener('click', () => {
+    gateOn = !gateOn;
+    $('#gateToggle').classList.toggle('on', gateOn);
+    applyDim();
+  });
+  document.querySelectorAll('[data-convo]').forEach(c => c.addEventListener('click', () => setConvo(c.dataset.convo)));
+
+  // block explainers — "i" opens the docked reading panel; register toggle + close
+  document.querySelectorAll('[data-explain]').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); openExplainer(b.dataset.explain); }));
+  document.querySelectorAll('[data-exreg]').forEach(c => c.addEventListener('click', () => {
+    EXP.reg = c.dataset.exreg;
+    try { localStorage.setItem('el-exp-reg', EXP.reg); } catch(e){}
+    if (EXP.slug) renderExplainer();
+    else document.querySelectorAll('[data-exreg]').forEach(x => x.classList.toggle('on', x.dataset.exreg === EXP.reg));
+  }));
+  $('#expClose').addEventListener('click', closeExplainer);
+  document.querySelectorAll('[data-exreg]').forEach(x => x.classList.toggle('on', x.dataset.exreg === EXP.reg));
+
+  // hover-illuminate: any node lights its conversation partners + draws their arcs (either view)
+  const diagram = $('#diagram');
+  diagram.addEventListener('mouseover', e => {
+    const el = e.target.closest('[data-id]');
+    if (!el || !diagram.contains(el)) return;
+    if (el.dataset.id === hoverId) return;
+    hoverId = el.dataset.id;
+    illuminate(hoverId);
+    requestAnimationFrame(drawArcs);
+  });
+  diagram.addEventListener('mouseleave', () => {
+    hoverId = null; clearIlluminate(); requestAnimationFrame(drawArcs);
+  });
+
+  // pin the pipeline stack width so the foundation fills it (not expands it)
+  const flowRow = document.querySelector('.hstack .hrow');
+  const hstack = document.querySelector('.hstack');
+  pinStack = () => { if (flowRow && hstack){ hstack.style.width = ''; hstack.style.width = flowRow.scrollWidth + 'px'; } };
+
+  let raf;
+  const redraw = () => { cancelAnimationFrame(raf); raf = requestAnimationFrame(() => { pinStack(); drawArcs(); }); };
+  window.addEventListener('resize', redraw);
+  // redraw after fonts/layout settle
+  pinStack();
+  setTimeout(() => { pinStack(); drawArcs(); }, 60);
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => { pinStack(); drawArcs(); });
+}
+document.addEventListener('DOMContentLoaded', boot);
+
+</script>
+</body>
+</html>

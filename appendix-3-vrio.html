@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BUS922 A3 · VRIO — resource landscape</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:oklch(0.985 0.002 250);
+    --paper:#ffffff;
+    --paper-2:oklch(0.965 0.003 250);
+    --ink:oklch(0.27 0.012 250);
+    --ink-2:oklch(0.42 0.014 250);
+    --muted:oklch(0.56 0.012 250);
+    --muted-2:oklch(0.70 0.01 250);
+    --line:oklch(0.905 0.004 250);
+    --line-2:oklch(0.83 0.006 250);
+    --yes:oklch(0.58 0.10 180);     /* teal — ✓ */
+    --part:#6E5A1E;    /* bronze — ◑ */
+    --no:oklch(0.63 0.15 30);      /* coral — ✗ */
+    --open:oklch(0.56 0.012 250);    /* grey — ? */
+    --navy:oklch(0.53 0.12 250);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;}
+
+  .page{width:1180px;margin:0 auto;padding:64px 64px 56px;}
+
+  .eyebrow{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);}
+  h1{font-family:"Fraunces",Georgia,serif;font-weight:400;
+    font-size:40px;line-height:1.1;letter-spacing:-0.015em;margin:14px 0 0;text-wrap:balance;}
+  .subtitle{font-family:"Fraunces",Georgia,serif;font-style:italic;
+    font-size:19px;line-height:1.42;color:var(--ink-2);margin:13px 0 0;max-width:78ch;text-wrap:pretty;}
+  .scope{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;
+    line-height:1.7;color:var(--muted-2);margin:16px 0 0;max-width:112ch;letter-spacing:0.01em;}
+
+  .rule{height:1px;background:var(--line);border:0;margin:30px 0 22px;}
+
+  /* legend */
+  .legend{display:flex;gap:22px;flex-wrap:wrap;align-items:center;margin:0 0 20px;
+    font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:0.1em;color:var(--muted);}
+  .legend .lg{display:flex;align-items:center;gap:7px;}
+  .legend .gly{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;
+    font-size:11px;color:#fff;font-family:"Inter",sans-serif;font-weight:600;}
+  .gly.yes{background:var(--yes);} .gly.part{background:var(--part);}
+  .gly.no{background:var(--no);} .gly.open{background:var(--open);}
+
+  /* resource rows */
+  .rows{display:flex;flex-direction:column;gap:16px;}
+  .res{background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:22px 26px;display:grid;grid-template-columns:1fr 286px;gap:30px;align-items:center;
+    border-left:3px solid var(--ac);}
+  .res.r1{--ac:var(--muted-2);}
+  .res.r2{--ac:var(--navy);}
+  .res.r3{--ac:#cdbfd1;background:var(--ink);border-color:var(--ink);}
+
+  .rname{font-family:"Fraunces",Georgia,serif;font-size:21px;font-weight:400;letter-spacing:-0.01em;line-height:1.12;}
+  .rnum{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10px;color:var(--ac);
+    letter-spacing:0.14em;margin-bottom:6px;display:block;text-transform:uppercase;}
+  .rbody{font-size:13px;line-height:1.58;color:var(--ink-2);margin:11px 0 0;text-wrap:pretty;}
+  cite{font-style:normal;color:var(--muted);}
+  .impl{margin:12px 0 0;font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:13.5px;
+    line-height:1.46;color:var(--ink);}
+  .impl b{font-style:normal;font-weight:500;font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:9px;text-transform:uppercase;letter-spacing:0.12em;color:var(--ac);margin-right:7px;vertical-align:1.5px;}
+
+  .res.r3 .rname{color:#ffffff;} .res.r3 .rbody{color:#d8d4cf;} .res.r3 cite{color:#a8a49c;}
+  .res.r3 .impl{color:oklch(0.965 0.003 250);} .res.r3 .rnum{color:#cdbfd1;}
+  .flag{display:inline-block;font-family:"JetBrains Mono",ui-monospace,monospace;font-size:8.5px;
+    text-transform:uppercase;letter-spacing:0.12em;color:oklch(0.27 0.012 250);background:#cdbfd1;
+    border-radius:5px;padding:3px 8px;margin-top:11px;}
+
+  /* VRIO badge strip */
+  .vrio{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;}
+  .vcell{text-align:center;}
+  .vk{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;letter-spacing:0.1em;
+    color:var(--muted);margin-bottom:7px;}
+  .res.r3 .vk{color:oklch(0.70 0.01 250);}
+  .vglyph{width:44px;height:44px;margin:0 auto;border-radius:10px;display:grid;place-items:center;
+    font-size:19px;color:#fff;font-weight:600;}
+  .vsub{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:7.5px;text-transform:uppercase;
+    letter-spacing:0.08em;color:var(--muted);margin-top:7px;line-height:1.3;}
+  .res.r3 .vsub{color:oklch(0.70 0.01 250);}
+  .vyes{background:var(--yes);} .vpart{background:var(--part);}
+  .vno{background:var(--no);} .vopen{background:var(--open);}
+
+  /* hinge band */
+  .hinge{margin:24px 0 0;background:var(--paper);border:1px solid var(--line);
+    border-left:3px solid var(--no);border-radius:12px;padding:22px 26px;}
+  .hinge .nlab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);margin-bottom:10px;}
+  .hinge p{margin:0;font-family:"Fraunces",Georgia,serif;font-size:17px;line-height:1.5;
+    font-weight:400;text-wrap:pretty;letter-spacing:-0.005em;color:var(--ink);}
+  .hinge .wk{color:var(--no);font-style:italic;} .hinge .op{color:var(--yes);font-style:italic;}
+  .hinge p b{font-weight:500;font-style:normal;}
+  .converge{margin:14px 0 0;font-size:13px;line-height:1.55;color:var(--ink-2);
+    font-family:"Inter",sans-serif;padding-top:13px;border-top:1px dashed var(--line-2);text-wrap:pretty;}
+  .converge b{font-weight:600;color:var(--ink);}
+
+  /* altitude relay — makes the three-figure convergence visible */
+  .relay{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:16px 0 0;}
+  .relay .alt{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.12em;color:var(--muted);border:1px solid var(--line-2);border-radius:20px;padding:4px 11px;}
+  .relay .alt.on{color:#fff;background:var(--ink);border-color:var(--ink);}
+  .relay .arrow{color:var(--muted-2);font-family:"JetBrains Mono",monospace;font-size:12px;}
+  .relay .verb{font-family:"Fraunces",Georgia,serif;font-style:italic;font-size:16px;color:var(--ink);font-weight:500;letter-spacing:-0.005em;}
+
+  .foot{margin-top:30px;font-family:"JetBrains Mono",ui-monospace,monospace;
+    font-size:10px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted-2);line-height:1.9;}
+
+  .figback{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:22px;}
+  .figback:hover{color:var(--ink);}
+
+  @media print{
+    html,body{background:#fff;}
+    .page{padding:32px;}
+    .res,.hinge{break-inside:avoid;}
+    .figback{display:none;}
+  }
+  .reflink{display:inline-block;margin:26px 0 0;padding-bottom:2px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:oklch(0.56 0.012 250);text-decoration:none;border-bottom:1px solid oklch(0.83 0.006 250);transition:color .14s,border-color .14s;}
+  .reflink:hover{color:oklch(0.27 0.012 250);border-color:oklch(0.27 0.012 250);}
+</style>
+</head>
+<body>
+  <div class="page">
+
+    <a class="figback" href="environment-scan.html">&larr; Environment scan</a>
+    <div class="eyebrow">BUS922 Business Research Capstone · Appendix 3 · Figure A3.1</div>
+    <h1>VRIO — the resource landscape</h1>
+    <p class="subtitle">Three resources of a smaller, growth-by-acquisition forwarder, tested with VRIO — is each one Valuable, Rare, hard to Imitate, and Organised to make the most of? (Barney's framework.)</p>
+    <p class="scope">The firm is described at the level of its type, not from inside the partner; whether and how the partner is &ldquo;organised&rdquo; to develop and share capability is what the research investigates. Sources: IBISWorld 2025; Jobs and Skills Australia 2025; Industry Skills Australia 2025; recruiter salary guides (directional). All viewed 28 June 2026.</p>
+
+    <hr class="rule" />
+
+    <div class="legend">
+      <span style="color:var(--ink);letter-spacing:0.12em;">V valuable · R rare · I costly to imitate · O organised</span>
+      <span class="lg"><span class="gly yes">&#10003;</span> Yes</span>
+      <span class="lg"><span class="gly part">&#9681;</span> Partial</span>
+      <span class="lg"><span class="gly no">&#10007;</span> No</span>
+      <span class="lg"><span class="gly open">?</span> Open question</span>
+    </div>
+
+    <div class="rows">
+
+      <!-- R1 -->
+      <div class="res r1">
+        <div>
+          <span class="rnum">Resource 01</span>
+          <div class="rname">Global multi-office network</div>
+          <p class="rbody">Valuable for reach and contacts <cite>(IBISWorld 2025)</cite>, but only partly rare — almost every forwarder belongs to a network — and easy to copy. It is set up for moving freight, not for developing or sharing what people know.</p>
+          <p class="impl"><b>Implication</b>About level with rivals on reach — the channel capability could travel through, not the edge itself.</p>
+        </div>
+        <div class="vrio">
+          <div class="vcell"><div class="vk">V</div><div class="vglyph vyes">&#10003;</div><div class="vsub">Valuable</div></div>
+          <div class="vcell"><div class="vk">R</div><div class="vglyph vpart">&#9681;</div><div class="vsub">Partly rare</div></div>
+          <div class="vcell"><div class="vk">I</div><div class="vglyph vno">&#10007;</div><div class="vsub">Imitable</div></div>
+          <div class="vcell"><div class="vk">O</div><div class="vglyph vpart">&#9681;</div><div class="vsub">For freight</div></div>
+        </div>
+      </div>
+
+      <!-- R2 -->
+      <div class="res r2">
+        <div>
+          <span class="rnum">Resource 02</span>
+          <div class="rname">Customs-clearance expertise &amp; ABF licensing</div>
+          <p class="rbody">Customs clearance is licensed, specialist work that few small forwarders can do in-house <cite>(IBISWorld 2025)</cite>: valuable, genuinely rare and hard to copy, given a shortage of licensed brokers and an ageing workforce <cite>(Jobs and Skills Australia 2025; Industry Skills Australia 2025)</cite>. Whether it is <i>organised</i> — consistent and shared across a multi-office firm — is an open question.</p>
+          <p class="impl"><b>Implication</b>A lasting advantage where it is well organised; a scarce, regulated strength any strategy built on standing out would lean on.</p>
+        </div>
+        <div class="vrio">
+          <div class="vcell"><div class="vk">V</div><div class="vglyph vyes">&#10003;</div><div class="vsub">Valuable</div></div>
+          <div class="vcell"><div class="vk">R</div><div class="vglyph vyes">&#10003;</div><div class="vsub">Rare</div></div>
+          <div class="vcell"><div class="vk">I</div><div class="vglyph vyes">&#10003;</div><div class="vsub">Costly</div></div>
+          <div class="vcell"><div class="vk">O</div><div class="vglyph vopen">?</div><div class="vsub">Open</div></div>
+        </div>
+      </div>
+
+      <!-- R3 headline -->
+      <div class="res r3">
+        <div>
+          <span class="rnum">Resource 03 · headline</span>
+          <div class="rname">The know-how and relationships of experienced staff</div>
+          <p class="rbody">The hands-on know-how experienced freight and customs staff carry — how the work is really done, the regulatory detail, and the client relationships they hold. IBISWorld points to this as where value is mostly added — &ldquo;value is primarily added through industry knowledge, contacts and purchasing transport space in bulk&rdquo; <cite>(IBISWorld 2025, p.&nbsp;37)</cite> — and it is rare and hard to copy because such staff are scarce, ageing and slow to replace <cite>(Jobs and Skills Australia 2025; Industry Skills Australia 2025)</cite>. How deliberately a firm like the partner develops and shares that capability is the open question this research explores — with one risk worth examining: that growth by acquisition can add new teams faster than their know-how is passed on.</p>
+          <p class="impl"><b>Implication</b>In VRIO terms, an advantage the firm holds but may not yet be fully set up to use — the &ldquo;O&rdquo; is what the research sets out to clarify.</p>
+          <span class="flag">What the research investigates</span>
+        </div>
+        <div class="vrio">
+          <div class="vcell"><div class="vk">V</div><div class="vglyph vyes">&#10003;</div><div class="vsub">Valuable</div></div>
+          <div class="vcell"><div class="vk">R</div><div class="vglyph vyes">&#10003;</div><div class="vsub">Rare</div></div>
+          <div class="vcell"><div class="vk">I</div><div class="vglyph vyes">&#10003;</div><div class="vsub">Costly</div></div>
+          <div class="vcell"><div class="vk">O</div><div class="vglyph vopen">?</div><div class="vsub">Open question</div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="hinge">
+      <div class="nlab">Landscape hinge · the firm</div>
+      <p>So the picture is a capability the firm-type clearly holds but may not be fully set up to use — and the same economy-level scan shows why now: automation and AI are now good enough to support developing people through their everyday work, with a reusable record captured as a by-product — the <span class="op">opening</span>. The industry rewards competing on people, and a firm like the partner holds that capability; how deliberately it is developed and shared is the <span class="wk">open question</span> this research sets out to answer.</p>
+      <div class="relay">
+        <span class="alt">The economy · PESTEL</span>
+        <span class="alt">The industry · Five Forces</span>
+        <span class="alt on">The firm · VRIO</span>
+        <span class="arrow">&rarr;</span>
+        <span class="verb">developing capability is within reach</span>
+      </div>
+      <p class="converge">Three levels, one conclusion: the wider economy, the industry and the firm all point the same way — in this industry the edge is your people, and developing their capability is the response that fits. This research explores how the partner develops that capability today, and where it could be strengthened. The case for acting is at once <b>timely</b> (the economy), <b>necessary</b> (the industry) and <b>within reach</b> (the firm).</p>
+    </div>
+
+    <a class="reflink" href="references-bibliography.html">References &amp; bibliography &rarr;</a>
+
+    <!-- figure version: v2 (Jul 2026) — not shown publicly -->
+    <div class="foot">
+      Kali Madden · BUS922 A3 · Dr Nelly Liyanagamage · July 2026<br>
+      Appendix 3 · VRIO — resource landscape · Figure A3.1 · best viewed on a laptop or desktop
+    </div>
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BUS922 A3 · References &amp; Bibliography</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:oklch(0.985 0.002 250);
+    --paper:#ffffff;
+    --paper-2:oklch(0.965 0.003 250);
+    --ink:oklch(0.27 0.012 250);
+    --ink-2:oklch(0.42 0.014 250);
+    --muted:oklch(0.56 0.012 250);
+    --muted-2:oklch(0.70 0.01 250);
+    --line:oklch(0.905 0.004 250);
+    --line-2:oklch(0.83 0.006 250);
+    --teal:oklch(0.58 0.10 180);
+    --navy:oklch(0.53 0.12 250);
+    --coral:oklch(0.63 0.15 30);
+    --grey:oklch(0.55 0.012 250);
+    /* discipline families (shared with the evidence landscape) */
+    --fam-sm: oklch(0.64 0.14 256);
+    --fam-ls: oklch(0.62 0.07 245);
+    --fam-km: oklch(0.86 0.15 101);
+    --fam-rm: oklch(0.64 0.15 305);
+    --fam-lscm: oklch(0.64 0.16 150);
+    --fam-csc: oklch(0.64 0.13 330);
+    --fam-whrd: oklch(0.60 0.12 25);
+    --fam-ctx: oklch(0.62 0.012 250);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:840px;margin:0 auto;padding:56px 32px 120px;}
+
+  .back{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:26px;}
+  .back:hover{color:var(--ink);}
+
+  .eyebrow{font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--muted);}
+  h1{font-family:"Fraunces","Source Serif Pro",Georgia,serif;font-weight:400;
+    font-size:38px;line-height:1.12;letter-spacing:-0.015em;margin:15px 0 0;text-wrap:balance;}
+  .subtitle{font-family:"Fraunces",Georgia,serif;font-style:italic;
+    font-size:19px;line-height:1.42;color:var(--ink-2);margin:14px 0 0;max-width:64ch;text-wrap:pretty;}
+  .lede{color:var(--muted);font-size:14px;line-height:1.65;max-width:72ch;margin:18px 0 0;}
+
+  /* readout row */
+  .readout{margin:26px 0 0;display:flex;gap:14px 26px;flex-wrap:wrap;
+    font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:0.02em;
+    color:var(--muted);padding:14px 0 0;border-top:1px solid var(--line);}
+  .readout b{color:var(--ink);font-weight:500;}
+
+  /* key panel */
+  .keynote{margin:22px 0 0;background:var(--paper);border:1px solid var(--line);border-radius:12px;
+    padding:18px 22px;font-size:12.5px;line-height:1.62;color:var(--ink-2);max-width:78ch;}
+  .keynote + .keynote{margin-top:12px;}
+  .keynote .klab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9.5px;text-transform:uppercase;
+    letter-spacing:0.14em;color:var(--muted-2);margin-bottom:9px;}
+  .keynote b{color:var(--ink);font-weight:600;}
+  .keynote .g{color:var(--teal);font-weight:600;}
+
+  /* section */
+  .sec{margin-top:56px;}
+  .sechead{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    border-top:2px solid var(--ink);padding-top:15px;}
+  .seckick{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;text-transform:uppercase;
+    letter-spacing:0.15em;color:var(--acc);margin-bottom:8px;}
+  .sectitle{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:27px;letter-spacing:-0.015em;
+    line-height:1.1;margin:0;}
+  .seccount{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;color:var(--muted-2);
+    letter-spacing:0.02em;white-space:nowrap;}
+  .secdesc{color:var(--muted);font-size:13px;line-height:1.6;max-width:74ch;margin:12px 0 0;}
+  .sec.refs{--acc:var(--navy);}
+  .sec.bib{--acc:var(--grey);}
+
+  .subhead{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;text-transform:uppercase;
+    letter-spacing:0.13em;color:var(--sacc,var(--muted-2));margin:36px 0 4px;padding-top:15px;
+    border-top:1px dashed var(--line-2);}
+  .subdesc{color:var(--muted);font-size:12px;line-height:1.58;max-width:74ch;margin:0 0 20px;font-style:italic;
+    font-family:"Fraunces",Georgia,serif;}
+
+  .list{margin-top:26px;}
+  .entry{margin:0 0 17px;}
+  .cite{margin:0;padding-left:1.6em;text-indent:-1.6em;font-size:14.5px;line-height:1.6;color:var(--ink);
+    text-wrap:pretty;}
+  .cite i{font-style:italic;}
+  .cite a{color:var(--ink-2);text-decoration:none;border-bottom:1px solid var(--line-2);
+    transition:color .14s,border-color .14s;word-break:break-word;}
+  .cite a:hover{color:var(--teal);border-color:var(--teal);}
+  .ann{margin:4px 0 0;padding-left:1.6em;font-size:11.5px;line-height:1.52;color:var(--muted);text-wrap:pretty;}
+  .ann .t{color:var(--acc);font-weight:600;margin-right:.25em;}
+  .ann i{font-style:italic;color:var(--ink-2);}
+  .ann .yes{color:var(--teal);font-weight:600;}
+  .ann .no{color:var(--muted);font-weight:600;}
+
+  .partial .cite{color:var(--ink-2);}
+  .pend{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9.5px;text-transform:uppercase;
+    letter-spacing:0.08em;color:var(--muted);border:1px solid var(--line-2);border-radius:4px;
+    padding:1px 6px;white-space:nowrap;opacity:.85;text-indent:0;display:inline-block;}
+
+  .leg{margin:6px 0 0;padding-left:1.6em;font-size:14.5px;line-height:1.8;color:var(--ink);}
+  .leg i{font-style:italic;}
+
+  /* ── reference-gate panel ── */
+  .gate{margin:26px 0 10px;background:var(--ink);color:oklch(0.965 0.003 250);border-radius:15px;padding:28px 30px 26px;}
+  .gate .glab{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;text-transform:uppercase;
+    letter-spacing:0.16em;color:var(--muted-2);}
+  .gate-top{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;margin:14px 0 0;}
+  .gate .big{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:60px;line-height:.9;color:#fff;
+    letter-spacing:-0.02em;}
+  .gate .bigcap{font-family:"Fraunces",Georgia,serif;font-size:18px;line-height:1.35;color:#ffffff;max-width:30ch;}
+  .gate .bigcap b{color:#8FC7B4;font-weight:500;}
+  .dots{display:flex;flex-wrap:wrap;gap:8px;margin:22px 0 0;max-width:520px;}
+  .dots .d{width:15px;height:15px;border-radius:50%;border:1.5px solid #6f9f90;box-sizing:border-box;}
+  .dots .d.ft{background:#E9C46A;border-color:#E9C46A;}
+  .glegend{display:flex;gap:22px;flex-wrap:wrap;margin:16px 0 0;
+    font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10.5px;letter-spacing:0.02em;color:var(--muted-2);}
+  .glegend .lg{display:flex;align-items:center;gap:8px;}
+  .glegend .s{width:13px;height:13px;border-radius:50%;box-sizing:border-box;}
+  .glegend .s.hollow{border:1.5px solid #6f9f90;}
+  .glegend .s.ft{background:#E9C46A;}
+  .glegend .s.env{border:1.5px dashed #D8A794;}
+  .glegend .s.cl{border:1.5px solid #D9A6C8;}
+  .lanescap{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9.5px;text-transform:uppercase;
+    letter-spacing:0.12em;color:var(--muted-2);margin:24px 0 0;}
+  .lanes{display:flex;flex-wrap:wrap;gap:18px 22px;margin:13px 0 0;}
+  .lane .lname{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted-2);margin-bottom:10px;}
+  .lane .lname b{color:#ffffff;font-weight:600;font-size:12px;}
+  .lane.env .lname b{color:#D8A794;}
+  .lane.cl .lname b{color:#D9A6C8;}
+  .ldots{display:flex;gap:6px;flex-wrap:wrap;max-width:114px;}
+  .ldots .d{width:15px;height:15px;border-radius:50%;border:1.5px solid #6f9f90;box-sizing:border-box;}
+  .ldots .d.ft{background:#E9C46A;border-color:#E9C46A;}
+  .ldots .d.env{border:1.5px dashed #D8A794;background:transparent;}
+  .ldots .d.cl{border:1.5px solid #D9A6C8;background:transparent;}
+  .gauge{margin:24px 0 0;}
+  .gauge-track{position:relative;height:9px;border-radius:6px;background:#33312c;}
+  .gauge-fill{position:absolute;left:0;top:0;bottom:0;width:91.6%;border-radius:6px;
+    background:linear-gradient(90deg,oklch(0.58 0.10 180),#8FC7B4);}
+  .gauge-mark{position:absolute;top:-5px;bottom:-5px;width:2px;background:oklch(0.965 0.003 250);opacity:.6;}
+  .gauge-labs{display:flex;justify-content:space-between;margin:11px 2px 0;
+    font-family:"JetBrains Mono",ui-monospace,monospace;font-size:10px;letter-spacing:0.04em;color:var(--muted-2);}
+  .gauge-labs b{color:#ffffff;font-weight:500;}
+  .gauge-labs .hit{color:#8FC7B4;}
+  .gate-foot{margin:20px 0 0;padding-top:16px;border-top:1px solid #3a3833;
+    font-size:12px;line-height:1.55;color:var(--muted-2);max-width:76ch;}
+  .gate-foot b{color:#ffffff;font-weight:500;}
+
+  .foot{margin-top:60px;padding-top:22px;border-top:1px solid var(--line);
+    font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;
+    font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:var(--muted-2);line-height:1.9;}
+
+  @media (max-width:600px){
+    .wrap{padding:44px 20px 80px;}
+    h1{font-size:29px;}
+    .sectitle{font-size:23px;}
+    .cite,.leg{font-size:14px;}
+  }
+  @media print{
+    html,body{background:#fff;}
+    .back{display:none;}
+    .entry,.keynote,.sechead{break-inside:avoid;}
+    .wrap{padding:28px;}
+    .cite a{border:0;color:var(--ink-2);}
+  }
+  /* discipline facet on annotations (third facet: standing · role · discipline) */
+  .disc{font-weight:500;}
+  .disc::before{content:"";display:inline-block;width:7px;height:7px;border-radius:2px;background:currentColor;margin-right:5px;vertical-align:1px;}
+  .disc i{font-weight:400;font-style:italic;opacity:.9;padding-right:0.18em;}
+  .disc.sm{color:var(--fam-sm);}
+  .disc.ls{color:var(--fam-ls);}
+  .disc.km{color:var(--fam-km);}
+  .disc.rm{color:var(--fam-rm);}
+  .disc.lscm{color:var(--fam-lscm);}
+  .disc.csc{color:var(--fam-csc);}
+  .disc.whrd{color:var(--fam-whrd);}
+  .disc.ctx{color:oklch(0.50 0.012 250);}
+  .disc.ctx::before{background:var(--fam-ctx);}
+  .disc.tbc{color:var(--muted-2);}
+  .disc.tbc::before{background:none;border:1px dashed var(--muted-2);width:6px;height:6px;}
+  .famleg{display:flex;flex-wrap:wrap;gap:8px 14px;margin-top:12px;}
+  .famleg .fl{display:inline-flex;align-items:center;gap:6px;font-size:11px;color:var(--ink-2);}
+  .famleg .fl .sw{width:9px;height:9px;border-radius:2px;flex:none;}
+  .rg{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:9px;text-transform:uppercase;
+    letter-spacing:0.07em;color:oklch(0.52 0.10 55);border:1px solid oklch(0.72 0.10 55 / 0.55);
+    background:oklch(0.75 0.09 55 / 0.12);border-radius:4px;padding:1px 6px;white-space:nowrap;
+    text-indent:0;display:inline-block;margin-left:4px;vertical-align:1px;}
+  .ldots .d.rg{border:1.5px dashed #E9C46A;background:transparent;}
+  .glegend .s.rg{border:1.5px dashed #E9C46A;background:transparent;}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Index</a>
+    <div class="eyebrow">BUS922 Business Research Capstone · A3 · Sources</div>
+    <h1>References &amp; Bibliography</h1>
+    <p class="subtitle">The works cited across the A3 site, and the wider set consulted behind it — referenced in UOW Harvard style.</p>
+    <p class="lede">Two lists. <b>References</b> are the sources cited in the visible site text. The <b>Bibliography</b> gathers what was consulted for the environment scan and reading lists but is not (yet) cited on the page. Legislation is split the same way. Each entry carries a one-line note on its standing, its role in the design, and — for scholarly sources — the research literature it comes from.</p>
+
+    <div class="readout">
+      <span><b>80</b> references cited</span>
+      <span><b>7</b> post-A3 (locators pending)</span>
+      <span><b>35</b> consulted</span>
+      <span><b>3</b> legislation</span>
+      <span>UOW Harvard</span>
+    </div>
+
+    <div class="keynote">
+      <div class="klab">How to read the annotations</div>
+      Each entry carries a standing + role note (<b>↳</b>): its <b>ABDC 2025</b> rating · <b>SCImago</b> quartile · <b>FT50</b> number where applicable; whether it counts toward the reference gate — <span class="g">✓</span> counts (ABDC A*/A <b>or</b> SCImago Q1, used as a gate source) · <b>✗</b> peer-reviewed but not gate-counted (fenced illustration / supplementary positioning / below-Q1) · <b>n/a</b> book, chapter, grey lit or legislation; and its role — <b>DP1–DP6</b> design principles · <b>PG</b> problem grounding · <b>ENV</b> environment scan · <b>concept/lens</b> supplementary lens · <b>MTH / M-</b> research-method legs. New this batch: <b>S-1…S-7</b> tag the six SME-context problem-base standpoints and <b>AC-bridge</b> the absorptive-capacity KM×SM convergence; five freight / retention counterpoints are marked <span class="rg">reading-grade</span> — PDF-verified and gate-eligible, but pending-close-read on the landscape ("close-read before A3 weight"). Grey-lit is rated on publisher authority, recency and independence, never gate-counted.
+    </div>
+
+    <div class="keynote">
+      <div class="klab">The discipline facet — which literature each source comes from</div>
+      A third facet closes each <b>scholarly</b> entry: the <b>source-literature family</b> it belongs to, with its finer stream — e.g. <span class="disc ls">Learning sciences · <i>cognitive load</i></span>. This makes the cross-disciplinary spread legible here, the same reading the landscape renders as colour. Environment-scan grey-lit carries <b>no</b> discipline: it is data and analytic instruments, not a scholarly literature.
+      <div class="famleg">
+        <span class="fl"><span class="sw" style="background:var(--fam-sm)"></span>Strategic management &amp; M&amp;A</span>
+        <span class="fl"><span class="sw" style="background:var(--fam-ls)"></span>Learning sciences</span>
+        <span class="fl"><span class="sw" style="background:var(--fam-km)"></span>Knowledge management</span>
+        <span class="fl"><span class="sw" style="background:var(--fam-whrd)"></span>Workforce &amp; HRD</span>
+        <span class="fl"><span class="sw" style="background:var(--fam-rm)"></span>Research method</span>
+        <span class="fl"><span class="sw" style="background:var(--fam-lscm)"></span>Logistics &amp; SCM</span>
+        <span class="fl"><span class="sw" style="background:var(--fam-csc)"></span>Complex systems science</span>
+      </div>
+    </div>
+
+    <!-- ============================ REFERENCES ============================ -->
+    <section class="sec refs">
+      <div class="sechead">
+        <div>
+          <div class="seckick">Cited on the site</div>
+          <h2 class="sectitle">References</h2>
+        </div>
+        <div class="seccount">works cited in the A3 site text</div>
+      </div>
+
+      <div class="gate">
+        <div class="glab">Reference gate · cited works only</div>
+        <div class="gate-top">
+          <div class="big">45</div>
+          <div class="bigcap">peer-reviewed articles clear the <b>reference gate</b> — ABDC A*/A or SCImago Q1, counted wherever they land</div>
+        </div>
+
+        <div class="lanescap">Problem grounding · 28 — the M&amp;A academic warrant + the six SME-context standpoints</div>
+        <div class="lanes">
+          <div class="lane">
+            <div class="lname">M&amp;A warrant · <b>7</b></div>
+            <div class="ldots"><span class="d ft"></span><span class="d ft"></span><span class="d ft"></span><span class="d ft"></span><span class="d ft"></span><span class="d"></span><span class="d"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">S-1 SME-KM · <b>3</b></div>
+            <div class="ldots"><span class="d"></span><span class="d"></span><span class="d"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">S-2 loss · <b>3</b></div>
+            <div class="ldots"><span class="d ft"></span><span class="d ft"></span><span class="d"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">S-3 learning · <b>2</b></div>
+            <div class="ldots"><span class="d"></span><span class="d"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">S-4 acquirer · <b>2</b></div>
+            <div class="ldots"><span class="d"></span><span class="d"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">S-5 freight / AU · <b>4</b></div>
+            <div class="ldots"><span class="d"></span><span class="d rg"></span><span class="d rg"></span><span class="d rg"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">S-6 necessity · <b>2</b></div>
+            <div class="ldots"><span class="d"></span><span class="d rg"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">S-7 AC-bridge · <b>5</b></div>
+            <div class="ldots"><span class="d ft"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></div>
+          </div>
+        </div>
+
+        <div class="lanescap">Design pipeline &amp; scan anchors · 17</div>
+        <div class="lanes">
+          <div class="lane">
+            <div class="lname">DP1 · <b>1</b></div>
+            <div class="ldots"><span class="d"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">DP2 · <b>5</b></div>
+            <div class="ldots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">DP3 · <b>4</b></div>
+            <div class="ldots"><span class="d"></span><span class="d"></span><span class="d"></span><span class="d"></span></div>
+          </div>
+          <div class="lane">
+            <div class="lname">DP4 · <b>5</b></div>
+            <div class="ldots"><span class="d ft"></span><span class="d ft"></span><span class="d"></span><span class="d"></span><span class="d"></span></div>
+          </div>
+          <div class="lane env">
+            <div class="lname">ENV · <b>1</b></div>
+            <div class="ldots"><span class="d env"></span></div>
+          </div>
+          <div class="lane cl">
+            <div class="lname">concept/lens · <b>1</b></div>
+            <div class="ldots"><span class="d cl"></span></div>
+          </div>
+        </div>
+        <div class="glegend">
+          <span class="lg"><span class="s ft"></span>FT50 top-tier — 10</span>
+          <span class="lg"><span class="s hollow"></span>ABDC A*/A or Q1 — 29</span>
+          <span class="lg"><span class="s rg"></span>reading-grade (gate-counted) — 4</span>
+          <span class="lg"><span class="s env"></span>ENV anchor — 1</span>
+          <span class="lg"><span class="s cl"></span>concept/lens anchor — 1</span>
+        </div>
+
+        <div class="gauge">
+          <div class="gauge-track">
+            <div class="gauge-fill" style="width:100%;"></div>
+            <div class="gauge-mark" style="left:22.2%;"></div>
+            <div class="gauge-mark" style="left:26.7%;"></div>
+          </div>
+          <div class="gauge-labs">
+            <span><b>10</b> floor</span>
+            <span><b>12+</b> aim</span>
+            <span class="hit"><b>45</b> cleared</span>
+          </div>
+        </div>
+        <p class="gate-foot">Conservative count <b>44</b> — the same-dataset relational pair (Colman &amp; Rouzies 2019 · Rouzies, Colman &amp; Angwin 2019) counts once. Four of the 45 are <b>reading-grade counterpoints</b> (Bernal, Gekara, Thai, Levallet &amp; Chan) — PDF-verified and gate-eligible, but pending-close-read on the landscape, so "close-read before A3 weight" governs their substantive use (close-read Levallet &amp; Chan first). The empty-cell convergence credits the six SME-context standpoints <b>once each</b>, not source-by-source. Cited but not gate-counted this batch: Galan, Decius, Weitzel, Dewah. Books, chapters, legislation and grey-lit are citable but not gate-eligible; the Bibliography is excluded entirely.</p>
+      </div>
+
+      <div class="list">
+
+        <div class="entry">
+          <p class="cite">Arvanitis, S &amp; Stucki, T 2015, 'Do mergers and acquisitions among small and medium-sized enterprises affect the performance of acquiring firms?', <i>International Small Business Journal</i>, vol. 33, no. 7, pp. 752–773, doi: <a href="https://doi.org/10.1177/0266242614522280">10.1177/0266242614522280</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG · S-4 (anchor: SME acquisition pays off — on money, not knowledge; single-event, not serial). <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A in SMEs</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Australian Accounting Standards Board (AASB) 2024a, <i>AASB S2 climate-related disclosures</i>, viewed 28 June 2026, &lt;<a href="https://standards.aasb.gov.au/aasb-s2-sep-2024">https://standards.aasb.gov.au/aasb-s2-sep-2024</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (national standards board, top-tier) · Gate n/a — ENV (PESTEL Environmental).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Australian Accounting Standards Board (AASB) 2024b, <i>AASB S2 frequently asked questions – general FAQs</i>, viewed 28 June 2026, &lt;<a href="https://aasb.gov.au/research-resources/knowledge-hub/aasb-s2-knowledge-hub/aasb-s2-frequently-asked-questions/general-faqs/">https://aasb.gov.au/research-resources/knowledge-hub/aasb-s2-knowledge-hub/aasb-s2-frequently-asked-questions/general-faqs/</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (national standards board, top-tier) · Gate n/a — ENV (PESTEL Environmental).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Australian Border Force (ABF) 2026, <i>Licensed customs brokers</i>, viewed 28 June 2026, &lt;<a href="https://www.abf.gov.au/licensing/brokers/about">https://www.abf.gov.au/licensing/brokers/about</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (border agency / Commonwealth law, top-tier) · Gate n/a — ENV (PESTEL Legal/Political).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Australian Bureau of Statistics (ABS) 2026a, <i>Consumer Price Index, Australia, May 2026</i>, ABS, viewed 28 June 2026, &lt;<a href="https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release">https://www.abs.gov.au/statistics/economy/price-indexes-and-inflation/consumer-price-index-australia/latest-release</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (national statistical agency, top-tier) · Gate n/a — ENV (PESTEL Economic: "CPI 4.0%" in the 12 months to May 2026; released 24 June 2026).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Australian Bureau of Statistics (ABS) 2026b, <i>Labour Force, Australia, May 2026</i>, ABS, viewed 28 June 2026, &lt;<a href="https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release">https://www.abs.gov.au/statistics/labour/employment-and-unemployment/labour-force-australia/latest-release</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (national statistical agency, top-tier) · Gate n/a — ENV (PESTEL Social: tight labour market / skilled-staff scarcity; released 25 June 2026).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Bangert-Drowns, RL, Hurley, MM &amp; Wilkinson, B 2004, 'The effects of school-based writing-to-learn interventions on academic achievement: a meta-analysis', <i>Review of Educational Research</i>, vol. 74, no. 1, pp. 29–58, doi: <a href="https://doi.org/10.3102/00346543074001029">10.3102/00346543074001029</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP2 (design constraint: metacognitive prompts). <span class="disc ls">Learning sciences · <i>generative learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Bernal, SMH, Burr, C &amp; Johnsen, RE 2002, 'Competitor networks: international competitiveness through collaboration: the case of small freight forwarders in the High-Tech Forwarder Network', <i>International Journal of Entrepreneurial Behaviour &amp; Research</i>, vol. 8, no. 5, pp. 239–253, doi: <a href="https://doi.org/10.1108/13552550210448348">10.1108/13552550210448348</a>. <span class="rg">reading-grade</span></p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> (B14) — PG · S-5 (ground: the closest firm-type match — a small-freight-forwarder network — but on <i>inter-firm</i> collaboration among competitors, not intra-firm retention; ⚠ possible CF4 design tension). Pending-close-read: reference PDF-verified, not yet close-read — close-read before A3 weight. <i>First author's surname also rendered Herrera-Bernal (Emerald/HAL); in-text key "Bernal 2002" retained per project usage.</i> <span class="disc lscm">Logistics &amp; SCM · <i>logistics workforce</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Bisra, K, Liu, Q, Nesbit, JC, Salimi, F &amp; Winne, PH 2018, 'Inducing self-explanation: a meta-analysis', <i>Educational Psychology Review</i>, vol. 30, no. 3, pp. 703–725, doi: <a href="https://doi.org/10.1007/s10648-018-9434-x">10.1007/s10648-018-9434-x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP2 (effect spine, self-explanation g = .55). <span class="disc ls">Learning sciences · <i>generative learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Boldrini, E &amp; Cattaneo, A 2014, 'Scaffolding collaborative reflective writing in a VET curriculum', <i>Vocations and Learning</i>, vol. 7, no. 2, pp. 145–165, doi: <a href="https://doi.org/10.1007/s12186-014-9110-3">10.1007/s12186-014-9110-3</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q2 · not FT50 · Gate <span class="no">✗</span> (fenced illustration, not counted) — DP2 (task-shape analogue). <span class="disc ls">Learning sciences · <i>generative learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Boud, D, Keogh, R &amp; Walker, D (eds) 1985, <i>Reflection: turning experience into learning</i>, Kogan Page, London.</p>
+          <p class="ann"><span class="t">↳</span> Book · Gate n/a — DP2 (co-frame; Ch. 1 model, pp. 18–40; Ch. 3 Walker, 'Writing and reflection', pp. 52–68). <span class="disc ls">Learning sciences · <i>reflection</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Colman, HL &amp; Rouzies, A 2019, 'Postacquisition boundary spanning: a relational perspective on integration', <i>Journal of Management</i>, vol. 45, no. 5, pp. 2225–2253, doi: <a href="https://doi.org/10.1177/0149206318759400">10.1177/0149206318759400</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — PG (relational fabric; seeds DP5). <i>Same-dataset, non-independent with Rouzies, Colman &amp; Angwin 2019 — count once for evidential weight.</i> <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A socio-relational</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Container News 2025, <i>Shipping alliances and MSC control over 80% of the market</i>, viewed 28 June 2026, &lt;<a href="https://container-news.com/shipping-alliances-msc-global-market-share-2025/">https://container-news.com/shipping-alliances-msc-global-market-share-2025/</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (Alphaliner data via trade press) · Gate n/a — ENV (Five Forces supplier power / carrier concentration).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Decius, J, Schaper, N &amp; Seifert, A 2021, 'Work characteristics or workers' characteristics? An input-process-output perspective on informal workplace learning of blue-collar workers', <i>Vocations and Learning</i>, vol. 14, no. 2, pp. 285–326, doi: <a href="https://doi.org/10.1007/s12186-021-09265-5">10.1007/s12186-021-09265-5</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q2 · not FT50 · Gate <span class="no">✗</span> (miss) — PG · S-3 (support: who a firm hires + the everyday climate are the designable levers; not independent of Kortsch — count S-3 via Kotey). <span class="disc whrd">Workforce &amp; HRD · <i>SME learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">De Meulenaere, K, De Winne, S, Marescaux, E &amp; Vanormelingen, S 2021, 'The role of firm size and knowledge intensity in the performance effects of collective turnover', <i>Journal of Management</i>, vol. 47, no. 4, pp. 993–1023, doi: <a href="https://doi.org/10.1177/0149206319880957">10.1177/0149206319880957</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — PG · S-2 (size × knowledge-intensity: read the interaction, not the headline — ⚠ do <b>not</b> say "small knowledge-intensive firms hit hardest"; sign-reversing three-way interaction; the SME can't fast-replace and leans on informal adaptation). <span class="disc whrd">Workforce &amp; HRD · <i>knowledge loss</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Dewah, P &amp; Mutula, SM 2016, 'Knowledge retention strategies in public sector organizations: current status in sub-Saharan Africa', <i>Information Development</i>, vol. 32, no. 3, pp. 362–376, doi: <a href="https://doi.org/10.1177/0266666914551070">10.1177/0266666914551070</a>. <span class="rg">reading-grade</span></p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago SJR 0.536 · IF 2.1 · not FT50 · Gate <span class="no">✗</span> (counterpoint, neutral — B14) — PG · S-6 (counterpoint-by-naming: names the conventional retention set — codification, personalisation, training, mentoring, storytelling, repositories — and the lean-org conditions that undermine it; the status quo the design departs from). Pending-close-read: reference PDF-verified, not yet close-read. Public-sector sub-Saharan Africa survey — positioning, not SME/freight evidence. <span class="disc km">Knowledge mgmt · <i>SME knowledge management</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Durst, S &amp; Edvardsson, IR 2012, 'Knowledge management in SMEs: a literature review', <i>Journal of Knowledge Management</i>, vol. 16, no. 6, pp. 879–903, doi: <a href="https://doi.org/10.1108/13673271211276173">10.1108/13673271211276173</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG · S-1 (gap-namer: across 36 empirical SME-KM studies, storage/retention is the least-understood process — the field-named contribution zone; "SMEs are not a scaled-down large business"). <span class="disc km">Knowledge mgmt · <i>SME knowledge management</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Eckardt, R, Skaggs, BC &amp; Youndt, M 2014, 'Turnover and knowledge loss: an examination of the differential impact of production manager and worker turnover in service and manufacturing firms', <i>Journal of Management Studies</i>, vol. 51, no. 7, pp. 1025–1057, doi: <a href="https://doi.org/10.1111/joms.12096">10.1111/joms.12096</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — PG · S-2 (anchor: turnover-driven knowledge loss bites hardest in service firms; organisational capital cushions it — freight forwarding is a service firm. ⚠ the SME-<i>size</i> claim routes to De Meulenaere/Xiao, not Eckardt). <span class="disc whrd">Workforce &amp; HRD · <i>knowledge loss</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Fabrizio, CM, Kaczam, F, de Moura, GL, Vieira da Silva, LSC, Vieira da Silva, W &amp; Pereira da Veiga, C 2022, 'Competitive advantage and dynamic capability in small and medium-sized enterprises: a systematic literature review and future research directions', <i>Review of Managerial Science</i>, vol. 16, no. 3, pp. 617–648, doi: <a href="https://doi.org/10.1007/s11846-021-00459-8">10.1007/s11846-021-00459-8</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG · S-5 (the citable absence: the n=70 SME-capability corpus contains <b>no</b> freight/logistics and <b>no</b> retention paper; dynamic capability ≠ retention — don't over-read). <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>SME capability</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Farnese, ML, Barbieri, B, Chirumbolo, A &amp; Patriotta, G 2019, 'Managing knowledge in organizations: a Nonaka's SECI model operationalization', <i>Frontiers in Psychology</i>, vol. 10, article 2730, doi: <a href="https://doi.org/10.3389/fpsyg.2019.02730">10.3389/fpsyg.2019.02730</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q2 · not FT50 · Gate <span class="no">✗</span> (positioning, not counted) — critical engagement (SECI/externalisation empirical rebuttal). <span class="disc ls">Learning sciences · <i>SECI / externalisation</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Fiorella, L &amp; Mayer, RE 2016, 'Eight ways to promote generative learning', <i>Educational Psychology Review</i>, vol. 28, no. 4, pp. 717–741, doi: <a href="https://doi.org/10.1007/s10648-015-9348-9">10.1007/s10648-015-9348-9</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP2 (generative-mode taxonomy). <span class="disc ls">Learning sciences · <i>generative learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Gala, K &amp; Mueller, BA 2024, 'Acquihires by SMEs as a strategic response to industry digitalization', <i>Journal of Small Business Management</i>, vol. 62, no. 3, pp. 1430–1468, doi: <a href="https://doi.org/10.1080/00472778.2022.2140161">10.1080/00472778.2022.2140161</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG · S-4 (conceptual co-anchor: acquihiring fits SMEs and the deciding factor is keeping the acquired people; centres retention — the cell Arvanitis is silent on. Count S-4 via Arvanitis). <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A in SMEs</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Galan, N 2023, 'Knowledge loss induced by organizational member turnover: a review of empirical literature, synthesis and future research directions (Part I)', <i>The Learning Organization</i>, vol. 30, no. 2, pp. 117–136, doi: <a href="https://doi.org/10.1108/TLO-09-2022-0107">10.1108/TLO-09-2022-0107</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC C · SCImago Q2 · not FT50 · Gate <span class="no">✗</span> (non-gate review support) — PG · S-2 (KLT review: tacit/unwritten knowledge hurts most to lose; standard fixes fail because leavers won't share — count S-2 via Eckardt; Part I of two). <span class="disc whrd">Workforce &amp; HRD · <i>knowledge loss</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Gekara, VO &amp; Nguyen, V-XT 2018, 'New technologies and the transformation of work and skills: a study of computerisation and automation of Australian container terminals', <i>New Technology, Work and Employment</i>, vol. 33, no. 3, pp. 219–233, doi: <a href="https://doi.org/10.1111/ntwe.12118">10.1111/ntwe.12118</a>. <span class="rg">reading-grade</span></p>
+          <p class="ann"><span class="t">↳</span> ABDC A · not FT50 · Gate <span class="yes">✓</span> (ABDC A; B14) — PG · S-5 (ground: automation is reshaping AU logistics skills — but at container terminals/large operators, not freight forwarders; frames the Australian technology-and-workforce context, adjacent to the empty cell). Pending-close-read: reference PDF-verified, not yet close-read — close-read before A3 weight. <span class="disc lscm">Logistics &amp; SCM · <i>logistics workforce</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Goffin, K &amp; Koners, U 2011, 'Tacit knowledge, lessons learnt, and new product development', <i>Journal of Product Innovation Management</i>, vol. 28, no. 2, pp. 300–318, doi: <a href="https://doi.org/10.1111/j.1540-5885.2010.00798.x">10.1111/j.1540-5885.2010.00798.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP2 (written-artefact anchor; also serves DP3 + DP4). <span class="disc ls">Learning sciences · <i>generative learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Gourlay, S 2006, 'Conceptualizing knowledge creation: a critique of Nonaka's theory', <i>Journal of Management Studies</i>, vol. 43, no. 7, pp. 1415–1436, doi: <a href="https://doi.org/10.1111/j.1467-6486.2006.00637.x">10.1111/j.1467-6486.2006.00637.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="no">✗</span> (positioning, not counted) — critical engagement (SECI/externalisation critique). <span class="disc ls">Learning sciences · <i>SECI / externalisation</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Gray, C 2006, 'Absorptive capacity, knowledge management and innovation in entrepreneurial small firms', <i>International Journal of Entrepreneurial Behaviour &amp; Research</i>, vol. 12, no. 6, pp. 345–360, doi: <a href="https://doi.org/10.1108/13552550610710144">10.1108/13552550610710144</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG / AC-bridge · S-7 (support: AC is size/education/growth-culture-graded <i>within</i> the SME band — buildable but not automatic; A3-horizon; downstream of Liao). <span class="disc km">Knowledge mgmt · <i>absorptive capacity</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Haleblian, J &amp; Finkelstein, S 1999, 'The influence of organizational acquisition experience on acquisition performance: a behavioral learning perspective', <i>Administrative Science Quarterly</i>, vol. 44, no. 1, pp. 29–56.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — PG (U-shaped experience–performance; experience alone insufficient). <i>No DOI; JSTOR stable 10.2307/2667030.</i> <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A organisational learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Herrington, J, Reeves, TC &amp; Oliver, R 2013, 'Authentic learning environments', in JM Spector, MD Merrill, J Elen &amp; MJ Bishop (eds), <i>Handbook of research on educational communications and technology</i>, 4th edn, Springer, New York, pp. 401–412, doi: <a href="https://doi.org/10.1007/978-1-4614-3185-5_32">10.1007/978-1-4614-3185-5_32</a>.</p>
+          <p class="ann"><span class="t">↳</span> Book chapter · Gate n/a — DP1 (why authenticity works: cognitive realism drives transfer). ISBN 9781461431848. <span class="disc ls">Learning sciences · <i>authentic learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">IBISWorld 2025, <i>IBISWorld industry report I5292B: rail, air &amp; sea freight forwarding in Australia</i>, viewed 28 June 2026, IBISWorld database.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (primary industry source; UOW-subscription) · Gate n/a — ENV (PESTEL / Five Forces / VRIO backbone).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">IBISWorld 2026, <i>IBISWorld industry report I4810: water freight transport in Australia</i>, viewed 28 June 2026, IBISWorld database.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (carrier-layer industry source; UOW-subscription) · Gate n/a — ENV (Five Forces supplier layer).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Industry Skills Australia 2025, <i>Addressing workforce challenges in freight forwarding and customs broking</i>, viewed 28 June 2026, &lt;<a href="https://www.industryskillsaustralia.org.au/addressing-workforce-challenges-freight-forwarding-customs-broking">https://www.industryskillsaustralia.org.au/addressing-workforce-challenges-freight-forwarding-customs-broking</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (Commonwealth-funded Jobs and Skills Council, top-tier grey) · Gate n/a — ENV (VRIO Rarity/Imitability).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">International Maritime Organization (IMO) 2025a, <i>IMO approves net-zero regulations</i>, viewed 28 June 2026, &lt;<a href="https://www.imo.org/en/mediacentre/pressbriefings/pages/imo-approves-netzero-regulations.aspx">https://www.imo.org/en/mediacentre/pressbriefings/pages/imo-approves-netzero-regulations.aspx</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (UN agency, top-tier) · Gate n/a — ENV (PESTEL Environmental, carrier layer).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">International Maritime Organization (IMO) 2025b, <i>The IMO Net-Zero Framework: frequently asked questions</i>, viewed 28 June 2026, &lt;<a href="https://www.imo.org/en/mediacentre/hottopics/pages/faqs-the-imo-net-zero-framework.aspx">https://www.imo.org/en/mediacentre/hottopics/pages/faqs-the-imo-net-zero-framework.aspx</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (UN agency, top-tier) · Gate n/a — ENV (PESTEL Environmental).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Jobs and Skills Australia 2025a, <i>Occupation shortage</i>, viewed 28 June 2026, &lt;<a href="https://www.jobsandskills.gov.au/data/occupation-shortage">https://www.jobsandskills.gov.au/data/occupation-shortage</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (Commonwealth statutory body, top-tier) · Gate n/a — ENV (VRIO shortage method + Retention Gap).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Jobs and Skills Australia 2025b, <i>Occupation shortage list</i>, viewed 28 June 2026, &lt;<a href="https://www.jobsandskills.gov.au/data/occupation-shortage/occupation-shortage-list">https://www.jobsandskills.gov.au/data/occupation-shortage/occupation-shortage-list</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (Commonwealth statutory body, top-tier) · Gate n/a — ENV (VRIO Rarity/Imitability anchor).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Kasper, H, Lehrer, M, Mühlbacher, J &amp; Müller, B 2010, 'Thinning knowledge: an interpretive field study of knowledge-sharing practices of firms in three multinational contexts', <i>Journal of Management Inquiry</i>, vol. 19, no. 4, pp. 367–381, doi: <a href="https://doi.org/10.1177/1056492610370366">10.1177/1056492610370366</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> (ABDC A · Q1; supplementary role) — DP4 (knowledge "thinning" risk). <span class="disc km">Knowledge mgmt · <i>knowledge transfer</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Knowles, MS 1975, <i>Self-directed learning: a guide for learners and teachers</i>, Association Press, New York.</p>
+          <p class="ann"><span class="t">↳</span> Book · Gate n/a — DP1 (andragogy as design heuristic; scoped by Taylor &amp; Kroth 2009). <span class="disc ls">Learning sciences · <i>andragogy</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Kortsch, T, Schulte, E-M &amp; Kauffeld, S 2019, 'Learning @ work: informal learning strategies of German craft workers', <i>European Journal of Training and Development</i>, vol. 43, no. 5/6, pp. 418–434, doi: <a href="https://doi.org/10.1108/EJTD-06-2018-0052">10.1108/EJTD-06-2018-0052</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC B · SCImago Q1 (route only) · not FT50 · Gate <span class="yes">✓</span> (marginal — SCImago-Q1 route) — PG · S-3 (support: intensive informal learning raises <i>internal</i> not <i>external</i> marketability → developing people this way is a retention strategy, not a risk. ⚠ correlational; not independent of Decius — count S-3 via Kotey). <span class="disc whrd">Workforce &amp; HRD · <i>SME learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Kotey, B &amp; Folker, C 2007, 'Employee training in SMEs: effect of size and firm type — family and nonfamily', <i>Journal of Small Business Management</i>, vol. 45, no. 2, pp. 214–238, doi: <a href="https://doi.org/10.1111/j.1540-627X.2007.00210.x">10.1111/j.1540-627X.2007.00210.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG · S-3 (anchor: across 918 SMEs, informal on-the-job training predominates at every size; formal PD only appears past ~20–50 staff — "no dedicated PD team" is the empirical norm. ⚠ Australian manufacturing, 1997–98). <span class="disc whrd">Workforce &amp; HRD · <i>SME learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Laamanen, T &amp; Keil, T 2008, 'Performance of serial acquirers: toward an acquisition program perspective', <i>Strategic Management Journal</i>, vol. 29, no. 6, pp. 663–672, doi: <a href="https://doi.org/10.1002/smj.670">10.1002/smj.670</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — PG (direct serial-acquisition strain; the independent leg). <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A serial acquisition</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Levallet, N &amp; Chan, YE 2019, 'Organizational knowledge retention and knowledge loss', <i>Journal of Knowledge Management</i>, vol. 23, no. 1, pp. 176–199, doi: <a href="https://doi.org/10.1108/JKM-08-2017-0358">10.1108/JKM-08-2017-0358</a>. <span class="rg">reading-grade</span></p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> (B14) — PG · S-6 (counterpoint: knowledge captured and stored can still be <i>lost</i> unless converted from individual to social knowledge and reused — codification-alone leaks; effective retention is hybrid). The one gate-eligible counterpoint — pending-close-read (PDF-verified, not yet close-read); <b>close-read first</b>, before A3 weight. Canadian federal public service; qualitative/propositional. <span class="disc km">Knowledge mgmt · <i>SME knowledge management</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Liao, J, Welsch, H &amp; Stoica, M 2003, 'Organizational absorptive capacity and responsiveness: an empirical investigation of growth-oriented SMEs', <i>Entrepreneurship Theory and Practice</i>, vol. 28, no. 1, pp. 63–86, doi: <a href="https://doi.org/10.1111/1540-8520.00032">10.1111/1540-8520.00032</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — PG / AC-bridge · S-7 (anchor: across 107 growth SMEs, both AC dimensions — acquisition + intrafirm dissemination — predict responsiveness independent of size/age; AC is cumulative → build early by design. Count S-7 via Liao; also DP4; A3-horizon). <span class="disc km">Knowledge mgmt · <i>absorptive capacity</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Lobato, J 2006, 'Alternative perspectives on the transfer of learning: history, issues, and challenges for future research', <i>Journal of the Learning Sciences</i>, vol. 15, no. 4, pp. 431–449, doi: <a href="https://doi.org/10.1207/s15327809jls1504_1">10.1207/s15327809jls1504_1</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> (Q1; supplementary role) — DP4 (situated critique; "fallacy of decontextualisation"). <span class="disc ls">Learning sciences · <i>transfer of learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">LogiHire 2026, <i>Freight forwarding salary guide Australia 2026</i>, viewed 28 June 2026, &lt;<a href="https://logihire.com.au/freight-forwarding-salary-guide">https://logihire.com.au/freight-forwarding-salary-guide</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (specialist recruiter, directional) · Gate n/a — ENV (VRIO shortage trend).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Markus, ML 2001, 'Toward a theory of knowledge reuse: types of knowledge reuse situations and factors in reuse success', <i>Journal of Management Information Systems</i>, vol. 18, no. 1, pp. 57–93, doi: <a href="https://doi.org/10.1080/07421222.2001.11045671">10.1080/07421222.2001.11045671</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — DP4 (anchor; producer–reuser asymmetry, the Learn→Share seam). <span class="disc km">Knowledge mgmt · <i>knowledge reuse</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Massaro, M, Handley, K, Bagnoli, C &amp; Dumay, J 2016, 'Knowledge management in small and medium enterprises: a structured literature review', <i>Journal of Knowledge Management</i>, vol. 20, no. 2, pp. 258–291, doi: <a href="https://doi.org/10.1108/JKM-08-2015-0320">10.1108/JKM-08-2015-0320</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG · S-1 (SLR of 89 SME-KM papers: the field is fragmented and defines "SME" inconsistently — so the design must state precisely, a <i>growing small-to-medium</i> forwarder. Count S-1 via Durst). <span class="disc km">Knowledge mgmt · <i>SME knowledge management</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Maynard, A 2020, <i>Future rising: a journey from the past to the edge of tomorrow</i>, Mango Media, Coral Gables, FL.</p>
+          <p class="ann"><span class="t">↳</span> Book · Gate n/a — context framing (cumulative-strain / Pippard's ladder; Ch. 48 'Boundaries', pp. 140–142). <span class="disc ctx">Context framing</span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Moilanen, M, Østbye, S &amp; Woll, K 2014, 'Non-R&amp;D SMEs: external knowledge, absorptive capacity and product innovation', <i>Small Business Economics</i>, vol. 43, no. 2, pp. 447–462, doi: <a href="https://doi.org/10.1007/s11187-014-9545-9">10.1007/s11187-014-9545-9</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG / AC-bridge · S-7 (<b>non-R&amp;D boundary</b> — ⚠ HARD: on 431 SMEs (72% services), for non-R&amp;D firms AC mediates <i>weakly</i> and external knowledge feeds innovation <i>directly</i>, the strongest channel being customers → the point for the partner is relational/experiential capability; do not over-claim the AC-mediation bridge. Independent of Liao; A3-horizon). <span class="disc km">Knowledge mgmt · <i>absorptive capacity</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Mordor Intelligence 2026, <i>Digital freight forwarding market</i>, viewed 28 June 2026, &lt;<a href="https://www.mordorintelligence.com/industry-reports/digital-freight-forwarding-market">https://www.mordorintelligence.com/industry-reports/digital-freight-forwarding-market</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (vendor market-research, directional) · Gate n/a — ENV (Five Forces substitutes/entrants; DSV–Schenker datapoint).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Müller, JM, Buliga, O &amp; Voigt, K-I 2021, 'The role of absorptive capacity and innovation strategy in the design of industry 4.0 business models — a comparison between SMEs and large enterprises', <i>European Management Journal</i>, vol. 39, no. 3, pp. 333–343, doi: <a href="https://doi.org/10.1016/j.emj.2020.01.002">10.1016/j.emj.2020.01.002</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG / AC-bridge · S-7 (digital "why now": SMEs strong at <i>sensing</i> new knowledge but stall at <i>realising</i> it — under a digital wave, explore not optimise. Potential vs realised AC; independent corroborator; A3-horizon). <span class="disc km">Knowledge mgmt · <i>absorptive capacity</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Nievelstein, F, van Gog, T, van Dijck, G &amp; Boshuizen, HPA 2013, 'The worked example and expertise reversal effect in less structured tasks: learning to reason about legal cases', <i>Contemporary Educational Psychology</i>, vol. 38, no. 2, pp. 118–125, doi: <a href="https://doi.org/10.1016/j.cedpsych.2012.12.004">10.1016/j.cedpsych.2012.12.004</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP3 (domain caveat; ill-structured softener). <span class="disc ls">Learning sciences · <i>cognitive load</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Perusso, A &amp; Baaken, T 2020, 'Assessing the authenticity of cases, internships and problem-based learning as managerial learning experiences: concepts, methods and lessons for practice', <i>The International Journal of Management Education</i>, vol. 18, no. 3, article 100425, doi: <a href="https://doi.org/10.1016/j.ijme.2020.100425">10.1016/j.ijme.2020.100425</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC B · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP1 (business-discipline authenticity transfer). <span class="disc ls">Learning sciences · <i>authentic learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Reserve Bank of Australia (RBA) 2026a, <i>Exchange rates</i>, viewed 28 June 2026, &lt;<a href="https://www.rba.gov.au/statistics/frequency/exchange-rates.html">https://www.rba.gov.au/statistics/frequency/exchange-rates.html</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (central bank, top-tier) · Gate n/a — ENV (PESTEL Economic: the soft AUD).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Reserve Bank of Australia (RBA) 2026b, <i>Cash rate target</i>, viewed 28 June 2026, &lt;<a href="https://www.rba.gov.au/statistics/cash-rate/">https://www.rba.gov.au/statistics/cash-rate/</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (central bank, top-tier) · Gate n/a — ENV (PESTEL Economic: the 4.35% official cash rate).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Richey, RG Jr, Chowdhury, S, Davis-Sramek, B, Giannakis, M &amp; Dwivedi, YK 2023, 'Artificial intelligence in logistics and supply chain management: a primer and roadmap for research', <i>Journal of Business Logistics</i>, vol. 44, no. 4, pp. 532–549, doi: <a href="https://doi.org/10.1111/jbl.12364">10.1111/jbl.12364</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> (ABDC A) — ENV (PESTEL Technological; the scan's one peer-reviewed anchor — the GenAI/automation wave reshaping logistics). <i>Editorial in Journal of Business Logistics.</i> <span class="disc lscm">Logistics &amp; SCM · <i>AI &amp; technology adoption</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Rigby Cooke Lawyers 2024, <i>Additional conditions for licensed customs brokers</i>, viewed 28 June 2026, &lt;<a href="https://www.rigbycooke.com.au/additional-conditions-for-licensed-customs-brokers/">https://www.rigbycooke.com.au/additional-conditions-for-licensed-customs-brokers/</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (law-firm commentary, supporting) · Gate n/a — ENV (SWOT threat T6 · PESTEL Legal; 2024 licensing reform). <i>Promoted from Bibliography 10 July 2026 — cited on Appendix 4 (SWOT).</i></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Rivière, E, Jaffrelot, M, Jouquan, J &amp; Chiniara, G 2019, 'Debriefing for the transfer of learning: the importance of context', <i>Academic Medicine</i>, vol. 94, no. 6, pp. 796–803, doi: <a href="https://doi.org/10.1097/ACM.0000000000002612">10.1097/ACM.0000000000002612</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP4 (learning-theory leg; contextualise–decontextualise–recontextualise). <span class="disc ls">Learning sciences · <i>transfer of learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Rouzies, A, Colman, HL &amp; Angwin, D 2019, 'Recasting the dynamics of post-acquisition integration: an embeddedness perspective', <i>Long Range Planning</i>, vol. 52, no. 2, pp. 271–282, doi: <a href="https://doi.org/10.1016/j.lrp.2018.03.003">10.1016/j.lrp.2018.03.003</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG (embeddedness / co-evolving strain). <i>Same-dataset, non-independent with Colman &amp; Rouzies 2019 — count once.</i> <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A socio-relational</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Salden, RJCM, Aleven, V, Schwonke, R &amp; Renkl, A 2010, 'The expertise reversal effect and worked examples in tutored problem solving', <i>Instructional Science</i>, vol. 38, no. 3, pp. 289–307, doi: <a href="https://doi.org/10.1007/s11251-009-9107-8">10.1007/s11251-009-9107-8</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP3 (implementable adaptive-fade mechanism). <span class="disc ls">Learning sciences · <i>cognitive load</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Scheffer, M, Carpenter, SR, Lenton, TM, Bascompte, J, Brock, W, Dakos, V, van de Koppel, J, van de Leemput, IA, Levin, SA, van Nes, EH, Pascual, M &amp; Vandermeer, J 2012, 'Anticipating critical transitions', <i>Science</i>, vol. 338, no. 6105, pp. 344–348, doi: <a href="https://doi.org/10.1126/science.1225244">10.1126/science.1225244</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> (SCImago Q1) — concept/lens (peer-reviewed anchor for the tipping-point supplementary lens under Maynard; the false-resilience / cumulative-strain grounding, cited once at the synthesis "why now"). <span class="disc csc">Complex systems science · <i>tipping points</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Schön, DA 1987, <i>Educating the reflective practitioner: toward a new design for teaching and learning in the professions</i>, Jossey-Bass, San Francisco.</p>
+          <p class="ann"><span class="t">↳</span> Book · Gate n/a — DP2 (frame: reflection-in/-on-action). ISBN 1-55542-220-9. <span class="disc ls">Learning sciences · <i>reflection</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Schweizer, L, Wang, L, Koscher, E &amp; Michaelis, B 2022, 'Experiential learning, M&amp;A performance, and post-acquisition integration strategy: a meta-analysis', <i>Long Range Planning</i>, vol. 55, no. 4, article 102212, doi: <a href="https://doi.org/10.1016/j.lrp.2022.102212">10.1016/j.lrp.2022.102212</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG (recent meta-analytic warrant: deliberate learning &gt; experience accumulation). <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A serial acquisition</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Seatrade Maritime 2026, <i>Container alliances still dominant but independents gain ground</i>, viewed 28 June 2026, &lt;<a href="https://www.seatrade-maritime.com/containers/container-alliances-still-dominant-but-independents-gain-ground">https://www.seatrade-maritime.com/containers/container-alliances-still-dominant-but-independents-gain-ground</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (MDS Transmodal via trade press, strong structural anchor) · Gate n/a — ENV (Five Forces supplier power).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Sourcing Journal 2026, <i>Flexport projects 2025 profit, eyes more market share by 2026</i>, viewed 28 June 2026, &lt;<a href="https://wwd.com/sourcing-journal/logistics/flexport-projects-2025-profit-convoy-organic-growth-freight-forwarder-ryan-petersen-1238856765/">https://wwd.com/sourcing-journal/logistics/flexport-projects-2025-profit-convoy-organic-growth-freight-forwarder-ryan-petersen-1238856765/</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (trade press citing WSJ/CNBC, strong) · Gate n/a — ENV (Five Forces substitutes/new entrants).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Szulanski, G 2000, 'The process of knowledge transfer: a diachronic analysis of stickiness', <i>Organizational Behavior and Human Decision Processes</i>, vol. 82, no. 1, pp. 9–27, doi: <a href="https://doi.org/10.1006/obhd.2000.2884">10.1006/obhd.2000.2884</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — DP4 (transfer-risk leg; causal ambiguity + absorptive capacity). <span class="disc km">Knowledge mgmt · <i>knowledge transfer</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Tannenbaum, SI &amp; Cerasoli, CP 2013, 'Do team and individual debriefs enhance performance? A meta-analysis', <i>Human Factors</i>, vol. 55, no. 1, pp. 231–245, doi: <a href="https://doi.org/10.1177/0018720812448394">10.1177/0018720812448394</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP2 (quantified workplace anchor: structured reflection lifts performance). <span class="disc ls">Learning sciences · <i>generative learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Taylor, B &amp; Kroth, M 2009, 'Andragogy's transition into the future: meta-analysis of andragogy and its search for a measurable instrument', <i>Journal of Adult Education</i>, vol. 38, no. 1, pp. 1–11, viewed 28 June 2026, &lt;<a href="https://eric.ed.gov/?id=EJ891073">https://eric.ed.gov/?id=EJ891073</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · not Scopus-ranked · not FT50 · Gate <span class="no">✗</span> (positioning) — critical engagement (design response: andragogy-as-heuristic). No DOI; ERIC EJ891073. <span class="disc ls">Learning sciences · <i>andragogy</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Tetzlaff, L, Simonsmeier, B, Peters, T &amp; Brod, G 2025, 'A cornerstone of adaptivity — a meta-analysis of the expertise reversal effect', <i>Learning and Instruction</i>, vol. 98, article 102142, doi: <a href="https://doi.org/10.1016/j.learninstruc.2025.102142">10.1016/j.learninstruc.2025.102142</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP3 (fade evidence; meta-analytic keystone). <span class="disc ls">Learning sciences · <i>cognitive load</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Thai, VV, Cahoon, S &amp; Tran, HT 2011, 'Skill requirements for logistics professionals: findings and implications', <i>Asia Pacific Journal of Marketing and Logistics</i>, vol. 23, no. 4, pp. 553–574, doi: <a href="https://doi.org/10.1108/13555851111165084">10.1108/13555851111165084</a>. <span class="rg">reading-grade</span></p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · IF 7.53 · not FT50 · Gate <span class="yes">✓</span> (B14) — PG · S-5 (ground: a survey of AU logistics professionals [CILTA; n=147 of 1,300, 11.3%] ranking relational skills highest — supports the situated-knowledge framing; ⚠ but flags on-the-job learning is "too constrained within daily job scope", a tension the design must answer). Pending-close-read: reference PDF-verified, not yet close-read — close-read before A3 weight. <span class="disc lscm">Logistics &amp; SCM · <i>logistics workforce</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Thorpe, R, Holt, R, Macpherson, A &amp; Pittaway, L 2005, 'Using knowledge within small and medium-sized firms: a systematic review of the evidence', <i>International Journal of Management Reviews</i>, vol. 7, no. 4, pp. 257–281, doi: <a href="https://doi.org/10.1111/j.1468-2370.2005.00116.x">10.1111/j.1468-2370.2005.00116.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG · S-1 (embeddedness: SME knowledge "resist[s] conceptualization as a separable asset" so codification can only go so far — the balance point is by-product capture; also DP4-ctx. ⚠ codification is a <i>tension</i>, not yes/no). <span class="disc km">Knowledge mgmt · <i>SME knowledge management</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Trichterborn, A, zu Knyphausen-Aufseß, D &amp; Schweizer, L 2016, 'How to improve acquisition performance: the role of a dedicated M&amp;A function, M&amp;A learning process, and M&amp;A capability', <i>Strategic Management Journal</i>, vol. 37, no. 4, pp. 763–773, doi: <a href="https://doi.org/10.1002/smj.2364">10.1002/smj.2364</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — PG · S-6 (problem→design bridge; articulate→codify→share→internalise). <b>S-6 necessity (SME):</b> the large-firm fix is a dedicated <i>function</i> the SME cannot staff — and the function was never the active ingredient (full mediation via capability), so the SME must secure the <i>capability</i> by design. ⚠ scale-attenuated payoff — capability→performance is positively moderated by firm size; the function does not port (that non-transfer <i>is</i> the necessity), the capability requirement does. <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A organisational learning</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">TRS Resourcing 2026, <i>Freight forwarding and logistics jobs in Australia 2026: workforce strategy determines performance</i>, viewed 28 June 2026, &lt;<a href="https://www.trsresourcing.com/article/freight-forwarding-and-logistics-jobs-in-australia-2026-workforce-strategy-determines-performance/">https://www.trsresourcing.com/article/freight-forwarding-and-logistics-jobs-in-australia-2026-workforce-strategy-determines-performance/</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (specialist recruiter, directional) · Gate n/a — ENV (SWOT threat T4 · labour gaps become service failures; VRIO labour-shortage trend). <i>Promoted from Bibliography 10 July 2026 — cited on Appendix 4 (SWOT).</i></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Valentim, L, Lisboa, JV &amp; Franco, M 2016, 'Knowledge management practices and absorptive capacity in small and medium-sized enterprises: is there really a linkage?', <i>R&amp;D Management</i>, vol. 46, no. 4, pp. 711–725, doi: <a href="https://doi.org/10.1111/radm.12108">10.1111/radm.12108</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG / AC-bridge · S-7 (support: SMEs build AC through everyday practice — learning-by-doing, internal sharing, person-to-person transfer — not R&amp;D departments they can't afford; smaller firms rely on it more. A3-horizon; downstream of Liao). <span class="disc km">Knowledge mgmt · <i>absorptive capacity</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">van Merriënboer, JJG &amp; Boot, E 2005, 'A holistic pedagogical view of learning objects: future directions for reuse', in JM Spector, C Ohrazda, A Van Schaack &amp; DA Wiley (eds), <i>Innovations in instructional technology: essays in honor of M. David Merrill</i>, Lawrence Erlbaum Associates, Mahwah, NJ, pp. 43–64.</p>
+          <p class="ann"><span class="t">↳</span> Book chapter · Gate n/a — DP3/DP4 (conceptual spine: relocate reusable structure into templates + rich intermediates). <span class="disc ls">Learning sciences · <i>instructional design</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">van Merriënboer, JJG &amp; Sweller, J 2010, 'Cognitive load theory in health professional education: design principles and strategies', <i>Medical Education</i>, vol. 44, no. 1, pp. 85–93, doi: <a href="https://doi.org/10.1111/j.1365-2923.2009.03498.x">10.1111/j.1365-2923.2009.03498.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — DP3 (cognitive-load basis; template carries structure, support must fade). <span class="disc ls">Learning sciences · <i>cognitive load</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Weitzel, U &amp; McCarthy, KJ 2011, 'Theory and evidence on mergers and acquisitions by small and medium enterprises', <i>International Journal of Entrepreneurship and Innovation Management</i>, vol. 14, no. 2/3, pp. 248–275, doi: <a href="https://doi.org/10.1504/IJEIM.2011.041734">10.1504/IJEIM.2011.041734</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q3 · not FT50 · Gate <span class="no">✗</span> (miss) — PG · S-4 (warrant-by-absence: SMEs don't acquire like corporates [abandon deals readily, acquire intensively for their size, pay in shares] — confirms the SME acquirer is a distinct object; the people side is the absence. Finance/behaviour only). <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A in SMEs</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Wikström, E, Eriksson, E, Karamehmedovic, L &amp; Liff, R 2018, 'Knowledge retention and age management — senior employees' experiences in a Swedish multinational company', <i>Journal of Knowledge Management</i>, vol. 22, no. 7, pp. 1510–1526, doi: <a href="https://doi.org/10.1108/JKM-09-2017-0442">10.1108/JKM-09-2017-0442</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG · S-6 (novelty: the knowledge people value most is tacit "knowing" and "knowing who to call"; formal capture-and-codify fails, informal side-by-side practice works — so designing capture as a <i>by-product</i> of the work is the un-taken step. ⚠ large-firm case; trigger = retirement, translate to turnover/acquisition). <span class="disc km">Knowledge mgmt · <i>SME knowledge management</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Xiao, J &amp; Lindholm Dahlstrand, Å 2023, 'Skill-biased acquisitions? Human capital and employee mobility in small technology firms', <i>Small Business Economics</i>, vol. 60, no. 3, pp. 1219–1247, doi: <a href="https://doi.org/10.1007/s11187-022-00654-1">10.1007/s11187-022-00654-1</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — PG · S-2 primary / S-4 secondary (when a small firm is bought, more people leave and take know-how; the ones deemed essential stay only because retention is <i>deliberate</i> — bridges loss↔acquirer. ⚠ small tech firms; owner-exit ≠ capability loss). <span class="disc whrd">Workforce &amp; HRD · <i>knowledge loss</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Zollo, M &amp; Singh, H 2004, 'Deliberate learning in corporate acquisitions: post-acquisition strategies and integration capability in U.S. bank mergers', <i>Strategic Management Journal</i>, vol. 25, no. 13, pp. 1233–1256, doi: <a href="https://doi.org/10.1002/smj.426">10.1002/smj.426</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — PG (the codification node; direct warrant for the DP3 headline). <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>M&amp;A organisational learning</i></span></p>
+        </div>
+
+      </div>
+
+      <!-- Legislation cited -->
+      <div class="subhead">Legislation (cited)</div>
+      <p class="leg"><i>Customs Act 1901</i> (Cth).</p>
+
+      <!-- DP5/DP6 partial sub-block -->
+      <div class="subhead">Post-A3 landscape · DP5 / DP6 — cited on the slice page</div>
+      <p class="subdesc">These sit outside the formal slice (post-A3), so they were captured at search-log depth — journal and standing known, article title and vol/issue/pp./DOI still to capture. Descriptive titles are from the search log; confirm verbatim at capture.</p>
+      <div class="list" style="margin-top:0;">
+
+        <div class="entry partial">
+          <p class="cite">Connelly, CE et al. 2011, 'Knowledge hiding in organizations', <i>Journal of Organizational Behavior</i>. <span class="pend">vol · issue · pp · DOI to capture</span></p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · Gate <span class="yes">✓</span> (if promoted) — DP5 (protective anchor; hiding ≠ sharing). <span class="disc tbc">discipline — at close-read</span></p>
+        </div>
+
+        <div class="entry partial">
+          <p class="cite">Petronio, S 2010, 'Communication privacy management theory: what do we know about family privacy regulation?', <i>Journal of Family Theory &amp; Review</i>. <span class="pend">vol · issue · pp · DOI to capture</span></p>
+          <p class="ann"><span class="t">↳</span> Standing to confirm · Gate ? — DP5 (canonical CPM — the cited one; cf. sibling Petronio et al. 2020, Current Opinion in Psychology). <span class="disc tbc">discipline — at close-read</span></p>
+        </div>
+
+        <div class="entry partial">
+          <p class="cite">Frazier, ML et al. 2017, 'Psychological safety: a meta-analytic review and extension', <i>Personnel Psychology</i>. <span class="pend">vol · issue · pp · DOI to capture</span></p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · Gate <span class="yes">✓</span> (if promoted) — DP5 (construct-fit; individual↔group homology). <span class="disc tbc">discipline — at close-read</span></p>
+        </div>
+
+        <div class="entry partial">
+          <p class="cite">King-Sears, ME et al. 2023, 'A meta-analysis of the achievement of learners receiving Universal Design for Learning', <i>Teaching and Teacher Education</i>. <span class="pend">vol · issue · pp · DOI to capture</span></p>
+          <p class="ann"><span class="t">↳</span> Standing to confirm · Gate ? — DP6 (UDL meta, pre-K to adult; g = 0.43). <span class="disc tbc">discipline — at close-read</span></p>
+        </div>
+
+        <div class="entry partial">
+          <p class="cite">Epstein, D et al. 2020, '"A video of myself helps me learn": a scoping review', <i>International Journal for the Scholarship of Teaching and Learning</i>. <span class="pend">vol · issue · pp · DOI to capture</span></p>
+          <p class="ann"><span class="t">↳</span> Not ranked · Gate n/a — DP6 (video as accommodation; adult-equity leg). <span class="disc tbc">discipline — at close-read</span></p>
+        </div>
+
+        <div class="entry partial">
+          <p class="cite">Zhang, L et al. 2024, 'What next for Universal Design for Learning? A critique', <i>Educational Psychology Review</i>. <span class="pend">vol · issue · pp · DOI to capture</span></p>
+          <p class="ann"><span class="t">↳</span> SCImago Q1 · Gate <span class="yes">✓</span> (if promoted) — DP6 (UDL construct caveat). <span class="disc tbc">discipline — at close-read</span></p>
+        </div>
+
+        <div class="entry partial">
+          <p class="cite">Capp, MJ 2017, 'The effectiveness of Universal Design for Learning: a meta-analysis', <i>International Journal of Inclusive Education</i>. <span class="pend">vol · issue · pp · DOI to capture</span></p>
+          <p class="ann"><span class="t">↳</span> Standing to confirm · Gate ? — DP6 (effective for process; outcome caveat). <span class="disc tbc">discipline — at close-read</span></p>
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ============================ BIBLIOGRAPHY ============================ -->
+    <section class="sec bib">
+      <div class="sechead">
+        <div>
+          <div class="seckick">Consulted, not cited</div>
+          <h2 class="sectitle">Bibliography</h2>
+        </div>
+        <div class="seccount">consulted for the scan &amp; reading lists</div>
+      </div>
+      <p class="secdesc">Sources scooped up for the environment scan and the reading lists, or held for the A3-horizon research method, but not (yet) cited in the visible site text. Each can be promoted to References once a fact from it is cited on the page.</p>
+
+      <div class="list">
+
+        <div class="entry">
+          <p class="cite">Anderson, T &amp; Shattuck, J 2012, 'Design-based research: a decade of progress in education research?', <i>Educational Researcher</i>, vol. 41, no. 1, pp. 16–25, doi: <a href="https://doi.org/10.3102/0013189X11428813">10.3102/0013189X11428813</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — MTH/M-2 (DBR decade review; provisionality warrant). <span class="disc rm">Research method · <i>design-based research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">ASX Limited 2026, <i>RBA rate tracker</i>, viewed 28 June 2026, &lt;<a href="https://www.asx.com.au/markets/trade-our-derivatives-market/futures-market/rba-rate-tracker">https://www.asx.com.au/markets/trade-our-derivatives-market/futures-market/rba-rate-tracker</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (ASX market-expectations tool) · Gate n/a — ENV (PESTEL Economic; corroborates the 4.35% cash-rate figure).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Australian Logistics Council (ALC) 2025, <i>ALC update — August 2025</i>, newsletter, viewed 28 June 2026.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (industry peak-body newsletter) · Gate n/a — ENV (industry context: workforce / supply-chain-resilience themes). <i>URL + access date to confirm (email newsletter).</i></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Australian Logistics Council (ALC) 2026, <i>Fortnightly ALC government relations update no. 9, 16–28 May 2026</i>, ALC, viewed 28 June 2026, &lt;<a href="https://austlogistics.com.au/">https://austlogistics.com.au/</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (industry peak-body update) · Gate n/a — ENV (industry / policy context). <i>Confirm deep-link URL.</i></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Bowen, GA 2009, 'Document analysis as a qualitative research method', <i>Qualitative Research Journal</i>, vol. 9, no. 2, pp. 27–40, doi: <a href="https://doi.org/10.3316/QRJ0902027">10.3316/QRJ0902027</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago not verified · not FT50 · Gate n/a — MTH (A3 method: document analysis). <span class="disc rm">Research method · <i>research methods</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Braun, V &amp; Clarke, V 2006, 'Using thematic analysis in psychology', <i>Qualitative Research in Psychology</i>, vol. 3, no. 2, pp. 77–101.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago not verified · not FT50 · Gate n/a — MTH (A3 method: thematic analysis). <i>DOI to capture.</i> <span class="disc rm">Research method · <i>research methods</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Coherent Market Insights 2025, <i>Freight forwarding market</i>, viewed 28 June 2026, &lt;<a href="https://www.coherentmarketinsights.com/market-insight/freight-forwarding-market-4464">https://www.coherentmarketinsights.com/market-insight/freight-forwarding-market-4464</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (vendor market-research, directional) · Gate n/a — ENV (market-sizing context).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Denyer, D, Tranfield, D &amp; van Aken, JE 2008, 'Developing design propositions through research synthesis', <i>Organization Studies</i>, vol. 29, no. 3, pp. 393–413, doi: <a href="https://doi.org/10.1177/0170840607088020">10.1177/0170840607088020</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — M-4/M-3 (CIMO design propositions via research synthesis; the documentary-derivation anchor). <span class="disc rm">Research method · <i>design principles</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Dewey, J 1938, <i>Logic: the theory of inquiry</i>, Henry Holt and Company, New York.</p>
+          <p class="ann"><span class="t">↳</span> Book · Gate n/a — MTH (pragmatist paradigm root). <i>If matching Morgan 2014's citation, the Boydston Later Works Vol. 12 edition may be preferred.</i> <span class="disc rm">Research method · <i>pragmatism (paradigm)</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Eisenhardt, KM 1989, 'Building theories from case study research', <i>Academy of Management Review</i>, vol. 14, no. 4, pp. 532–550.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — MTH (A3 method: theory-building case study). <span class="disc rm">Research method · <i>research methods</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Elements Recruitment 2025, <i>Planning and logistics skills shortage Australia 2025–26</i>, viewed 28 June 2026, &lt;<a href="https://www.elementsrecruitment.com.au/planning-logistics-skills-shortage-australia">https://www.elementsrecruitment.com.au/planning-logistics-skills-shortage-australia</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (specialist recruiter, directional) · Gate n/a — ENV (VRIO / labour shortage trend).</p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Fahd, K, Miah, SJ, Ahmed, K, Venkatraman, S &amp; Miao, Y 2021, 'Integrating design science research and design based research frameworks for developing education support systems', <i>Education and Information Technologies</i>, vol. 26, no. 4, pp. 4027–4048, doi: <a href="https://doi.org/10.1007/s10639-021-10442-1">10.1007/s10639-021-10442-1</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — M-1 (DSR + DBR integration; the cross-branch port precedent). <span class="disc rm">Research method · <i>design science research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Frankel, R, Naslund, D &amp; Bolumole, Y 2005, 'The "white space" of logistics research: a look at the role of methods usage', <i>Journal of Business Logistics</i>, vol. 26, no. 2, pp. 185–209, doi: <a href="https://doi.org/10.1002/j.2158-1592.2005.tb00211.x">10.1002/j.2158-1592.2005.tb00211.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A · SCImago not verified · not FT50 · Gate <span class="yes">✓</span> (ABDC A) — MTH (A3 method: logistics research methods). <span class="disc rm">Research method · <i>research methods</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Gregor, S, Chandra Kruse, L &amp; Seidel, S 2020, 'Research perspectives: the anatomy of a design principle', <i>Journal of the Association for Information Systems</i>, vol. 21, no. 6, pp. 1622–1652, doi: <a href="https://doi.org/10.17705/1jais.00649">10.17705/1jais.00649</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — M-3 (a design principle is knowledge distinct from the built solution; the no-build anchor). <span class="disc rm">Research method · <i>design principles</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Gregor, S &amp; Hevner, AR 2013, 'Positioning and presenting design science research for maximum impact', <i>MIS Quarterly</i>, vol. 37, no. 2, pp. 337–355, doi: <a href="https://doi.org/10.25300/MISQ/2013/37.2.01">10.25300/MISQ/2013/37.2.01</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — M-3 (positioning the DSR contribution). <span class="disc rm">Research method · <i>design science research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Grow, GO 1991, 'Teaching learners to be self-directed', <i>Adult Education Quarterly</i>, vol. 41, no. 3, pp. 125–149.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago not verified · not FT50 · Gate n/a — DP1 lineage (Staged Self-Directed Learning; andragogy). <span class="disc ls">Learning sciences · <i>andragogy</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Grow, GO 1994, 'In defense of the staged self-directed learning model', <i>Adult Education Quarterly</i>, vol. 44, no. 2, pp. 109–114.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago not verified · not FT50 · Gate n/a — DP1 lineage (SSDL forum reply to Tennant 1992). <span class="disc ls">Learning sciences · <i>andragogy</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Hevner, AR, March, ST, Park, J &amp; Ram, S 2004, 'Design science in information systems research', <i>MIS Quarterly</i>, vol. 28, no. 1, pp. 75–105.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — MTH (DSR guidelines; incl. descriptive evaluation). <span class="disc rm">Research method · <i>design science research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Hodgkinson, GP &amp; Rousseau, DM 2009, 'Bridging the rigour–relevance gap in management research: it's already happening!', <i>Journal of Management Studies</i>, vol. 46, no. 3, pp. 534–546, doi: <a href="https://doi.org/10.1111/j.1467-6486.2009.00832.x">10.1111/j.1467-6486.2009.00832.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — MTH (rigour–relevance; the "it's happening" side). <span class="disc rm">Research method · <i>rigour–relevance</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Kelly, LM &amp; Cordeiro, M 2020, 'Three principles of pragmatism for research on organizational processes', <i>Methodological Innovations</i>, vol. 13, no. 2, pp. 1–10, doi: <a href="https://doi.org/10.1177/2059799120937242">10.1177/2059799120937242</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago not verified · not FT50 · Gate n/a — MTH (A3 paradigm: pragmatism). <span class="disc rm">Research method · <i>pragmatism (paradigm)</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Kieser, A &amp; Leiner, L 2009, 'Why the rigour–relevance gap in management research is unbridgeable', <i>Journal of Management Studies</i>, vol. 46, no. 3, pp. 516–533, doi: <a href="https://doi.org/10.1111/j.1467-6486.2009.00831.x">10.1111/j.1467-6486.2009.00831.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — MTH (rigour–relevance; the sceptical counter-voice). <span class="disc rm">Research method · <i>rigour–relevance</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">McCutcheon, DM &amp; Meredith, JR 1993, 'Conducting case study research in operations management', <i>Journal of Operations Management</i>, vol. 11, no. 3, pp. 239–256.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago not verified · FT50 · Gate <span class="yes">✓</span> — MTH (A3 method: case study in operations). <span class="disc rm">Research method · <i>research methods</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">McKenney, S &amp; Reeves, TC 2020, 'Educational design research: portraying, conducting, and enhancing productive scholarship', <i>Medical Education</i>, vol. 55, no. 1, pp. 82–92, doi: <a href="https://doi.org/10.1111/medu.14280">10.1111/medu.14280</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — M-2 (understand-before-solution; provisionality framing). <span class="disc rm">Research method · <i>design-based research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Mintzberg, H 1970, 'Structured observation as a method to study managerial work', <i>Journal of Management Studies</i>, vol. 7, no. 1, pp. 87–104, doi: <a href="https://doi.org/10.1111/j.1467-6486.1970.tb00484.x">10.1111/j.1467-6486.1970.tb00484.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — MTH (A3 method: structured observation). <span class="disc rm">Research method · <i>research methods</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Morgan, DL 2014, 'Pragmatism as a paradigm for social research', <i>Qualitative Inquiry</i>, vol. 20, no. 8, pp. 1045–1053, doi: <a href="https://doi.org/10.1177/1077800413513733">10.1177/1077800413513733</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago not verified · not FT50 · Gate n/a — MTH (A3 paradigm: pragmatism). <span class="disc rm">Research method · <i>pragmatism (paradigm)</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Peffers, K, Tuunanen, T, Rothenberger, MA &amp; Chatterjee, S 2007, 'A design science research methodology for information systems research', <i>Journal of Management Information Systems</i>, vol. 24, no. 3, pp. 45–77, doi: <a href="https://doi.org/10.2753/MIS0742-1222240302">10.2753/MIS0742-1222240302</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — MTH (DSRM six-activity process). <span class="disc rm">Research method · <i>design science research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Reserve Bank of Australia (RBA) n.d., <i>Drivers of the Australian dollar exchange rate</i>, RBA, viewed 28 June 2026, &lt;<a href="https://www.rba.gov.au/education/">https://www.rba.gov.au/education/</a>&gt;.</p>
+          <p class="ann"><span class="t">↳</span> Environment-scan (central bank education explainer) · Gate n/a — ENV (PESTEL Economic background: what moves the AUD — distinct from the cited RBA 2026a Exchange rates statistics page). <i>Confirm explainer deep-link.</i></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Romme, AGL 2003, 'Making a difference: organization as design', <i>Organization Science</i>, vol. 14, no. 5, pp. 558–573, doi: <a href="https://doi.org/10.1287/orsc.14.5.558.16769">10.1287/orsc.14.5.558.16769</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — M-5 (design as a legitimate mode in management/organisation studies; proposition-vs-rule scope, p. 570). <span class="disc rm">Research method · <i>design science research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Rousseau, DM 2006, 'Is there such a thing as "evidence-based management"?', <i>Academy of Management Review</i>, vol. 31, no. 2, pp. 256–269, doi: <a href="https://doi.org/10.5465/amr.2006.20208679">10.5465/amr.2006.20208679</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — M-6 (evidence-based management; the receiving-side warrant for recommendations). <span class="disc rm">Research method · <i>evidence-based management</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Sandoval, W 2014, 'Conjecture mapping: an approach to systematic educational design research', <i>Journal of the Learning Sciences</i>, vol. 23, no. 1, pp. 18–36, doi: <a href="https://doi.org/10.1080/10508406.2013.778204">10.1080/10508406.2013.778204</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC not listed · SCImago Q1 · not FT50 · Gate <span class="yes">✓</span> — M-2 (stating provisional design conjectures up front is the method). <span class="disc rm">Research method · <i>design-based research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Simon, HA 1996, <i>The sciences of the artificial</i>, 3rd edn, MIT Press, Cambridge, MA.</p>
+          <p class="ann"><span class="t">↳</span> Book · Gate n/a — M-1 (the design-science taproot; Simon's 'science of design'). <span class="disc rm">Research method · <i>design science research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">van Aken, JE 2004, 'Management research based on the paradigm of the design sciences: the quest for field-tested and grounded technological rules', <i>Journal of Management Studies</i>, vol. 41, no. 2, pp. 219–246, doi: <a href="https://doi.org/10.1111/j.1467-6486.2004.00430.x">10.1111/j.1467-6486.2004.00430.x</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — M-1/M-5 (design-science paradigm in management; technological rules). <span class="disc rm">Research method · <i>design science research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">van den Akker, J 1999, 'Principles and methods of development research', in J van den Akker, RM Branch, K Gustafson, N Nieveen &amp; T Plomp (eds), <i>Design approaches and tools in education and training</i>, Kluwer Academic Publishers, Dordrecht, pp. 1–14, doi: <a href="https://doi.org/10.1007/978-94-011-4255-7_1">10.1007/978-94-011-4255-7_1</a>.</p>
+          <p class="ann"><span class="t">↳</span> Book chapter · Gate n/a — M-2/M-4 (design-principles-as-output; Type II/reconstructive derivation). <span class="disc rm">Research method · <i>design-based research</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Van de Ven, AH 2007, <i>Engaged scholarship: a guide for organizational and social research</i>, Oxford University Press, Oxford.</p>
+          <p class="ann"><span class="t">↳</span> Book · Gate n/a — MTH (engaged scholarship; research–practice engagement spectrum). <span class="disc rm">Research method · <i>research methods</i></span></p>
+        </div>
+
+        <div class="entry">
+          <p class="cite">Zollo, M &amp; Winter, SG 2002, 'Deliberate learning and the evolution of dynamic capabilities', <i>Organization Science</i>, vol. 13, no. 3, pp. 339–351, doi: <a href="https://doi.org/10.1287/orsc.13.3.339.2780">10.1287/orsc.13.3.339.2780</a>.</p>
+          <p class="ann"><span class="t">↳</span> ABDC A* · SCImago Q1 · FT50 · Gate <span class="yes">✓</span> — PG/concept (deliberate learning mechanism; double-loop reflection). <span class="disc sm">Strategic mgmt &amp; M&amp;A · <i>deliberate learning</i></span></p>
+        </div>
+
+      </div>
+
+      <!-- Legislation consulted -->
+      <div class="subhead">Legislation (consulted, not cited)</div>
+      <p class="leg"><i>Corporations Act 2001</i> (Cth).<br>
+      Customs Amendment (Strengthening and Modernising Licensing and Other Measures) Bill 2024 (Cth).</p>
+
+    </section>
+
+    <div class="foot">
+      Kali Madden · BUS922 A3 · Dr Nelly Liyanagamage · July 2026<br>
+      References &amp; bibliography · UOW Harvard · best viewed on a laptop or desktop
+    </div>
+  </div>
+</body>
+</html>

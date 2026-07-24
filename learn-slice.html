@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>BUS922 A3 · The Learn slice</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:oklch(0.985 0.002 250);--paper:#ffffff;--ink:oklch(0.27 0.012 250);--ink-2:oklch(0.42 0.014 250);--muted:oklch(0.56 0.012 250);--muted-2:oklch(0.70 0.01 250);
+    --line:oklch(0.905 0.004 250);--line-2:oklch(0.83 0.006 250);
+    --grey:oklch(0.55 0.012 250);--grey-fill:oklch(0.965 0.004 250);
+    --teal:oklch(0.58 0.10 180);--teal-fill:oklch(0.965 0.03 180);--teal-fill-2:oklch(0.98 0.015 180);
+    --coral:oklch(0.63 0.15 30);--coral-fill:oklch(0.96 0.035 30);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);
+    font-family:"Inter","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-feature-settings:"ss01","cv11";-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:1180px;margin:0 auto;padding:56px 32px 88px;}
+  .back{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:30px;}
+  .back:hover{color:var(--ink);}
+  .eyebrow{font-family:"JetBrains Mono",ui-monospace,monospace;font-size:11px;
+    text-transform:uppercase;letter-spacing:0.16em;color:var(--teal);}
+  h1{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:34px;line-height:1.12;
+    letter-spacing:-0.015em;margin:14px 0 0;text-wrap:balance;}
+  .lede{color:var(--muted);font-size:14.5px;line-height:1.65;max-width:74ch;margin:16px 0 0;}
+  .lede b{color:var(--ink-2);font-weight:500;}
+
+  /* PARTNER raw-material band */
+  .source{margin:34px 0 0;background:var(--grey-fill);border:1px solid var(--line-2);
+    border-radius:11px;padding:16px 22px;display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
+  .source .lab{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--grey);white-space:nowrap;}
+  .source .txt{font-size:13px;color:var(--ink-2);line-height:1.55;flex:1;min-width:260px;}
+  .source .txt b{color:var(--ink);font-weight:600;}
+
+  .downtick{display:flex;justify-content:center;color:var(--muted-2);font-size:20px;margin:6px 0 2px;}
+
+  /* PIPELINE */
+  .pipe{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:8px;align-items:stretch;}
+  .stage{position:relative;background:var(--teal-fill-2);border:1px solid var(--teal);border-radius:12px;
+    padding:18px 17px 17px;display:flex;flex-direction:column;}
+  .stage.headline{border-width:2px;background:var(--teal-fill);box-shadow:0 10px 30px -20px rgba(15,110,86,.5);}
+  .dpnum{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:0.08em;
+    color:var(--teal);font-weight:500;}
+  .dpnum .badge{display:inline-block;margin-left:6px;background:var(--teal);color:#fff;
+    border-radius:4px;padding:1px 6px;font-size:8.5px;letter-spacing:0.08em;vertical-align:1px;}
+  .stage h3{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:18px;line-height:1.18;
+    margin:8px 0 0;color:#04342C;}
+  .stage .mech{font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:9px 0 0;}
+  .stage .forp{font-size:11.5px;line-height:1.5;color:var(--teal);margin:12px 0 0;
+    border-top:1px solid rgba(15,110,86,.22);padding-top:10px;}
+  .stage .forp b{font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--teal);display:block;margin-bottom:3px;font-weight:500;}
+  .stage .src{font-family:"JetBrains Mono",monospace;font-size:9.5px;color:var(--muted);
+    margin-top:auto;padding-top:11px;line-height:1.5;letter-spacing:0.01em;}
+  .flowarrow{position:absolute;right:-12px;top:50%;transform:translateY(-50%);z-index:2;
+    color:var(--teal);font-size:17px;font-weight:600;}
+  .pipe .stage:last-child .flowarrow{display:none;}
+
+  /* dual output callout under DP2 */
+  .dual{margin:16px 0 0;display:flex;justify-content:center;}
+  .dualbox{background:var(--teal-fill);border:1px solid var(--teal);border-radius:11px;
+    padding:14px 24px;max-width:640px;text-align:center;}
+  .dualbox .k{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--teal);}
+  .dualbox .eq{font-family:"Fraunces",Georgia,serif;font-size:21px;color:oklch(0.30 0.012 250);margin:6px 0 0;}
+  .dualbox .eq span{color:var(--teal);font-style:italic;}
+  .dualbox .sub{font-size:12px;color:oklch(0.34 0.012 250);margin:7px 0 0;line-height:1.5;}
+
+  /* OUTPUT record */
+  .record{margin:22px 0 0;display:flex;justify-content:center;}
+  .recordbox{background:#fff;border:1.5px solid var(--teal);border-radius:11px;padding:16px 26px;
+    text-align:center;max-width:560px;}
+  .recordbox .lab{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.12em;
+    text-transform:uppercase;color:var(--teal);}
+  .recordbox h3{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:22px;margin:6px 0 0;color:#04342C;}
+  .recordbox p{font-size:12.5px;color:var(--muted);margin:7px 0 0;line-height:1.55;}
+
+  /* out of scope band */
+  .oos{margin:26px 0 0;border:1px dashed var(--line-2);border-radius:11px;padding:15px 22px;
+    background:repeating-linear-gradient(135deg,transparent,transparent 9px,rgba(0,0,0,0.014) 9px,rgba(0,0,0,0.014) 18px);
+    display:flex;gap:18px;align-items:center;flex-wrap:wrap;}
+  .oos .lab{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--muted-2);white-space:nowrap;}
+  .oos .txt{font-size:12.5px;color:var(--muted);line-height:1.55;flex:1;min-width:280px;}
+  .oos .txt b{color:var(--ink-2);}
+
+  /* DP5 / DP6 — landscape-informing detail (held here so it stays fixed as the evidence landscape grows) */
+  .oos-head{margin:30px 0 0;display:flex;gap:14px 22px;align-items:baseline;flex-wrap:wrap;}
+  .oos-head .lab{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.1em;
+    text-transform:uppercase;color:var(--muted-2);white-space:nowrap;}
+  .oos-head .note{font-size:12.5px;color:var(--muted);line-height:1.6;flex:1;min-width:300px;}
+  .oos-head .note b{color:var(--ink-2);font-weight:500;}
+  .oosgrid{margin:14px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .oosdp{border:1px dashed var(--line-2);border-radius:12px;padding:18px 20px 17px;
+    background:repeating-linear-gradient(135deg,transparent,transparent 9px,rgba(0,0,0,0.015) 9px,rgba(0,0,0,0.015) 18px);}
+  .oosdp .dp{font-family:"JetBrains Mono",monospace;font-size:10px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--muted-2);font-weight:500;}
+  .oosdp h3{font-family:"Fraunces",Georgia,serif;font-weight:400;font-size:17px;line-height:1.2;
+    margin:9px 0 0;color:var(--ink-2);}
+  .oosdp .prin{font-size:12.5px;line-height:1.55;color:var(--ink-2);margin:10px 0 0;}
+  .oosdp .prin em{font-style:italic;color:var(--ink);}
+  .oosdp .app,.oosdp .why{font-size:11.5px;line-height:1.5;color:var(--muted);
+    margin:12px 0 0;padding-top:10px;border-top:1px solid var(--line);}
+  .oosdp .app b,.oosdp .why b{font-family:"JetBrains Mono",monospace;font-size:8.5px;
+    letter-spacing:0.1em;text-transform:uppercase;color:var(--muted-2);display:block;
+    margin-bottom:3px;font-weight:500;}
+  .oosdp .app em,.oosdp .why em{font-style:italic;}
+  .oosdp .cites{font-family:"JetBrains Mono",monospace;font-size:9.5px;color:var(--muted);
+    margin:11px 0 0;padding-top:10px;border-top:1px solid var(--line);line-height:1.55;letter-spacing:0.01em;}
+
+  .foot{margin-top:42px;font-family:"JetBrains Mono",monospace;font-size:10.5px;
+    text-transform:uppercase;letter-spacing:0.1em;color:var(--muted-2);line-height:1.9;}
+
+  @media (max-width:880px){.pipe{grid-template-columns:1fr 1fr;} .oosgrid{grid-template-columns:1fr;} .flowarrow{display:none;}}
+  @media (max-width:520px){.pipe{grid-template-columns:1fr;}}
+  @media print{html,body{background:#fff;} .stage,.oos,.source{break-inside:avoid;} .back{display:none;}}
+  .reflink{display:inline-block;margin:26px 0 0;padding-bottom:2px;font-family:"JetBrains Mono",ui-monospace,Menlo,monospace;font-size:10.5px;text-transform:uppercase;letter-spacing:0.1em;color:oklch(0.56 0.012 250);text-decoration:none;border-bottom:1px solid oklch(0.83 0.006 250);transition:color .14s,border-color .14s;}
+  .reflink:hover{color:oklch(0.27 0.012 250);border-color:oklch(0.27 0.012 250);}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; Index</a>
+    <div class="eyebrow">BUS922 A3 · The slice</div>
+    <h1>The Learn slice &mdash; one person's act, end to end</h1>
+    <p class="lede">The one focused part this study designs: a person takes a <b>real problem from their own work</b> and talks or writes it through; a <b>purpose-built template (with AI) does the organising</b>, so the person just explains; what's left is a <b>rich, well-structured record</b> ready for others to reuse. One act does two jobs at once — the person learns, <em>and</em> the business gains a reusable record. That double payoff is the idea the study turns on.</p>
+
+    <div class="source">
+      <span class="lab">Raw material · from the partner's people</span>
+      <span class="txt">The hands-on know-how the people in each <b>acquired business</b> carry, across 200+ offices — client relationships, local regulations, market conditions — a real asset that can stay hidden without a simple way to surface it.</span>
+    </div>
+    <div class="downtick">&darr;</div>
+
+    <div class="pipe">
+      <div class="stage">
+        <div class="dpnum">DP1 · raw material</div>
+        <h3>Authentic operational problem</h3>
+        <p class="mech">Start from a real problem the person brings or picks — not a made-up exercise. It is realism, not difficulty, that makes learning stick and carry over to new situations. How adults learn best (andragogy) guides the design here.</p>
+        <div class="forp"><b>For the partner</b>A real freight, customs or client case from the person's own office.</div>
+        <div class="src">Herrington et&nbsp;al. 2013 · Perusso &amp; Baaken 2020 · Knowles 1975</div>
+        <span class="flowarrow">&rarr;</span>
+      </div>
+
+      <div class="stage">
+        <div class="dpnum">DP2 · generation</div>
+        <h3>Generative articulation</h3>
+        <p class="mech">The person writes (or records) a short, prompted account of the problem. Explaining it in their own words is what drives the learning, and the act of explaining is both the learning <em>and</em> the record itself.</p>
+        <div class="forp"><b>For the partner</b>Captures the know-how people carry but rarely write down.</div>
+        <div class="src">Bisra et&nbsp;al. 2018 · Fiorella &amp; Mayer 2016 · Schön 1987</div>
+        <span class="flowarrow">&rarr;</span>
+      </div>
+
+      <div class="stage headline">
+        <div class="dpnum">DP3 · the template <span class="badge">HEADLINE</span></div>
+        <h3>Structuring lives in the template</h3>
+        <p class="mech">A purpose-built AI template carries the structure — it prompts reflection and adds the titles, tags and labels automatically. The person <em>only has to explain</em>; the template does the organising, and eases off gently as they gain experience.</p>
+        <div class="forp"><b>For the partner</b>Putting the organising work into the template is what makes this workable in a firm with no dedicated professional-development team.</div>
+        <div class="src">van Merriënboer &amp; Boot 2005 · &amp; Sweller 2010 · Tetzlaff et&nbsp;al. 2025 · Salden et&nbsp;al. 2010</div>
+        <span class="flowarrow">&rarr;</span>
+      </div>
+
+      <div class="stage">
+        <div class="dpnum">DP4 · the output</div>
+        <h3>Context-rich intermediate</h3>
+        <p class="mech">Capture a rich, in-context record and stop there — the <em>artefact</em> this slice produces (the <em>context-rich intermediate</em> of the learning-design literature, and called simply the <em>record</em> in the plainer text throughout: one output, three names for the same thing). Getting it ready for wider reuse comes later — that's the Share stage's job. Don't strip out the context when it's created; the context is what makes it valuable.</p>
+        <div class="forp"><b>For the partner</b>This is the join where one person's know-how becomes shared knowledge the whole business can use.</div>
+        <div class="src">Markus 2001 · Rivière et&nbsp;al. 2019 · Szulanski 2000 · Kasper et&nbsp;al. 2010</div>
+        <span class="flowarrow">&rarr;</span>
+      </div>
+    </div>
+
+    <div class="dual">
+      <div class="dualbox">
+        <div class="k">The double payoff · learning and a record at once</div>
+        <div class="eq">generate <span>=</span> learn <span>+</span> record</div>
+        <div class="sub">One act, done once — the person is more capable, <em>and</em> the business gains a reusable record. Not two tasks; the same task.</div>
+      </div>
+    </div>
+
+    <div class="record">
+      <div class="recordbox">
+        <div class="lab">What the act leaves behind</div>
+        <h3>A shareable record</h3>
+        <p>Rich in context, structured by the template, ready for the next person and the wider network — without asking the author to do the organising.</p>
+      </div>
+    </div>
+
+    <div class="oos-head">
+      <span class="lab">Out of scope · post-A3 · landscape-informing</span>
+      <span class="note">DP5 and DP6 sit just beyond this study's focused part. The <b>full detail lives here</b> so it stays put — the evidence landscape maps the supporting research, which grows over time. These inform the direction rather than being part of the formal design.</span>
+    </div>
+    <div class="oosgrid">
+      <div class="oosdp">
+        <div class="dp">DP5 · post-A3 · landscape-informing</div>
+        <h3>Learner-controlled disclosure as a trust mechanism</h3>
+        <p class="prin">Reflect privately first, then choose what to share — the person controls what becomes visible. Sharing is treated as both a safe and a productive choice, not an automatic post.</p>
+        <p class="app"><b>For the partner</b>Feeling safe to contribute is how newly-acquired staff from different backgrounds start to belong — a point from the partner's culture brief.</p>
+        <p class="why"><b>Why deferred</b>Trust and sharing open up their own body of evidence. The formal design stops at <em>capture</em>, before the decision to share — so DP5 guides the direction without widening the focused part.</p>
+        <p class="cites">Connelly et&nbsp;al. 2011 &middot; Petronio 2010 &middot; Frazier et&nbsp;al. 2017</p>
+      </div>
+      <div class="oosdp">
+        <div class="dp">DP6 · post-A3 · landscape-informing</div>
+        <h3>Multiple means of expression, no single channel privileged</h3>
+        <p class="prin">Let people explain in whatever form suits them best — writing, speaking, diagrams. Universal Design for Learning (UDL) is the fairness lens; the learning benefit is the payoff.</p>
+        <p class="app"><b>For the partner</b>Lets the most hard-to-put-in-words know-how surface in non-written form, where plain text would lose it.</p>
+        <p class="why"><b>Why deferred</b>Multiple formats multiply the design work for the record and the template. The study deliberately fixes one format to isolate how the explaining works (DP2&ndash;DP3); DP6 shows where it widens later.</p>
+        <p class="cites">King-Sears et&nbsp;al. 2023 &middot; Epstein et&nbsp;al. 2020 &middot; Zhang et&nbsp;al. 2024 &middot; Capp 2017</p>
+      </div>
+    </div>
+
+    <a class="reflink" href="references-bibliography.html">References &amp; bibliography &rarr;</a>
+
+    <div class="foot">
+      Kali Madden · BUS922 A3 · Dr Nelly Liyanagamage · July 2026<br>
+      The Learn slice · DP1–DP4 (DP3 headline) · best viewed on a laptop or desktop
+    </div>
+  </div>
+</body>
+</html>
