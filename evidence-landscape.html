@@ -636,8 +636,8 @@
           <!-- COLUMN 1 · THE GAP · SME-context base (far left) -->
           <div class="hcol gapcol">
             <div class="colhead"><span class="reg navy">The problem · the gap</span> <span class="hint">the SME-context base</span></div>
-            <div class="subhead navy">The SME-context base <span class="hint">six standpoints · the empty cell</span></div>
-            <div class="sp-intro">Twenty gate-relevant articles plus five reading-grade counterpoints (dimmed), across six literatures &mdash; the problem base for O1. None combines serial acquisition with learning-embedded capability retention in an SME.</div>
+            <div class="subhead navy">The SME-context base <span class="hint">seven standpoints · the empty cell</span></div>
+            <div class="sp-intro">Twenty-one gate-relevant articles plus five reading-grade counterpoints (dimmed), across seven standpoints &mdash; the problem base for O1. None combines serial acquisition with learning-embedded capability retention in an SME.</div>
             <div id="smeContext"></div>
           </div>
 
@@ -724,8 +724,8 @@
     </div>
 
     <div class="bar">
-      <div class="gate"><span class="n" id="gateN">45</span>
-        <span class="lab"><b>journal articles clear the gate</b> &mdash; ABDC A*/A or SCImago Q1 (44 conservative; same-dataset relational pair counted once; incl. 4 reading-grade). Above the 12+ aim and &ge;10 floor.</span></div>
+      <div class="gate"><span class="n" id="gateN">46</span>
+        <span class="lab"><b>journal articles clear the gate</b> &mdash; ABDC A*/A or SCImago Q1 (45 conservative; same-dataset relational pair counted once; incl. 4 reading-grade). Above the 12+ aim and &ge;10 floor.</span></div>
       <div class="gate ft"><span class="n" id="ft50N">10</span>
         <span class="lab"><b>FT50</b> among them. Grey instruments are environment-scan &mdash; <b>not</b> gate-counted.</span></div>
     </div>
@@ -758,7 +758,7 @@
    grey sources appear (confidentiality discipline).
    ============================================================ */
 
-const META = { gate: 45, conservative: 44, ft50: 10 };
+const META = { gate: 46, conservative: 45, ft50: 10 };
 
 /* ---------- GREY SOURCES (external-anchored only) ----------
    Rendered as clickable chips inside the instrument lenses.
@@ -845,7 +845,7 @@ const PROBLEM = [
 ];
 
 /* ---------- PROBLEM REGISTER · SME-context base (B1 compile v1.1) ----------
-   ~25 nodes across six standpoints (S-1…S-7). 20 extraction-grade + 5 reading-grade
+   ~26 nodes across seven standpoints (S-1…S-7). 21 extraction-grade + 5 reading-grade
    counterpoints (dim:true · prov:'pending-close-read'). v5 keys (standpoint / prov /
    cluster_primary / confidence_code / tension_flag / convergence_ids) render via
    the deepened show() panel + the clickable ⚠. Grouped in the gap column by STANDPOINTS. */
@@ -915,6 +915,13 @@ const SMECTX = [
     confidence_code:'Indirect evidence', tension_flag:'Gate-MISS; German blue-collar; correlational; NOT independent of Kortsch (German programme).',
     convergence_ids:['conv-emptycell'], touch:[],
     role:'Whether people learn on the job comes down to two levers a small firm can shape without a training dept: <b>who it hires</b> (curious self-starters) and the <b>everyday climate</b> (supportive bosses/colleagues, mistakes-as-learning). <span class="conf">Social support is the designable lever; size-null within the SME range.</span>' },
+  { id:'nolan', ref:'Nolan &amp; Garavan', yr:2016, register:'problem', gate:true, ft50:false, dots:4,
+    standing:'ABDC A* · Q1 · gate ✓', venue:'Int. Journal of Management Reviews',
+    standpoint:'S-3', prov:'extraction-grade', cluster_primary:'problem-gap',
+    cluster_candidates:['problem-gap','discipline-bridge'], frole:'canopy (Bridge)', counts_via:'kotey',
+    confidence_code:'Scope-bounded gap', tension_flag:'Search window closes June 2014 &mdash; grounds the field and its gap, not the current state; a post-2016 SME HRD review is owed as its currency pair. Review-level, not primary: individual claims are secondary mentions needing trace-to-primary. Downstream of Kotey &amp; Folker (three internal citations) &mdash; count S-3 once, via Kotey; adds NO fourth leg to the three-leg Evidence Note claim. The n = 26 learning-theory figure is an imputation by the reviewers, not a measured corpus property.',
+    convergence_ids:['conv-emptycell'], touch:[],
+    role:'The <b>S-3 canopy.</b> A systematic review of 117 HRD-in-SME papers across 31 journals (1995&ndash;2014) finds informal, on-the-job development to be the SME norm, with formal provision shrinking as firms get smaller &mdash; and names the field&rsquo;s own failure to explain <em>why</em> informality persists as a critical gap, because it has measured small firms against a large-firm formal ideal and so missed most of what is happening. A quarter of that corpus (n = 26) is already built on learning theory. <span class="conf">Informality is a reasoned adaptation, not a shortfall &mdash; and the education/HR join is already inside the business literature.</span>' },
 
   // ---------- S-4 · MandA-SME (SM) ----------
   { id:'arvanitis', ref:'Arvanitis &amp; Stucki', yr:2015, register:'problem', gate:true, ft50:false, dots:3,
@@ -1284,7 +1291,7 @@ const DISCIPLINE = {
   // --- SME-context (B1) ---
   durst:['KM','SME-KM'], thorpe:['KM','SME-KM'], massaro:['KM','SME-KM'], wikstrom:['KM','SME-KM'],
   eckardt:['WHRD','KnowledgeLoss'], demeulenaere:['WHRD','KnowledgeLoss'], xiao:['WHRD','KnowledgeLoss'], galan:['WHRD','KnowledgeLoss'],
-  kotey:['WHRD','SME-Learning'], kortsch:['WHRD','SME-Learning'], decius:['WHRD','SME-Learning'],
+  kotey:['WHRD','SME-Learning'], kortsch:['WHRD','SME-Learning'], decius:['WHRD','SME-Learning'], nolan:['WHRD','SME-HRD'],
   arvanitis:['SM','MandA-SME'], gala:['SM','MandA-SME'], weitzel:['SM','MandA-SME'], fabrizio:['SM','SME-Capability'],
   bernal:['LSCM','LSCM-Workforce'], gekara:['LSCM','LSCM-Workforce'], thai:['LSCM','LSCM-Workforce'],
   levallet:['KM','SME-KM'], dewah:['KM','SME-KM'],
@@ -1297,7 +1304,7 @@ const STREAM_LABEL = {
   'InstructionalDesign':'Instructional design', 'CognitiveLoad':'Cognitive load', 'TransferOfLearning':'Transfer of learning', 'SECI':'SECI / externalisation',
   'KnowledgeReuse':'Knowledge reuse', 'KnowledgeTransfer':'Knowledge transfer',
   'LSCM-AITech':'AI in logistics & SCM', 'TippingPoint':'Tipping points / critical transitions', '—':'Context framing',
-  'SME-KM':'SME knowledge management', 'KnowledgeLoss':'Turnover-induced knowledge loss', 'SME-Learning':'SME informal learning / HRD',
+  'SME-KM':'SME knowledge management', 'KnowledgeLoss':'Turnover-induced knowledge loss', 'SME-Learning':'SME informal learning / HRD', 'SME-HRD':'SME human resource development',
   'MandA-SME':'M&A · the SME acquirer', 'SME-Capability':'SME dynamic capability', 'AbsorptiveCapacity':'Absorptive capacity (KM×SM bridge)',
   'LSCM-Workforce':'Logistics & SCM workforce'
 };
@@ -1427,7 +1434,7 @@ function renderList(hostSel, arr){
 const STANDPOINTS = [
   { n:'S-1', label:'SME knowledge management', hint:'retention under-studied', ids:['durst','thorpe','massaro'] },
   { n:'S-2', label:'Knowledge loss via turnover', hint:'service firms bite hardest', ids:['eckardt','demeulenaere','xiao','galan'] },
-  { n:'S-3', label:'SME informal learning', hint:'no PD function', ids:['kotey','kortsch','decius'] },
+  { n:'S-3', label:'SME informal learning', hint:'no PD function', ids:['kotey','kortsch','decius','nolan'] },
   { n:'S-4', label:'The SME as acquirer', hint:'under-studied', ids:['arvanitis','gala','weitzel'] },
   { n:'S-5', label:'Freight-forwarder + AU context', hint:'the closest firm-type match', ids:['fabrizio','bernal','gekara','thai'] },
   { n:'S-6', label:'Necessity + novelty', hint:'the pivot', ids:['wikstrom','levallet','dewah'] },
