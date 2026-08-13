@@ -69,6 +69,7 @@
   .seg{display:inline-flex;border:1px solid var(--line-2);border-radius:7px;overflow:hidden;}
   .seg .chip{border:0;border-radius:0;border-right:1px solid var(--line-2);}
   .seg .chip:last-child{border-right:0;}
+  [hidden]{display:none !important;}
   .toggle{font-family:"JetBrains Mono",monospace;font-size:11px;border:1px solid var(--line-2);
     background:#fff;color:var(--ink-2);border-radius:7px;padding:6px 11px;cursor:pointer;
     display:inline-flex;gap:8px;align-items:center;transition:.14s;}
@@ -302,6 +303,42 @@
   .foundation #instruments{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
   .foundation .lens{background:var(--paper);}
 
+  /* CANOPY · the methods layer — the ground band's mirror at the top of the flow.
+     Graded by function, not tier. Opt-in: hidden until the Methods layer toggle is on. */
+  .canopy{width:100%;background:color-mix(in oklch, var(--fam-rm) 3.5%, var(--paper));
+    border:1px dashed color-mix(in oklch, var(--fam-rm) 34%, var(--line));
+    border-top:3px solid color-mix(in oklch, var(--fam-rm) 45%, var(--line));
+    border-radius:11px;padding:16px 18px 18px;}
+  .canopy[hidden]{display:none;}
+  .reg.rm{background:color-mix(in oklch,var(--fam-rm) 10%,var(--paper));color:var(--fam-rm);}
+  .cgroups{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;align-items:start;}
+  .cgrp{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:11px 12px 13px;}
+  .cgrp.wide{grid-column:1/-1;}
+  .cgrp .gh{font-family:"JetBrains Mono",monospace;font-size:9.5px;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--fam-rm);display:flex;gap:7px;align-items:baseline;flex-wrap:wrap;}
+  .cgrp .gh .n{color:var(--muted-2);}
+  .cgrp .gsub{font-size:10.5px;color:var(--muted);font-style:italic;margin:3px 0 0;}
+  .cgrp .cards{display:flex;flex-direction:column;gap:6px;margin-top:10px;}
+  .cgrp.two .cards{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;}
+  .ccard{display:flex;align-items:center;gap:8px;border:1px solid var(--line-2);border-left:3px solid var(--fam-rm);
+    border-radius:7px;background:#fff;padding:7px 9px;font-size:11.5px;color:var(--ink-2);line-height:1.3;}
+  .ccard .yr{color:var(--muted);font-variant-numeric:tabular-nums;}
+  .ccard .fn{font-family:"JetBrains Mono",monospace;font-size:7.5px;letter-spacing:0.06em;text-transform:uppercase;
+    color:var(--fam-rm);background:color-mix(in oklch,var(--fam-rm) 9%,var(--paper));
+    border:1px solid color-mix(in oklch,var(--fam-rm) 22%,transparent);border-radius:4px;padding:1px 5px;margin-left:auto;flex:none;}
+  .ccard.consulted{opacity:.66;border-style:dashed;border-left-style:solid;}
+  .ccard.consulted .fn{color:var(--muted);background:var(--grey-fill);border-color:var(--line-2);}
+  .cgrp.silent{background:color-mix(in oklch, var(--grey) 3%, var(--paper));border-style:dashed;}
+  .cgrp.silent .ccard{border-left-color:var(--muted-2);}
+  .silentnote{font-family:"JetBrains Mono",monospace;font-size:8.5px;letter-spacing:0.05em;text-transform:uppercase;
+    color:var(--muted-2);margin-top:9px;border-top:1px dashed var(--line);padding-top:8px;line-height:1.5;}
+  .canopy .colhead .ibtn{border-color:var(--fam-rm);color:var(--fam-rm);}
+  .dpbracket{display:none;height:9px;margin:0 0 8px;
+    border:1px solid color-mix(in oklch,var(--fam-rm) 40%,transparent);border-bottom:0;border-radius:6px 6px 0 0;
+    background:color-mix(in oklch,var(--fam-rm) 5%,transparent);}
+  body.canopy-on .dpbracket{display:block;}
+  .canopylink{fill:none;stroke:var(--fam-rm);stroke-dasharray:3 4;stroke-width:1.4;opacity:.42;}
+
   /* problem academic nodes stack vertically in the narrow gap column */
   .nodes.vert{flex-direction:column;gap:8px;}
   .nodes.vert .node{width:100%;}
@@ -337,6 +374,7 @@
     --fam-csc: oklch(0.64 0.13 330);   /* Complex systems science — magenta (Scheffer; new B4) */
     --fam-whrd:oklch(0.60 0.12 25);    /* Workforce & HRD — terracotta/brick (SME-context sixth family; B1) */
     --fam-ctx:oklch(0.62 0.012 250);   /* Context framing — warm grey (not a discipline) */
+    --fam-rm: oklch(0.64 0.15 305);    /* Research method — matched to references-bibliography.html */
   }
   .lgd-lab{font-family:"JetBrains Mono",monospace;font-size:9px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted-2);}
 
@@ -566,6 +604,9 @@
           <button class="chip" data-layout="discipline">By discipline</button>
         </span>
         <span style="width:8px"></span>
+        <button class="toggle" id="canopyToggle"><span class="dot"></span>Methods layer</button>
+        <button class="toggle" id="consultedToggle" hidden><span class="dot"></span>Include consulted</button>
+        <span style="width:8px"></span>
         <span class="tlabel">Disciplines</span>
         <button class="chip fam-chip on" data-fam="all">All</button>
         <button class="chip fam-chip" data-fam="SM"><span class="fsw sm"></span>Strategic mgmt &amp; M&amp;A</button>
@@ -622,7 +663,7 @@
       <span class="h">How to use</span>
       <span class="tip"><kbd>hover</kbd> or <kbd>click</kbd> any card to highlight it and light the papers it&rsquo;s in conversation with</span>
       <span class="sep">&middot;</span>
-      <span class="tip"><kbd>i</kbd> on any block opens a plain-language or scholarly explainer of that cluster</span>
+      <span class="tip"><kbd>i</kbd> on any block opens a plain-language explainer of that cluster</span>
       <span class="sep">&middot;</span>
       <span class="tip"><kbd>Focus</kbd> chips narrow the view to one DP, register, or the grey scan</span>
       <span class="sep">&middot;</span>
@@ -631,6 +672,8 @@
       <span class="tip"><kbd>Disciplines</kbd> dims to one literature family</span>
       <span class="sep">&middot;</span>
       <span class="tip"><kbd>Conversations</kbd> chips draw the cross-paper arcs and a banner (&#9733; = the cross-disciplinary hinge; Causal chain = the spine)</span>
+      <span class="sep">&middot;</span>
+      <span class="tip"><kbd>Methods layer</kbd> opens the canopy &mdash; the sources the study was <i>conducted with</i>, above the argument</span>
       <span class="sep">&middot;</span>
       <span class="tip"><kbd>Top-rated journals only</kbd> hides everything except the highest-rated peer-reviewed articles</span>
     </div>
@@ -642,6 +685,13 @@
       <div class="hscroll">
         <svg id="links" aria-hidden="true"></svg>
         <div class="hstack">
+
+        <!-- CANOPY · the methods layer, opt-in. Mirror of the ground band. -->
+        <div class="canopy" id="canopy" hidden>
+          <div class="colhead"><span class="reg rm">The canopy &middot; how the study was conducted</span> <span class="hint">methods &amp; design-science sources &middot; graded by function, not tier &mdash; instruments, not claims in the arc</span> <button class="ibtn" data-explain="canopy" aria-label="Read the explainer for the methods layer" aria-expanded="false">i</button></div>
+          <div class="cgroups" id="cgroups"></div>
+        </div>
+
         <div class="hrow">
 
           <!-- COLUMN 1 · THE GAP · SME-context base (far left) -->
@@ -693,6 +743,7 @@
 
           <!-- COLUMNS 3–6 · DESIGN REGISTER (DP1→DP4) -->
           <div class="desgroup">
+            <div class="dpbracket" id="dpbracket"></div>
             <div class="colhead design"><span class="reg design">The design &middot; the pipeline</span> <span class="hint">journal-warranted DP1 &rarr; DP4 &middot; then DP5 &rarr; DP6 dimmed (future work, informs the direction)</span></div>
             <div id="designLanes"></div>
           </div>
@@ -704,10 +755,6 @@
             <div class="exp-head">
               <div class="exp-eyebrow"><span class="exp-lab">Explainer &middot; the story this cluster tells</span><span class="exp-title" id="expTitle"></span></div>
               <div class="exp-controls">
-                <span class="exp-reg">
-                  <button class="chip on" data-exreg="business">Business</button>
-                  <button class="chip" data-exreg="scholar">Scholar</button>
-                </span>
                 <button class="exp-close" id="expClose" aria-label="Close explainer">&times;</button>
               </div>
             </div>
@@ -736,7 +783,7 @@
 
     <div class="bar">
       <div class="gate"><span class="n" id="gateN">46</span>
-        <span class="lab"><b>journal articles clear the gate</b> &mdash; ABDC A*/A or SCImago Q1 (45 conservative; same-dataset relational pair counted once; incl. 4 reading-grade). Above the 12+ aim and &ge;10 floor.</span></div>
+        <span class="lab"><b>journal articles clear the gate</b> &mdash; ABDC A*/A or SCImago Q1 (60 conservative; same-dataset relational pair counted once).</span></div>
       <div class="gate ft"><span class="n" id="ft50N">10</span>
         <span class="lab"><b>FT50</b> among them. Grey instruments are environment-scan &mdash; <b>not</b> gate-counted.</span></div>
     </div>
@@ -769,7 +816,63 @@
    grey sources appear (confidentiality discipline).
    ============================================================ */
 
-const META = { gate: 46, conservative: 45, ft50: 10 };
+const META = { gate: 61, conservative: 60, ft50: 15 };
+
+/* ---------- CANOPY · the methods layer (20260813_O3 port) ----------
+   Rendered above the flow, graded by function not tier. Cited = the 17 of the
+   port audit v2; consulted = read and informing, shown only when the second
+   toggle is on. `arrow:'set'` groups bracket the DP band; `arrow:'none'` groups
+   state their silence — they anchor the Methodology section, which is not rendered here. */
+const CANOPY = [
+  { g:'Methods-Paradigm', sub:'the stance the study takes', arrow:'set', items:[
+    { a:'Dewey', y:'1938', fn:'pragmatism' },
+    { a:'Morgan', y:'2014', fn:'pragmatist inquiry', c:1 },
+    { a:'Kelly &amp; Cordeiro', y:'2020', fn:'pragmatism', c:1 }
+  ]},
+  { g:'Design science &middot; DSR', sub:'the form the whole set takes', arrow:'set', items:[
+    { a:'van Aken', y:'2004', fn:'conjunctive standard' },
+    { a:'Romme', y:'2003', fn:'design paradigm' },
+    { a:'Denyer et al.', y:'2008', fn:'set interdependence' },
+    { a:'Simon', y:'1996', fn:'sciences of the artificial', c:1 },
+    { a:'Hevner et al.', y:'2004', fn:'DSR guidelines', c:1 },
+    { a:'Peffers et al.', y:'2007', fn:'DSR process model', c:1 },
+    { a:'Gregor &amp; Hevner', y:'2013', fn:'knowledge contribution', c:1 }
+  ]},
+  { g:'Design science &middot; DBR', sub:'how the principles are framed and tested', arrow:'set', items:[
+    { a:'van den Akker', y:'1999', fn:'if–then–because' },
+    { a:'Sandoval', y:'2014', fn:'conjecture map' },
+    { a:'Anderson &amp; Shattuck', y:'2012', fn:'DBR decade review', c:1 },
+    { a:'McKenney &amp; Reeves', y:'2020', fn:'educational design research', c:1 },
+    { a:'Fahd et al.', y:'2021', fn:'DBR in practice', c:1 }
+  ]},
+  { g:'Principles &amp; evidence base', sub:'the standard the set is held to, and how it is reported', arrow:'set', items:[
+    { a:'Gregor et al.', y:'2020', fn:'actor roles' },
+    { a:'Rousseau', y:'2006', fn:'evidence-based mgmt' },
+    { a:'Marín-García', y:'2021', fn:'protocol reporting', c:1 },
+    { a:'Marín-García et al.', y:'2022', fn:'case report guidelines', c:1 }
+  ]},
+  { g:'Research design &amp; fieldcraft', sub:'how the study was set up and got in the door', arrow:'none', wide:1, two:1, items:[
+    { a:'McCutcheon &amp; Meredith', y:'1993', fn:'research design' },
+    { a:'Eisenhardt', y:'1989', fn:'theory-building case', c:1 },
+    { a:'Mintzberg', y:'1970', fn:'structured observation', c:1 },
+    { a:'Llewellyn &amp; Northcott', y:'2007', fn:'single-case evidence', c:1 },
+    { a:'Alexander &amp; Smith', y:'2019', fn:'organisational access', c:1 }
+  ]},
+  { g:'Analysis &amp; triangulation', sub:'how the evidence was handled', arrow:'none', wide:1, two:1, items:[
+    { a:'Bowen', y:'2009', fn:'document analysis' },
+    { a:'Braun &amp; Clarke', y:'2021', fn:'codebook TA' },
+    { a:'Clarke &amp; Braun', y:'2017', fn:'flexibility warrant' },
+    { a:'Fereday &amp; Muir-Cochrane', y:'2006', fn:'hybrid coding' },
+    { a:'Liyanagamage et al.', y:'2024', fn:'small-business setting' },
+    { a:'Jick', y:'1979', fn:'triangulation' },
+    { a:'Mathison', y:'1988', fn:'convergence types' },
+    { a:'Rossman &amp; Wilson', y:'1985', fn:'analytic relation' },
+    { a:'Rossman &amp; Wilson', y:'1991', fn:'retrospective rationality', c:1 },
+    { a:'Rossman &amp; Wilson', y:'1994', fn:'initiation at design', c:1 },
+    { a:'Braun &amp; Clarke', y:'2006', fn:'six phases', c:1 },
+    { a:'Cunliffe &amp; Eriksen', y:'2011', fn:'abductive analysis', c:1 }
+  ]}
+];
 
 /* ---------- GREY SOURCES (external-anchored only) ----------
    Rendered as clickable chips inside the instrument lenses.
@@ -1227,6 +1330,11 @@ const CONVERSATIONS = {
    20260704_B4). Ground blocks + conversation chips: text to follow.
    ============================================================ */
 const EXPLAINERS = {
+  'canopy': {
+    title:'The canopy \u00b7 how the study was conducted',
+    business:'PLACEHOLDER \u2014 plain-English methods text to be drafted. The groups that draw a line shaped something this diagram shows: the form of the six design principles. The groups that draw nothing shaped how the study was run and how its evidence was handled \u2014 that work is described here rather than pointed at, because the methodology is not part of this diagram.',
+    scholar:'PLACEHOLDER \u2014 scholarly register to be drafted. The canopy is graded by function rather than by journal tier, on the same principle as the ground band below: a band outside the main flow is legible provided its head states the different rule it runs on. Design-science sources bracket the design-principle band because they warrant the form of the set rather than any one principle; analysis, triangulation and fieldcraft sources anchor the Methodology section, which this diagram does not render, and therefore draw no line.'
+  },
   's1': {
     title:'S-1 \u00b7 SME knowledge management',
     business:`Small firms keep what they know inside a few experienced people rather than in any system, and that is normal for their size rather than a failure. It does mean that holding on to that knowledge is the weak point, and researchers who study knowledge in small firms say it is also the part they have studied least, with just one study found on the subject in a review of the field (Durst &amp; Edvardsson 2012). The catch is that writing everything down will not fix it. What makes small-firm know-how valuable is where it sits: in people, in relationships, and in how the work is actually done, so it cannot be filed away without losing much of its worth (Thorpe et al. 2005). Yet leaving it entirely uncaptured costs a firm the advantage bigger competitors get from scale, so the real question is how much to capture and in what form. The wider evidence is thin and scattered, and cannot even agree what counts as a small firm, which means an organisation at the larger end cannot simply look up the answer for its size (Massaro et al. 2016).`
@@ -1603,6 +1711,7 @@ function drawArcs(){
   svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
   svg.setAttribute('width', w); svg.setAttribute('height', h);
   svg.style.width = w + 'px'; svg.style.height = h + 'px';
+  drawCanopyLinks(svg, wrap);
   if (activeConvo){
     const c = CONVERSATIONS[activeConvo];
     c.arcs.forEach(([a, b, kind]) => drawEdge({ a, b, kind, chain:!!c.chain, hl:!!c.headline, convo:activeConvo }, 'focusedge'));
@@ -1613,6 +1722,60 @@ function drawArcs(){
     return;
   }
   RESTING.forEach(e => drawEdge(e, 'resting'));
+}
+
+/* ============================================================
+   Canopy · the methods layer (opt-in), and its drop-lines
+   ============================================================ */
+let canopyOn = false, consultedOn = false;
+try { canopyOn = localStorage.getItem('el-canopy') === '1'; consultedOn = localStorage.getItem('el-canopy-consulted') === '1'; } catch(e){}
+
+function renderCanopy(){
+  const host = $('#cgroups'); if (!host) return;
+  host.innerHTML = CANOPY.map(gr => {
+    const items = gr.items.filter(it => consultedOn || !it.c);
+    if (!items.length) return '';
+    const cls = 'cgrp' + (gr.wide ? ' wide' : '') + (gr.two ? ' two' : '') + (gr.arrow === 'none' ? ' silent' : '');
+    const cards = items.map(it =>
+      `<div class="ccard${it.c ? ' consulted' : ''}"><span>${it.a} <span class="yr">${it.y}</span></span>`
+      + `<span class="fn">${it.c ? 'consulted' : it.fn}</span></div>`).join('');
+    return `<div class="${cls}" data-arrow="${gr.arrow}"><div class="gh">${gr.g} <span class="n">${items.length}</span></div>`
+      + `<div class="gsub">${gr.sub}</div><div class="cards">${cards}</div>`
+      + (gr.arrow === 'none' ? '<div class="silentnote">no drop-lines — these anchor the Methodology section, which this diagram does not render</div>' : '')
+      + '</div>';
+  }).join('');
+}
+
+function drawCanopyLinks(svg, wrap){
+  const canopy = $('#canopy'), target = $('#dpbracket');
+  if (!canopy || canopy.hidden || !target || !wrap.contains(canopy) || !wrap.contains(target)) return;
+  const W = wrap.getBoundingClientRect();
+  const at = el => {
+    const r = el.getBoundingClientRect();
+    return { x: r.left - W.left + wrap.scrollLeft + r.width / 2,
+             y: r.top - W.top + wrap.scrollTop,
+             b: r.bottom - W.top + wrap.scrollTop };
+  };
+  const t = at(target);
+  canopy.querySelectorAll('.cgrp[data-arrow="set"]').forEach(gr => {
+    const g = at(gr);
+    const my = g.b + (t.y - g.b) * 0.5;
+    const p = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    p.setAttribute('d', `M${g.x},${g.b} C${g.x},${my} ${t.x},${my} ${t.x},${t.y}`);
+    p.setAttribute('class', 'canopylink');
+    svg.appendChild(p);
+  });
+}
+
+function syncCanopy(){
+  const c = $('#canopy'), tog = $('#canopyToggle'), ctog = $('#consultedToggle');
+  c.hidden = !canopyOn;
+  document.body.classList.toggle('canopy-on', canopyOn);
+  tog.classList.toggle('on', canopyOn);
+  ctog.hidden = !canopyOn;
+  ctog.classList.toggle('on', consultedOn);
+  if (canopyOn) renderCanopy();
+  requestAnimationFrame(() => { pinStack(); drawArcs(); });
 }
 
 /* hover illuminate — only when nothing else is steering the view */
@@ -1776,8 +1939,9 @@ function setLayout(l){
    Block explainers — "i" affordance opens a docked reading panel;
    Business (plain) / Scholar (academic) register toggle.
    ============================================================ */
-const EXP = { slug:null, reg:'business' };
-try { const r = localStorage.getItem('el-exp-reg'); if (r === 'business' || r === 'scholar') EXP.reg = r; } catch(e){}
+/* One register only — plain English with in-text citations, as the seven standpoints read.
+   `scholar` strings are retained in EXPLAINERS as drafting material and are not rendered. */
+const EXP = { slug:null };
 function syncIbtns(){
   document.querySelectorAll('[data-explain]').forEach(b => {
     const on = b.dataset.explain === EXP.slug;
@@ -1788,13 +1952,13 @@ function syncIbtns(){
 function renderExplainer(){
   const e = EXPLAINERS[EXP.slug]; if (!e) return;
   $('#expTitle').textContent = e.title;
-  $('#expBody').innerHTML = '<p>' + (e[EXP.reg] || e.business) + '</p>';
-  document.querySelectorAll('[data-exreg]').forEach(c => c.classList.toggle('on', c.dataset.exreg === EXP.reg));
+  $('#expBody').innerHTML = '<p>' + (e.plain || e.business) + '</p>';
 }
 function openExplainer(slug){
   if (!EXPLAINERS[slug]) return;
   if (EXP.slug === slug){ closeExplainer(); return; }
   EXP.slug = slug;
+  dockExplainer(slug);
   renderExplainer();
   $('#explainer').hidden = false;
   syncIbtns();
@@ -1806,6 +1970,16 @@ function openExplainer(slug){
   });
 }
 function closeExplainer(){ EXP.slug = null; $('#explainer').hidden = true; syncIbtns(); requestAnimationFrame(() => { pinStack(); drawArcs(); }); }
+
+/* The explainer docks at the foot of the flow for every block — except the canopy,
+   which sits at the top of the page, where a panel a full scroll away is not findable. */
+let expHome = null;
+function dockExplainer(slug){
+  const el = $('#explainer'); if (!el) return;
+  if (!expHome) expHome = el.nextElementSibling;
+  if (slug === 'canopy'){ const c = $('#canopy'); if (c) c.after(el); }
+  else if (expHome && expHome.parentNode) expHome.parentNode.insertBefore(el, expHome);
+}
 
 /* ============================================================
    Boot
@@ -1840,16 +2014,22 @@ function boot(){
   });
   document.querySelectorAll('[data-convo]').forEach(c => c.addEventListener('click', () => setConvo(c.dataset.convo)));
 
+  // canopy — the methods layer, and the consulted set inside it
+  $('#canopyToggle').addEventListener('click', () => {
+    canopyOn = !canopyOn;
+    try { localStorage.setItem('el-canopy', canopyOn ? '1' : '0'); } catch(e){}
+    syncCanopy();
+  });
+  $('#consultedToggle').addEventListener('click', () => {
+    consultedOn = !consultedOn;
+    try { localStorage.setItem('el-canopy-consulted', consultedOn ? '1' : '0'); } catch(e){}
+    syncCanopy();
+  });
+  syncCanopy();
+
   // block explainers — "i" opens the docked reading panel; register toggle + close
   document.querySelectorAll('[data-explain]').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); openExplainer(b.dataset.explain); }));
-  document.querySelectorAll('[data-exreg]').forEach(c => c.addEventListener('click', () => {
-    EXP.reg = c.dataset.exreg;
-    try { localStorage.setItem('el-exp-reg', EXP.reg); } catch(e){}
-    if (EXP.slug) renderExplainer();
-    else document.querySelectorAll('[data-exreg]').forEach(x => x.classList.toggle('on', x.dataset.exreg === EXP.reg));
-  }));
   $('#expClose').addEventListener('click', closeExplainer);
-  document.querySelectorAll('[data-exreg]').forEach(x => x.classList.toggle('on', x.dataset.exreg === EXP.reg));
 
   // hover-illuminate: any node lights its conversation partners + draws their arcs (either view)
   const diagram = $('#diagram');
