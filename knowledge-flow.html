@@ -109,8 +109,9 @@ p { margin: 0 0 0.75em; text-wrap: pretty; }
 a { color: inherit; }
 
 /* Layout shell */
-.shell { max-width: 1480px; margin: 0 auto; padding: 0 32px; position: relative; }
-.section { padding: 96px 0; position: relative; }
+.shell { max-width: 1480px; margin: 0 auto; padding: 0 clamp(32px, 5vw, 88px); position: relative; }
+@media (min-width: 1081px) { .shell { padding-right: clamp(56px, 6vw, 104px); } }
+.section { padding-top: 96px; padding-bottom: 96px; position: relative; }
 .section + .section { border-top: 1px solid var(--rule-soft); }
 @media (min-width: 1081px) { .arch-card { margin-right: clamp(28px, 4.5vw, 84px); } }
 
@@ -298,7 +299,7 @@ input[type="range"].chart-slider::-moz-range-thumb { width: 14px; height: 14px; 
 .footer {
   font-family: var(--mono); font-size: 10.5px; color: var(--ink-soft);
   letter-spacing: 0.04em;
-  padding: 28px 0;
+  padding-top: 28px; padding-bottom: 28px;
   border-top: 1px solid var(--rule-soft);
 }
 
