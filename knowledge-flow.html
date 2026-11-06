@@ -2118,9 +2118,43 @@ function FigureIndex() {
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
+
+    // Deep links (#fig-*): React renders after the browser's native anchor jump,
+    // and charts draw late, so re-apply the scroll as layout settles.
+    if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+    let timers = [], userMoved = false;
+    const stopRetries = () => { userMoved = true; };
+    const userEvents = ["wheel", "touchstart", "keydown", "mousedown"];
+    userEvents.forEach((e) => window.addEventListener(e, stopRetries, { passive: true }));
+    const scrollToHash = () => {
+      const id = decodeURIComponent(window.location.hash.slice(1));
+      const idx = figs.findIndex((f) => f.id === id);
+      if (idx < 0) return;
+      timers.forEach(clearTimeout);
+      userMoved = false;
+      const jump = () => {
+        if (userMoved) return;
+        const el = document.getElementById(id);
+        if (!el) return;
+        window.scrollTo({ top: el.getBoundingClientRect().top + window.pageYOffset - 72, behavior: "auto" });
+        setActive(idx);
+      };
+      jump();
+      requestAnimationFrame(() => requestAnimationFrame(jump));
+      timers = [150, 400, 900, 1600, 2600].map((ms) => setTimeout(jump, ms));
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(jump);
+    };
+    scrollToHash();
+    window.addEventListener("load", scrollToHash);
+    window.addEventListener("hashchange", scrollToHash);
+
     return () => {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
+      window.removeEventListener("load", scrollToHash);
+      window.removeEventListener("hashchange", scrollToHash);
+      userEvents.forEach((e) => window.removeEventListener(e, stopRetries));
+      timers.forEach(clearTimeout);
     };
   }, []);
   const go = (id) => {
